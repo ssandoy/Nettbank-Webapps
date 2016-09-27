@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Nettbank___Webapplikasjoner.Models
 {
-    public class Class1
+    public class Bank
     {
     }
 }
