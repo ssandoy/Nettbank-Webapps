@@ -7,5 +7,6 @@ namespace Nettbank___Webapplikasjoner.Models
 {
     public class Bank
     {
+        int id;
     }
 }
