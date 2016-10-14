@@ -12,48 +12,48 @@ namespace Nettbank___Webapplikasjoner.Models {
             Database.CreateIfNotExists();
         }
 
-        public DbSet<Customer> customers { get; set; }
-        public DbSet<PostalNumber> postalNumbers { get; set; }
-        public DbSet<Account> accounts { get; set; }
-        public DbSet<Transaction> transactions { get; set; }
+        public DbSet<Customers> customers { get; set; }
+        public DbSet<PostalNumbers> postalNumbers { get; set; }
+        public DbSet<Accounts> accounts { get; set; }
+        public DbSet<Transactions> transactions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 
-    public class Customer {
+    public class Customers {
         [Key]
         public string personalNumber { get; set; }
         public byte[] password { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string address { get; set; }
-        public virtual PostalNumber postalNumber { get; set; }
+        public virtual PostalNumbers postalNumber { get; set; }
     }
 
-    public class PostalNumber {
+    public class PostalNumbers {
         [Key]
         public string postalNumber { get; set; }
         public string postalCity { get; set; }
     }
 
-    public class Account {
+    public class Accounts {
         [Key]
         public string accountNumber { get; set; }
         public int balance { get; set; }
-        public virtual Customer owner { get; set; }
-        public virtual List<Transaction> transactions { get; set; }
+        public virtual Customers owner { get; set; }
+        public virtual List<Transactions> transactions { get; set; }
     }
 
-    public class Transaction {
+    public class Transactions {
         [Key]
         public int transactionID { get; set; }
         public int amount { get; set; }
         public bool executed { get; set; }
         public DateTime timeToBeTransfered { get; set; }
         public DateTime timeTransfered { get; set; }
-        public virtual Account fromAccount { get; set; }
-        public virtual Account toAccount { get; set; }
+        public virtual Accounts fromAccount { get; set; }
+        public virtual Accounts toAccount { get; set; }
     }
 }
