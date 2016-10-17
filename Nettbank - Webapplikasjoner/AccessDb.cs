@@ -7,12 +7,18 @@ using Nettbank___Webapplikasjoner.Models;
 namespace Nettbank___Webapplikasjoner {
     public class AccessDb {
 
-        public List<Account> allAccounts() {
-            using (var db = new DbModel()) {
-                List<Account> Accounts = db.accounts.Select(a => new Account {
-                    accountNumber = a.accountNumber,
-                    balance = a.balance
-                }).ToList();
+        public List<Account> listAccounts(String personalNumber) {
+            using (var db = new DbModel())
+            {
+                var allAccounts = db.accounts.Where(a => a.owner.personalNumber == personalNumber);
+                List<Account> Accounts = new List<Account>();
+                foreach (var a in allAccounts)
+                {
+                    Accounts.Add(new Account {
+                        accountNumber = a.accountNumber,
+                        balance = a.balance
+                        });
+                }
                 return Accounts;
             }
         }
