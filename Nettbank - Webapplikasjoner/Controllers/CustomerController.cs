@@ -12,9 +12,12 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
-        public ActionResult ListAccounts() {
+        public ActionResult ListAccounts()
+        {
+            Session["personnummer"] = "12345678902";
+            string personnr = (string)Session["personnummer"];
             var db = new AccessDb();
-            List<Account> allAccounts = db.listAccounts();
+            List<Account> allAccounts = db.listAccounts(personnr);
             return View(allAccounts);
         }
 
