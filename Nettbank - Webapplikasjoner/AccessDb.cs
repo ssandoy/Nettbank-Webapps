@@ -18,12 +18,17 @@ namespace Nettbank___Webapplikasjoner {
         }
 
         public List<Transaction> listTransactions(string personalNumber) {
-            /*var db = new DbModel();
-            var transactions = db.transactions.Where(t => t.fromAccount.owner.personalNumber == personalNumber);
+            using (var db = new DbModel()) {
+                var allTransactions = db.transactions.Where(t => t.fromAccount.owner.personalNumber == personalNumber);
+                var transactions = new List<Transaction>();
+                foreach (var t in allTransactions) {
+                    transactions.Add(new Transaction {
+                        
+                    });
+                }
 
-            foreach(var)
-
-            return transactions;*/
+                return transactions;
+            }
             return null;
         }
     }
