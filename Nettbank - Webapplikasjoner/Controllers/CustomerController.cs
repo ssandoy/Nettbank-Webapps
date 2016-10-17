@@ -12,6 +12,9 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
-       
+        public ActionResult ListTransactions() {
+            var transactions = new List<Transaction>();
+            return View(transactions);
+        }
     }
 }

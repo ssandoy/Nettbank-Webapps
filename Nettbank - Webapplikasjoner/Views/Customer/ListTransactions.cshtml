@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Nettbank___Webapplikasjoner.Models.Transaction>
+
+@{
+    ViewBag.Title = "ListTransactions";
+}
+
+<h2>ListTransactions</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.executed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.timeToBeTransfered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.timeTransfered)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromAccountNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.toAccountNumber)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.executed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timeToBeTransfered)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timeTransfered)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fromAccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.toAccountNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
