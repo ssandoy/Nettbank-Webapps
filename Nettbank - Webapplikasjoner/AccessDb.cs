@@ -17,19 +17,22 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
-        public List<Transaction> listTransactions(string personalNumber) {
+        public List<Transaction> listTransactions(string accountNumber) {
             using (var db = new DbModel()) {
-                var allTransactions = db.transactions.Where(t => t.fromAccount.owner.personalNumber == personalNumber);
+                var allTransactions = db.transactions.Where(t => t.fromAccount.accountNumber == accountNumber);
                 var transactions = new List<Transaction>();
                 foreach (var t in allTransactions) {
                     transactions.Add(new Transaction {
-                        
+                        amount = t.amount,
+                        executed = t.executed,
+                        timeToBeTransfered = t.timeToBeTransfered,
+                        timeTransfered = t.timeTransfered,
+                        fromAccountNumber = t.fromAccount.accountNumber,
+                        toAccountNumber = t.toAccount.accountNumber
                     });
                 }
-
                 return transactions;
             }
-            return null;
         }
     }
 }

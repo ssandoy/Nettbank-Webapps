@@ -31,6 +31,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult RegisterTransaction(Transaction newTransaction) {
             return View();
         }
