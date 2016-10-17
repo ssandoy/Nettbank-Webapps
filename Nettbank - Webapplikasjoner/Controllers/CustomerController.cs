@@ -12,6 +12,12 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
+        public ActionResult ListAccounts() {
+            var db = new AccessDb();
+            List<Account> allAccounts = db.allAccounts();
+            return View(allAccounts);
+        }
+
         public ActionResult ListTransactions() {
             var transactions = new List<Transaction>();
             return View(transactions);
