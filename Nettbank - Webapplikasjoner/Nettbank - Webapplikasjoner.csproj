@@ -179,6 +179,7 @@
     <Compile Include="AccessDb.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -197,8 +198,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Customer\ListTransactions.cshtml" />
+    <Content Include="Views\Transaction\ListTransactions.cshtml" />
     <Content Include="Views\Customer\ListAccounts.cshtml" />
+    <Content Include="Views\Transaction\RegisterTransaction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
