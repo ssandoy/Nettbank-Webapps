@@ -40,5 +40,36 @@ namespace Nettbank___Webapplikasjoner {
                 return transactions;
             }
         }
+
+        public bool addTransaction(Transaction t) {
+            using (var db = new DbModel()) {
+                try {
+                    var newTransaction = new Transactions() {
+                        amount = t.amount,
+                        executed = false,
+                        timeToBeTransfered = t.timeToBeTransfered,
+                        timeTransfered = t.timeTransfered,
+                        fromAccount = getAccount(t.fromAccountNumber),
+                        toAccount = getAccount(t.toAccountNumber)
+                    };
+
+                    if (newTransaction.fromAccount == null || newTransaction.toAccount == null) {
+                        return false;
+                    }
+
+                    db.transactions.Add(newTransaction);
+                    db.SaveChanges();
+                    return true;
+                } catch (Exception exc) {
+                    return false;
+                }
+            }
+        }
+
+        private Accounts getAccount(string accountNumber) {
+            using (var db = new DbModel()) {
+                return db.accounts.FirstOrDefault(a => a.accountNumber == accountNumber);
+            }
+        }
     }
 }
