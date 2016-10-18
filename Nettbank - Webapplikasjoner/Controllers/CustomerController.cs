@@ -14,12 +14,30 @@ namespace Nettbank___Webapplikasjoner.Controllers
     {
         public ActionResult ListAccounts()
         {
-            Session["personnummer"] = "12345678902";
-            string personnr = (string)Session["personnummer"];
+            string personnr = "12345678902";
             var db = new AccessDb();
             List<Account> allAccounts = db.listAccounts(personnr);
             return View(allAccounts);
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        //TODO: VALIDATE USER
+
+        [HttpPost]
+        public ActionResult ValidateUser(FormCollection inList)
+        {
+            
+            var db = new AccessDb();
+            bool loggedIn = db.ValidateCustomer(inList);
+            if (loggedIn)
+            {
+                return RedirectToAction("ListAccounts");
+            }
+            return RedirectToAction("Login");
+        }
     }
 }

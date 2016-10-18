@@ -7,9 +7,6 @@
 
 <h2>ListAccounts</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -30,9 +27,7 @@
                 @Html.DisplayFor(modelItem => item.balance)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink(linkText: "Betalinger",  actionName: "ListTransactions", controllerName: "Transaction", routeValues: new { /* id=item.PrimaryKey */ }, htmlAttributes: null) 
             </td>
         </tr>
     }
