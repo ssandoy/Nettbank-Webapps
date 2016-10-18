@@ -2,6 +2,7 @@ namespace Nettbank___Webapplikasjoner.Models {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity;
     using System.Data.Entity.ModelConfiguration.Conventions;
     using System.Linq;
@@ -26,10 +27,12 @@ namespace Nettbank___Webapplikasjoner.Models {
         [Key]
         public string personalNumber { get; set; }
         public byte[] password { get; set; }
+        public string salt { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string address { get; set; }
-        public virtual PostalNumbers postalNumber { get; set; }
+        public string postalNumber { get; set; }
+        public virtual PostalNumbers postalNumbers { get; set; }
     }
 
     public class PostalNumbers {
@@ -42,6 +45,7 @@ namespace Nettbank___Webapplikasjoner.Models {
         [Key]
         public string accountNumber { get; set; }
         public int balance { get; set; }
+        public string personalNumber { get; set; }
         public virtual Customers owner { get; set; }
         public virtual List<Transactions> transactions { get; set; }
     }
@@ -50,10 +54,12 @@ namespace Nettbank___Webapplikasjoner.Models {
         [Key]
         public int transactionID { get; set; }
         public int amount { get; set; }
-        public bool executed { get; set; }
-        public DateTime timeToBeTransfered { get; set; }
-        public DateTime timeTransfered { get; set; }
-        public virtual Accounts fromAccount { get; set; }
-        public virtual Accounts toAccount { get; set; }
+        public DateTime? timeToBeTransfered { get; set; }
+        public DateTime? timeTransfered { get; set; }
+        public string accountNumber { get; set; }
+        [ForeignKey("accountNumber")]
+        public virtual Accounts account { get; set; }
+        public string toAccountNumber { get; set; }
+        public string comment { get; set; }
     }
 }

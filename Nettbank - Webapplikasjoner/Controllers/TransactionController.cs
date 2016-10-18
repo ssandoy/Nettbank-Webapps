@@ -11,15 +11,11 @@ namespace Nettbank___Webapplikasjoner.Controllers
     {
         public ActionResult ListTransactions(string accountNumber) {
             var db = new AccessDb();
-            var transactions = db.listTransactions(accountNumber);
+            var transactions = db.listTransactions("12345678901");
             return View(transactions);
         }
 
-        /*public ActionResult Details() {
-
-        }
-
-        public ActionResult Edit() {
+        /*public ActionResult Edit() {
 
         }
 
@@ -28,6 +24,8 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }*/
 
         public ActionResult RegisterTransaction() {
+            var db = new AccessDb();
+            db.insertCustomer();
             return View();
         }
 
@@ -37,7 +35,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             if (ModelState.IsValid) {
                 var db = new AccessDb();
                 if (db.addTransaction(newTransaction)) {
-                    return RedirectToAction("ListTransaction");
+                    return RedirectToAction("ListTransactions");
                 }
             }
             return View(newTransaction);

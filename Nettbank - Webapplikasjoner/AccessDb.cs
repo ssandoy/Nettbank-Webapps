@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Nettbank___Webapplikasjoner.Models;
+using System.Diagnostics;
+using System.Data.Entity;
 
 namespace Nettbank___Webapplikasjoner {
     public class AccessDb {
@@ -25,16 +27,17 @@ namespace Nettbank___Webapplikasjoner {
 
         public List<Transaction> listTransactions(string accountNumber) {
             using (var db = new DbModel()) {
-                var allTransactions = db.transactions.Where(t => t.fromAccount.accountNumber == accountNumber);
+                var allTransactions = db.transactions.Where(t => t.accountNumber == accountNumber);
                 var transactions = new List<Transaction>();
                 foreach (var t in allTransactions) {
                     transactions.Add(new Transaction {
+                        transactionId = t.transactionID,
                         amount = t.amount,
-                        executed = t.executed,
                         timeToBeTransfered = t.timeToBeTransfered,
                         timeTransfered = t.timeTransfered,
-                        fromAccountNumber = t.fromAccount.accountNumber,
-                        toAccountNumber = t.toAccount.accountNumber
+                        fromAccountNumber = t.accountNumber,
+                        toAccountNumber = t.toAccountNumber,
+                        comment = t.comment
                     });
                 }
                 return transactions;
@@ -46,18 +49,23 @@ namespace Nettbank___Webapplikasjoner {
                 try {
                     var newTransaction = new Transactions() {
                         amount = t.amount,
-                        executed = false,
                         timeToBeTransfered = t.timeToBeTransfered,
-                        timeTransfered = DateTime.MinValue,
-                        fromAccount = validateAccountNumber(t.fromAccountNumber),
-                        toAccount = validateAccountNumber(t.toAccountNumber)
+                        timeTransfered = null,
+                        toAccountNumber = t.toAccountNumber,
+                        comment = t.comment
                     };
 
-                    if (newTransaction.fromAccount == null || newTransaction.toAccount == null) {
+                    if (newTransaction.timeToBeTransfered == null) {
+                        newTransaction.timeToBeTransfered = DateTime.Now;
+                    }
+
+                    var account = db.accounts.FirstOrDefault(a => a.accountNumber == t.fromAccountNumber);
+
+                    if (account == null) {
                         return false;
                     }
 
-                    db.transactions.Add(newTransaction);
+                    account.transactions.Add(newTransaction);
                     db.SaveChanges();
                     return true;
                 } catch (Exception exc) {
@@ -66,13 +74,39 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
-        /*private DateTime validateDate(DateTime time) {
-            if (time.CompareTo(DateTime.Now) < 0)
-        }*/
-
-        private Accounts validateAccountNumber(string accountNumber) {
+        public bool insertCustomer() {
             using (var db = new DbModel()) {
-                return db.accounts.FirstOrDefault(a => a.accountNumber == accountNumber);
+                var customer = new Customers();
+                customer.firstName = "Sander";
+                customer.lastName = "Sandøy";
+                customer.personalNumber = "12345678902";
+                customer.address = "Masterberggata 25";
+                string innPassord = "Sofa123";
+                var algoritme = System.Security.Cryptography.SHA512.Create();
+                byte[] inndata, utdata;
+                inndata = System.Text.Encoding.ASCII.GetBytes(innPassord);
+                utdata = algoritme.ComputeHash(inndata);
+
+                customer.password = utdata;
+                PostalNumbers p = new PostalNumbers();
+                p.postalNumber = "8900";
+                p.postalCity = "Brønnøysund";
+                customer.postalNumbers = p;
+
+                var a = new Accounts();
+                a.accountNumber = "12345678901";
+                a.balance = 0;
+                a.owner = customer;
+                a.transactions = new List<Transactions>();
+                try {
+                    db.customers.Add(customer);
+                    db.postalNumbers.Add(p);
+                    db.accounts.Add(a);
+                    db.SaveChanges();
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
             }
         }
     }
