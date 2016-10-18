@@ -65,7 +65,7 @@ namespace Nettbank___Webapplikasjoner {
                 PostalNumbers p = new PostalNumbers();
                 p.postalNumber = "8900";
                 p.postalCity = "Brønnøysund";
-                customer.postalNumber = p;
+                customer.postalNumbers = p;
                
                 var a = new Accounts();
                 a.accountNumber = "123456";
@@ -141,43 +141,6 @@ namespace Nettbank___Webapplikasjoner {
                 }
             }
         }
-
-        public bool insertCustomer() {
-            using (var db = new DbModel()) {
-                var customer = new Customers();
-                customer.firstName = "Sander";
-                customer.lastName = "Sandøy";
-                customer.personalNumber = "12345678902";
-                customer.address = "Masterberggata 25";
-                string innPassord = "Sofa123";
-                var algoritme = System.Security.Cryptography.SHA512.Create();
-                byte[] inndata, utdata;
-                inndata = System.Text.Encoding.ASCII.GetBytes(innPassord);
-                utdata = algoritme.ComputeHash(inndata);
-
-                customer.password = utdata;
-                PostalNumbers p = new PostalNumbers();
-                p.postalNumber = "8900";
-                p.postalCity = "Brønnøysund";
-                customer.postalNumbers = p;
-
-                var a = new Accounts();
-                a.accountNumber = "12345678901";
-                a.balance = 0;
-                a.owner = customer;
-                a.transactions = new List<Transactions>();
-                try {
-                    db.customers.Add(customer);
-                    db.postalNumbers.Add(p);
-                    db.accounts.Add(a);
-                    db.SaveChanges();
-                    return true;
-                } catch (Exception e) {
-                    return false;
-                }
-            }
-        }
-           
 
         public Customers findByPersonNr(string personnr)
         {
