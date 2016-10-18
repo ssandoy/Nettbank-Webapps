@@ -68,7 +68,7 @@ namespace Nettbank___Webapplikasjoner {
                 customer.postalNumbers = p;
                
                 var a = new Accounts();
-                a.accountNumber = "123456";
+                a.accountNumber = "12345678901";
                 a.balance = 0;
                 a.owner = customer;
                 a.transactions = new List<Transactions>();

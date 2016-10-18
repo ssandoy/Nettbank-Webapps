@@ -40,6 +40,7 @@ namespace Nettbank___Webapplikasjoner.Models {
         public int amount { get; set; }
 
         [DisplayName("Utførelsesdato")]
+        [DataType(DataType.Date)]
         public DateTime? timeToBeTransfered { get; set; }
 
         [DisplayName("Utført")]
