@@ -26,6 +26,7 @@ namespace Nettbank___Webapplikasjoner.Models {
         [Key]
         public string personalNumber { get; set; }
         public byte[] password { get; set; }
+        public string salt { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string address { get; set; }

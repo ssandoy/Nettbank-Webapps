@@ -200,6 +200,7 @@
     <Content Include="Views\Transaction\ListTransactions.cshtml" />
     <Content Include="Views\Customer\ListAccounts.cshtml" />
     <Content Include="Views\Transaction\RegisterTransaction.cshtml" />
+    <Content Include="Views\Customer\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
