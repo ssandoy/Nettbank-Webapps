@@ -32,8 +32,15 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult RegisterTransaction(Transaction newTransaction) {
-            return View();
+            if (ModelState.IsValid) {
+                var db = new AccessDb();
+                if (db.addTransaction(newTransaction)) {
+                    return RedirectToAction("ListTransaction");
+                }
+            }
+            return View(newTransaction);
         }
     }
 }

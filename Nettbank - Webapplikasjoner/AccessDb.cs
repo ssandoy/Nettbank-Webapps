@@ -101,7 +101,42 @@ namespace Nettbank___Webapplikasjoner {
                     //TODO: SETT SESSION TIL LOGIN FALSE OSV?
                     return false;
                 }
+        }
+
+        public bool addTransaction(Transaction t) {
+            using (var db = new DbModel()) {
+                try {
+                    var newTransaction = new Transactions() {
+                        amount = t.amount,
+                        executed = false,
+                        timeToBeTransfered = t.timeToBeTransfered,
+                        timeTransfered = DateTime.MinValue,
+                        fromAccount = validateAccountNumber(t.fromAccountNumber),
+                        toAccount = validateAccountNumber(t.toAccountNumber)
+                    };
+
+                    if (newTransaction.fromAccount == null || newTransaction.toAccount == null) {
+                        return false;
+                    }
+
+                    db.transactions.Add(newTransaction);
+                    db.SaveChanges();
+                    return true;
+                } catch (Exception exc) {
+                    return false;
+                }
             }
+        }
+
+        /*private DateTime validateDate(DateTime time) {
+            if (time.CompareTo(DateTime.Now) < 0)
+        }*/
+
+        private Accounts validateAccountNumber(string accountNumber) {
+            using (var db = new DbModel()) {
+                return db.accounts.FirstOrDefault(a => a.accountNumber == accountNumber);
+            }
+        }
             else
             {
                 return false;

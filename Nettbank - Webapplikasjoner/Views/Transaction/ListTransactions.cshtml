@@ -1,31 +1,19 @@
-﻿@model IEnumerable<Nettbank___Webapplikasjoner.Models.Transaction>
+﻿@model List<Nettbank___Webapplikasjoner.Models.Transaction>
 
 @{
-    ViewBag.Title = "ListTransactions";
+    ViewBag.Title = "Betalingsoversikt";
 }
 
-<h2>ListTransactions</h2>
+<h2>Betalingsoversikt</h2>
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.executed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.timeToBeTransfered)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.timeTransfered)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fromAccountNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.toAccountNumber)
-        </th>
+        <th>@Html.DisplayNameFor(model => model[0].amount)</th>
+        <th>@Html.DisplayNameFor(model => model[0].executed)</th>
+        <th>@Html.DisplayNameFor(model => model[0].timeToBeTransfered)</th>
+        <th>@Html.DisplayNameFor(model => model[0].timeTransfered)</th>
+        <th>@Html.DisplayNameFor(model => model[0].fromAccountNumber)</th>
+        <th>@Html.DisplayNameFor(model => model[0].toAccountNumber)</th>
         <th></th>
     </tr>
 
