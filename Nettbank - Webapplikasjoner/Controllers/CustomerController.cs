@@ -25,7 +25,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
             return View();
         }
 
-        //TODO: VALIDATE USER
 
         [HttpPost]
         public ActionResult ValidateUser(FormCollection inList)
@@ -35,9 +34,10 @@ namespace Nettbank___Webapplikasjoner.Controllers
             bool loggedIn = db.ValidateCustomer(inList);
             if (loggedIn)
             {
+                //TODO: IMPLEMENT VIEWBAG.loggedIN  
                 return RedirectToAction("ListAccounts");
             }
             return RedirectToAction("Login");
         }
-    }
+    }   
 }

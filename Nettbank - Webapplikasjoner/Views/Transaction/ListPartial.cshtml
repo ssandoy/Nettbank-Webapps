@@ -1,0 +1,33 @@
+﻿@model Nettbank___Webapplikasjoner.Models.Transaction
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.transactionId)</th>
+                <th>@Html.DisplayNameFor(model => model.amount)</th>
+                <th>@Html.DisplayNameFor(model => model.fromAccountNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.toAccountNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.timeToBeTransfered)</th>
+                <th>@Html.DisplayNameFor(model => model.timeTransfered)</th>
+                <th>@Html.DisplayNameFor(model => model.comment)</th>
+            </tr>
+            <tr>
+                <th>@Model.transactionId</th>
+                <th>@Model.amount</th>
+                <th>@Model.fromAccountNumber</th>
+                <th>@Model.toAccountNumber</th>
+                <th>@Model.timeToBeTransfered</th>
+                <th>@Model.timeTransfered</th>
+                <th>@Model.comment</th>
+            </tr>
+        </table>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="pull-left">
+            <a href="#deleteModal" class="btn btn-large btn-danger" id="deleteButton"
+               data-navn="Kr:@Model.amount fraKonto:@Model.fromAccountNumber tilKonto:@Model.toAccountNumber kommentar:@Model.comment"
+               data-id="@Model.transactionId" data-toggle="modal" data-deleteModal="true">SLETT</a>
+        </div>
+    </div>
+</div>

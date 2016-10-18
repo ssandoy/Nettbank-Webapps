@@ -52,5 +52,12 @@ namespace Nettbank___Webapplikasjoner.Controllers
             }
             return View(newTransaction);
         }
+
+        public void Delete(int id)
+        {
+            var db = new AccessDb();
+            bool deleteOK = db.deleteTransaction(id);
+            //TODO: FIX CHECK OM SUCCESSFUL
+        }
     }
 }
