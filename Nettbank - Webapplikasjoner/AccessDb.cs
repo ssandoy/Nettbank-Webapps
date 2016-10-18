@@ -101,7 +101,13 @@ namespace Nettbank___Webapplikasjoner {
                     //TODO: SETT SESSION TIL LOGIN FALSE OSV?
                     return false;
                 }
+            }
+            else
+            {
+                return false;
+            }
         }
+    
 
         public bool addTransaction(Transaction t) {
             using (var db = new DbModel()) {
@@ -137,11 +143,7 @@ namespace Nettbank___Webapplikasjoner {
                 return db.accounts.FirstOrDefault(a => a.accountNumber == accountNumber);
             }
         }
-            else
-            {
-                return false;
-            }
-        }
+           
 
         public Customers findByPersonNr(string personnr)
         {
