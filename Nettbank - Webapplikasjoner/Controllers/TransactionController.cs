@@ -24,8 +24,20 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }*/
 
         public ActionResult RegisterTransaction() {
-            var db = new AccessDb();
-            db.insertCustomer();
+            var adb = new AccessDb();
+            adb.insertCustomer();
+            Session["PersonalNumber"] = "12345678902";
+
+            using (var db = new DbModel()) {
+                string personalNumber = (string)Session["PersonalNumber"];
+                List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                List<SelectListItem> output = new List<SelectListItem>();
+                foreach (var acc in accounts) {
+                    output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber });
+                }
+                ViewBag.AccountList = output;
+            }
+
             return View();
         }
 
