@@ -14,6 +14,7 @@ namespace Nettbank___Webapplikasjoner {
         public List<Account> listAccounts(string personalNumber) {
             using (var db = new DbModel())
             {
+                insertCustomer();
                 var allAccounts = db.accounts.Where(a => a.owner.personalNumber == personalNumber);
                 List<Account> Accounts = new List<Account>();
                 foreach (var a in allAccounts)
@@ -68,7 +69,7 @@ namespace Nettbank___Webapplikasjoner {
                 customer.postalNumbers = p;
                
                 var a = new Accounts();
-                a.accountNumber = "123456";
+                a.accountNumber = "12345678901";
                 a.balance = 0;
                 a.owner = customer;
                 a.transactions = new List<Transactions>();
@@ -137,6 +138,24 @@ namespace Nettbank___Webapplikasjoner {
                     db.SaveChanges();
                     return true;
                 } catch (Exception exc) {
+                    return false;
+                }
+            }
+        }
+
+        public bool deleteTransaction(int id)
+        {
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    Transactions deleteTransaction = db.transactions.Find(id);
+                    db.transactions.Remove(deleteTransaction);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception feil)
+                {
                     return false;
                 }
             }

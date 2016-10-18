@@ -1,37 +1,59 @@
 ﻿@model List<Nettbank___Webapplikasjoner.Models.Transaction>
 
+<!DOCTYPE html>
+
 @{
     ViewBag.Title = "Betalingsoversikt";
 }
+<html>
+<head>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                // lag en hendelse som utføres når en a-href med "data-SletteModal = true" trykkes.
+                $('a[data-deleteModal=true]')
+                    .click(function() {
 
-<h2>Betalingsoversikt</h2>
+                        // hent inn data-taggene fra denne a-hef lenken
+                        var data_navn = $(this).data('navn');
+                        var data_id = $(this).data('id');
 
-<table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model[0].transactionId)</th>
-        <th>@Html.DisplayNameFor(model => model[0].fromAccountNumber)</th>
-        <th>@Html.DisplayNameFor(model => model[0].toAccountNumber)</th>
-        <th>@Html.DisplayNameFor(model => model[0].amount)</th>
-        <th>@Html.DisplayNameFor(model => model[0].timeTransfered)</th>
-        <th>@Html.DisplayNameFor(model => model[0].timeToBeTransfered)</th>
-        <th>@Html.DisplayNameFor(model => model[0].comment)</th>
-        <th></th>
-    </tr>
+                        // legg ut dataene i div'en i modal-view'et
+                        $('#deleteTransaction').html(data_navn);
 
-@foreach (var item in Model) {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.transactionId)</td>
-        <td>@Html.DisplayFor(modelItem => item.fromAccountNumber)</td>
-        <td>@Html.DisplayFor(modelItem => item.toAccountNumber)</td>
-        <td>@Html.DisplayFor(modelItem => item.amount)</td>
-        <td>@Html.DisplayFor(modelItem => item.timeTransfered)</td>
-        <td>@Html.DisplayFor(modelItem => item.timeToBeTransfered)</td>
-        <td>@Html.DisplayFor(modelItem => item.comment)</td>
-        <td>
-            @Html.ActionLink("Endre", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Slett", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+                        $("#deleteModalButton").click(function () {
+                            // id som skal slettes ligger i data_id
+                            $.ajax({
+                                url: '@Url.Action("Delete", "Transaction")',
+                                data: { id: data_id },  // en parameter inn i slett(id)-metoden i kunde-kontrolleren (JSON-objekt)
+                                success: function () {
+                                    // må kalle liste-metoden for å vise den nye listen av kunder
+                                    $.ajax({
+                                        url: '@Url.Action("ListTransactions", "Transaction")',
+                                        success: function () {
+                                            // så må siden reloades!
+                                            window.location.reload();
+                                        }
+                                    });
+                                }
+                            });
+                        })
+                    })
+            });
+    </script>
+</head>
+<body>
+    <h2>Betalingsoversikt</h2>
 
-</table>
+
+    @foreach (var transaction in Model)
+    {
+        @Html.Partial("ListPartial", transaction)
+    }
+    @Html.Partial("deleteModal")
+
+</body>
+</html>
