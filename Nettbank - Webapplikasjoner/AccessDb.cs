@@ -48,9 +48,9 @@ namespace Nettbank___Webapplikasjoner {
                         amount = t.amount,
                         executed = false,
                         timeToBeTransfered = t.timeToBeTransfered,
-                        timeTransfered = t.timeTransfered,
-                        fromAccount = getAccount(t.fromAccountNumber),
-                        toAccount = getAccount(t.toAccountNumber)
+                        timeTransfered = DateTime.MinValue,
+                        fromAccount = validateAccountNumber(t.fromAccountNumber),
+                        toAccount = validateAccountNumber(t.toAccountNumber)
                     };
 
                     if (newTransaction.fromAccount == null || newTransaction.toAccount == null) {
@@ -66,7 +66,11 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
-        private Accounts getAccount(string accountNumber) {
+        /*private DateTime validateDate(DateTime time) {
+            if (time.CompareTo(DateTime.Now) < 0)
+        }*/
+
+        private Accounts validateAccountNumber(string accountNumber) {
             using (var db = new DbModel()) {
                 return db.accounts.FirstOrDefault(a => a.accountNumber == accountNumber);
             }
