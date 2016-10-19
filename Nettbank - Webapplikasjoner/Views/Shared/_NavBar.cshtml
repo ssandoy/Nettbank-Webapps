@@ -15,11 +15,12 @@
                 <li>@Html.ActionLink("KONTOOVERSIKT","ListAccounts","Customer")</></li>
                 <li>@Html.ActionLink("BETALINGSOVERSIKT","ListTransactions","Transaction")</li>
                 <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>
-                @if ((bool)Session["LoggedIn"] == true) {
+                <!--@if ((bool)Session["LoggedIn"] == true) {
                     <li>@Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
                 } else {
                     <li>@Html.ActionLink("LOGG INN", "Login", "Customer")</li>
                 }
+                -->
             </ul>
         </div>
     </div>
