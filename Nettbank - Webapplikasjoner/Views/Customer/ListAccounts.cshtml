@@ -5,34 +5,39 @@
 }
 
 <h2>Kontooversikt</h2>
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.accountNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.balance)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model) {
+@if(ViewBag.loggedIn == true) { 
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.accountNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.balance)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Betalinger", "ListTransactions", "Transaction", null, new {@class = "btn btn-primary"})
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.accountNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.balance)
+                    </th>
+                    <th></th>
                 </tr>
-            }
 
-        </table>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.accountNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.balance)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Betalinger", "ListTransactions", "Transaction", new { accountNumber = item.accountNumber }, new {@class = "btn btn-primary"})
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
     </div>
-</div>
+}
+else
+{
+  <h3>NOT LOGGED IN</h3>
+}

@@ -11,24 +11,40 @@ namespace Nettbank___Webapplikasjoner.Controllers
     public class TransactionController : Controller
     {
         public ActionResult ListTransactions(string accountNumber) {
-            var db = new AccessDb();
-            var transactions = db.listTransactions("12345678901");
-            return View(transactions);
+            if (Session["loggedin"] != null)
+            {
+                bool loggetInn = (bool) Session["loggedin"];
+                if (loggetInn)
+                {
+                    TempData["login"] = true;
+                    var db = new AccessDb();
+                    var transactions = db.listTransactions(accountNumber);
+                    return View(transactions);
+                }
+            }
+            return RedirectToAction("Login", "Customer");
         }
 
         public ActionResult RegisterTransaction() {
-            var adb = new AccessDb();
-            adb.insertCustomer();
-            Session["PersonalNumber"] = "12345678902";
-
-            using (var db = new DbModel()) {
-                string personalNumber = (string)Session["PersonalNumber"];
-                List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
-                List<SelectListItem> output = new List<SelectListItem>();
-                foreach (var acc in accounts) {
-                    output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber });
+            if (Session["loggedin"] != null)
+            {
+                bool loggetInn = (bool) Session["loggedin"];
+                if (loggetInn)
+                {
+                    TempData["login"] = true;
+                    using (var db = new DbModel())
+                    {
+                        Customers c = (Customers)Session["CurrentUser"];
+                        string personalNumber = c.personalNumber;
+                        List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                        List<SelectListItem> output = new List<SelectListItem>();
+                        foreach (var acc in accounts)
+                        {
+                            output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
+                        }
+                        ViewBag.AccountList = output;
+                    }
                 }
-                ViewBag.AccountList = output;
             }
 
             return View();
