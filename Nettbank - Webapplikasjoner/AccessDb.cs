@@ -21,6 +21,7 @@ namespace Nettbank___Webapplikasjoner {
                 {
                     Accounts.Add(new Account {
                         accountNumber = a.accountNumber,
+                        ownerName = a.owner.firstName + " " + a.owner.lastName,
                         balance = a.balance
                         });
                 }

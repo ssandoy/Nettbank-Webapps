@@ -12,9 +12,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>@Html.ActionLink("KONTOOVERSIKT","ListAccounts","Customer")</></li>
-                <li>@Html.ActionLink("BETALINGSOVERSIKT","ListTransactions","Transaction")</li>
+                <li>@Html.ActionLink("KONTO","ListAccounts","Customer")</></li>
+                <li>@Html.ActionLink("TRANSAKSJONER", "#")</li>
                 <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>
+                <li>@Html.ActionLink("BETALINGER", "ListTransactions", "Transaction")</li>
                 <!--if ((bool)Session["LoggedIn"] == true) {
                     <li>Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
                 } else {

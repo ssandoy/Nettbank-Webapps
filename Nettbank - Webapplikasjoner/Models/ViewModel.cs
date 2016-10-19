@@ -25,6 +25,9 @@ namespace Nettbank___Webapplikasjoner.Models {
         [DisplayName("Kontonummer")]
         public string accountNumber { get; set; }
 
+        [DisplayName("Eier")]
+        public string ownerName { get; set; }
+
         [DisplayName("Saldo")]
         public int balance { get; set; }
     }
