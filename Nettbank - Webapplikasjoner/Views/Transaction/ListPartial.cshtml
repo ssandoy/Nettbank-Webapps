@@ -26,8 +26,9 @@
     <div class="panel-footer clearfix">
         <div class="pull-left">
             <a href="#deleteModal" class="btn btn-large btn-danger" id="deleteButton"
-               data-navn="Kr:@Model.amount fraKonto:@Model.fromAccountNumber tilKonto:@Model.toAccountNumber kommentar:@Model.comment"
+               data-navn="Beløp: @Model.amount fra konto: @Model.fromAccountNumber til konto: @Model.toAccountNumber kommentar: @Model.comment"
                data-id="@Model.transactionId" data-toggle="modal" data-deleteModal="true">SLETT</a>
+            @Html.ActionLink(linkText: "ENDRE", actionName: "UpdateTransaction", controllerName: "Transaction", routeValues: new {  id=Model.transactionId  }, htmlAttributes: new {@class= "btn btn-large btn-info" })
         </div>
     </div>
 </div>

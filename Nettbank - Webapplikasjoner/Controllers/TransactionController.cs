@@ -1,6 +1,7 @@
 ﻿using Nettbank___Webapplikasjoner.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,14 +15,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
             var transactions = db.listTransactions("12345678901");
             return View(transactions);
         }
-
-        /*public ActionResult Edit() {
-
-        }
-
-        public ActionResult Delete() {
-
-        }*/
 
         public ActionResult RegisterTransaction() {
             var adb = new AccessDb();
@@ -51,6 +44,37 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 }
             }
             return View(newTransaction);
+        }
+
+        
+        public ActionResult UpdateTransaction(int id)
+        {
+            var db = new AccessDb();
+            Transactions transactionDb = db.findTransanction(id);
+            Transaction transaction = new Transaction()
+            {
+                transactionId = transactionDb.transactionID,
+                amount = transactionDb.amount,
+                fromAccountNumber = transactionDb.accountNumber,
+                toAccountNumber = transactionDb.toAccountNumber,
+                timeToBeTransfered = transactionDb.timeToBeTransfered,
+                timeTransfered = transactionDb.timeTransfered,
+                comment = transactionDb.comment
+            };
+            return View(transaction);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateTransaction(Transaction transaction)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new AccessDb();
+                if(db.updateTransaction(transaction))
+                    return RedirectToAction("ListTransactions");
+            }
+            return View(transaction);
         }
 
         public void Delete(int id)
