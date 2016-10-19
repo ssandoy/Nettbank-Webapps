@@ -94,3 +94,7 @@ img {
 .navbar-toggle {
     background-color: #eee !important;
 }
+
+#account-dropdown {
+    margin-bottom: 10px;
+}

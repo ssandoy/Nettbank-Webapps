@@ -45,13 +45,12 @@
 </head>
 <body>
 
-    <h1>Betalingsoversikt</h1>
-
-    @foreach (var transaction in Model)
-    {
+<h1>Betalingsoversikt</h1>
+    
+    @Html.DropDownList("AccountList",ViewBag.AccountList as IEnumerable<SelectListItem>, new { @class = "form-control", @id="account-dropdown"})
+    @foreach (var transaction in Model) {
         @Html.Partial("ListPartial", transaction)
     }
     @Html.Partial("deleteModal")
-
 </body>
 </html>
