@@ -3,36 +3,58 @@
     ViewBag.Title = "Login";
 }
 
-<div class="container">
-    <div class="row spacer">
-        <div class="col-md-6">hei</div>
-        <div class="col-md-6">
+<div class="row text-center spacer">
+    <h1>Velkommen til BEBA & SANDØY BANK</h1>
+    <h2 class="reverse-color"><small>Vi sikter oss mot å gi den beste bankopplevelsen til våre kunder. Dette inkluderer både gode vilkår for bankkontoer og lån, samt at våre tjenester skal være lett tilgjengelig hvor enn du er.</small></h2>
+    <div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
 
-            <h2 class="form-signin-heading">Logg inn</h2>
-
-            <form class="form-horizontal" action="/Customer/ValidateUser" method="post">
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputPersonnumber" placeholder="Personnummer" name="personnumber">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Passord" name="Password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputBankID" placeholder="BankID" name="BankID">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Logg inn!" />
-                    </div>
-                </div>
-            </form>
-
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <h4>"Markedsledende innen sin bransje. Det er bare å ta av seg hatten."<br><span style="font-style:normal;">Herman Hattestad, Fornøyd Kunde</span></h4>
+            </div>
+            <div class="item">
+                <h4>"Mer tilgjengelig banktjeneste må du lete lenge etter."<br><span style="font-style:normal;">Unni Formvik, Redaktør, Universell Utforming Norge</span></h4>
+            </div>
+            <div class="item">
+                <h4>"Best i test! Ingen andre er i nærheten av å tilby like god kundeservice."<br><span style="font-style:normal;">Beate Stokke, Journalist, Dagsmagasinet</span></h4>
+            </div>
         </div>
     </div>
-</div> 
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <img src="~/Content/Images/happy_people.jpg"/>
+    </div>
+    <div class="col-md-6">
+        <h2>Logg inn</h2>
+        <form class="form-horizontal" action="/Customer/ValidateUser" method="post">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPersonnumber" placeholder="Personnummer" name="personnumber">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Passord" name="Password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputBankID" placeholder="BankID" name="BankID">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Logg inn!"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
