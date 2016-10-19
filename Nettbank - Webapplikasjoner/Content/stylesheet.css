@@ -90,3 +90,7 @@ img {
     margin-top: 20px;
     margin-bottom: 60px;
 }
+
+.navbar-toggle {
+    background-color: #eee !important;
+}
