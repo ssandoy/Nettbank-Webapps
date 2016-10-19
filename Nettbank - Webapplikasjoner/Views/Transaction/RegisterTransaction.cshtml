@@ -4,14 +4,13 @@
     ViewBag.Title = "RegisterTransaction";
 }
 
-<h2>RegisterTransaction</h2>
+<h2>Registrer ny betaling</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Transaction</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -62,6 +61,3 @@
     </div>
 }
 
-<script src="~/Scripts/jquery-3.1.1.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

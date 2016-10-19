@@ -1,0 +1,22 @@
+﻿.navbar {
+    background-color: cornflowerblue;
+    font-size: 12px !important;
+    letter-spacing: 3px;
+}
+
+.navbar li a, .navbar, .navbar-brand a {
+    color: white !important;
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: cornflowerblue !important;
+    background-color: white !important;
+}
+
+.navbar-default .navbar-toggle {
+    color: white !important;
+}
+
+.spacer {
+    margin-top: 40px;
+}

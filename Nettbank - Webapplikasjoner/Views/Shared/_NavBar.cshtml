@@ -1,4 +1,4 @@
-﻿<div class="navbar navbar-inverse navbar-fixed-top">
+﻿<div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -6,15 +6,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-           
+            <div class="nav navbar-brand">
+                @Html.ActionLink("BEBA & SANDØY BANK","Login","Customer")
+            </div>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>//TODO: IMPLEMENT ACTIONLINKS FOR METODER</li>
-                <li></li>
-                <li></li>
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("KONTOOVERSIKT","ListAccounts","Customer")</></li>
+                <li>@Html.ActionLink("BETALINGSOVERSIKT","ListTransactions","Transaction")</li>
+                <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>
+                @if ((bool)Session["LoggedIn"] == true) {
+                    <li>@Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
+                } else {
+                    <li>@Html.ActionLink("LOGG INN", "Login", "Customer")</li>
+                }
             </ul>
-         
         </div>
     </div>
 </div>

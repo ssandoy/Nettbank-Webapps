@@ -6,20 +6,23 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/stylesheet.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
 </head>
 <body>
+
     @Html.Partial("_NavBar")
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        <hr/>
         <footer>
-            <p>&copy; @DateTime.Now.Year - Vidly</p>
+            <p>&copy; @DateTime.Now.Year - Beba & Sandøy Bank</p>
         </footer>
     </div>
-
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
