@@ -161,6 +161,49 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
+     public Transactions findTransanction(int id)
+        {
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    Transactions transaction = db.transactions.Find(id);
+                    if (transaction != null)
+                        return transaction;
+                    else
+                        return null;
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public bool updateTransaction(Transaction t)
+        {
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    Transactions transactions = db.transactions.Find(t.transactionId);
+                    transactions.toAccountNumber = t.toAccountNumber;
+                    transactions.accountNumber = t.fromAccountNumber;
+                    transactions.amount = t.amount;
+                    transactions.comment = t.comment;
+                    transactions.timeToBeTransfered = t.timeToBeTransfered;
+                    transactions.timeTransfered = t.timeTransfered;
+                    db.Entry(transactions).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
         public Customers findByPersonNr(string personnr)
         {
             using (var db = new DbModel())
