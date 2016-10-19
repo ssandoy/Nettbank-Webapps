@@ -11,11 +11,9 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript">
-        $(document)
-            .ready(function() {
+        $(document).ready(function() {
                 // lag en hendelse som utføres når en a-href med "data-SletteModal = true" trykkes.
-                $('a[data-deleteModal=true]')
-                    .click(function() {
+                $('a[data-deleteModal=true]').click(function() {
 
                         // hent inn data-taggene fra denne a-hef lenken
                         var data_navn = $(this).data('navn');

@@ -12,17 +12,41 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
-        public ActionResult ListAccounts()
+        public ActionResult ListAccounts() //TODO: CHECK IF LOGGED IN
         {
-            string personnr = "12345678902";
-            var db = new AccessDb();
-            List<Account> allAccounts = db.listAccounts(personnr);
-            return View(allAccounts);
-        }
 
-        public ActionResult Login()
+            ViewBag.loggedIn = TempData["login"];
+            if (Session["loggedin"] != null)
+            {
+                bool loggetInn = (bool) Session["loggedin"];
+                if (loggetInn)
+                {
+                    TempData["login"] = true; //TODO: BENNYTTE SESSION-VERDI I STEDET?
+                    string personnr = "12345678902";
+                    var db = new AccessDb();
+                    List<Account> allAccounts = db.listAccounts(personnr);
+                    return View(allAccounts);
+                }
+                else
+                {
+                   return RedirectToAction("Login");
+                }
+            }
+               return RedirectToAction("Login");
+            
+        }
+        
+
+        public ActionResult Login() //TODO: TA VARE PÅ LOGGINN-DATA? SJEKK OM ALLEREDE LOGGET INN?
         {
-            return View();
+           var db = new AccessDb();
+            bool loggedIn = db.Login();
+            if (loggedIn)
+            {
+                TempData["login"] = true;
+                return RedirectToAction("ListAccounts");
+            }
+            return View(); //Implisitt else
         }
 
 
@@ -33,11 +57,22 @@ namespace Nettbank___Webapplikasjoner.Controllers
             var db = new AccessDb();
             bool loggedIn = db.ValidateCustomer(inList);
             if (loggedIn)
-            {
-                //TODO: IMPLEMENT VIEWBAG.loggedIN  
+            { 
+                TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
             }
-            return RedirectToAction("Login");
+            else
+            {
+                TempData["login"] = false;
+                return RedirectToAction("Login");
+            }    
+        }
+
+        public ActionResult Logout()
+        {
+            var db = new AccessDb();
+            bool loggedOut = db.Logout(); //TODO MAKE VOID
+                return RedirectToAction("Login");
         }
     }   
 }

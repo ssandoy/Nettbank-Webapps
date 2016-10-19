@@ -11,6 +11,8 @@ using System.Data.Entity;
 namespace Nettbank___Webapplikasjoner {
     public class AccessDb {
 
+        HttpContext context = HttpContext.Current;
+
         public List<Account> listAccounts(string personalNumber) {
             using (var db = new DbModel())
             {
@@ -89,6 +91,34 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
+        public bool Login()
+        {
+            if (context.Session["loggedin"] == null)
+            {
+                context.Session["loggedin"] = false;
+            }
+            else
+            {
+                return (bool)context.Session["loggedin"];
+            }
+            return false;
+        }
+
+        public bool Logout()
+        {
+            if (context.Session["loggedin"] == null)
+            {
+                context.Session["loggedin"] = false;
+            }
+            else
+            {
+                context.Session["loggedin"] = false;
+                
+            }
+            context.Session["CurrentUser"] = null;
+            return true;
+        }
+
         public bool ValidateCustomer(FormCollection inList) //TODO: FIX parameterverdi
         {
             Customers customer = findByPersonNr(inList["personnumber"]);
@@ -96,14 +126,20 @@ namespace Nettbank___Webapplikasjoner {
             {
                 string password = Convert.ToBase64String(customer.password);
                 string ReHash = createHash(inList["password"], customer.salt);
+                HttpContext context = HttpContext.Current;
                 if (password.Equals(ReHash))
                 {
-                    //TODO: SETT SESSION TIL LOGIN TRUE OSV.?
+                    context.Session["loggedin"] = true;
+                    context.Session["CurrentUser"] = customer;
+                    Debug.WriteLine("Du er nå logget inn");
                     return true;
                 }
                 else
                 {
                     //TODO: SETT SESSION TIL LOGIN FALSE OSV?
+                    context.Session["loggedin"] = false;
+                    context.Session["CurrentUser"] = null; //TODO: TRENGS DISSE?
+                    Debug.WriteLine("Kunne ikke logge inn");
                     return false;
                 }
             }
@@ -236,6 +272,29 @@ namespace Nettbank___Webapplikasjoner {
             byte[] salt = new byte[size];
             RandomNumberGenerator.GetBytes(salt);
             return Convert.ToBase64String(salt);
+        }
+        public bool insertAccount()
+        {
+            using (var db = new DbModel())
+            {
+              
+
+                var a = new Accounts();
+                a.accountNumber = "12345678904";
+                a.balance = 0;
+                a.owner = db.customers.Find("12345678902");
+                a.transactions = new List<Transactions>();
+                try
+                {
+                    db.accounts.Add(a);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
         }
     }
 }

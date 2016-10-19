@@ -16,12 +16,10 @@
                 <li>@Html.ActionLink("TRANSAKSJONER", "#")</li>
                 <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>
                 <li>@Html.ActionLink("BETALINGER", "ListTransactions", "Transaction")</li>
-                <!--if ((bool)Session["LoggedIn"] == true) {
-                    <li>Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
-                } else {
-                    <li>Html.ActionLink("LOGG INN", "Login", "Customer")</li>
-                }
-                -->
+                @if ((bool)Session["loggedin"] == true) {
+                    <li>@Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
+                } 
+                
             </ul>
         </div>
     </div>
