@@ -179,16 +179,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessDb.cs" />
+    <Compile Include="AccountDB.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BankIDGenerator.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="CustomerDB.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DbModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

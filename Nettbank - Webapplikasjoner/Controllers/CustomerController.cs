@@ -23,7 +23,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 {
                     TempData["login"] = true; //TODO: BENNYTTE SESSION-VERDI I STEDET?
                     string personnr = "12345678902";
-                    var db = new AccessDb();
+                    var db = new AccountDB();
                     ViewBag.Customer = (Customers)Session["CurrentUser"];
                     List<Account> allAccounts = db.listAccounts(personnr);
                     return View(allAccounts);
@@ -40,7 +40,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
         public ActionResult Login() 
         {
-           var db = new AccessDb();
+           var db = new CustomerDB();
             bool loggedIn = db.Login();
             if (loggedIn)
             {
@@ -56,7 +56,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
         [HttpPost]
         public ActionResult ValidateUser(FormCollection inList)
         {
-            var db = new AccessDb();
+            var db = new CustomerDB();
             bool loggedIn = db.ValidateCustomer(inList);
             if (loggedIn && inList["BankID"] == (inList["hiddenBankID"]))
             {
@@ -74,7 +74,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
         public ActionResult Logout()
         {
-            var db = new AccessDb();
+            var db = new CustomerDB();
             bool loggedOut = db.Logout(); //TODO MAKE VOID
                 return RedirectToAction("Login");
         }
