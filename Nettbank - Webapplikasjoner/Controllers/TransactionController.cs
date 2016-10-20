@@ -17,6 +17,23 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 if (loggetInn)
                 {
                     TempData["login"] = true;
+                    using (var dbm = new DbModel()) {
+                        Customers c = (Customers) Session["CurrentUser"];
+                        string personalNumber = c.personalNumber;
+                        List<Accounts> accounts = dbm.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                        List<SelectListItem> output = new List<SelectListItem>();
+                        foreach (var acc in accounts) {
+                            if (acc.accountNumber == accountNumber) {
+                                output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber, Selected = true });
+                            } else {
+                                output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
+                            }
+                        }
+                        ViewBag.AccountList = output;
+                        if (accountNumber == null) {
+                            accountNumber = output[0].Value;
+                        }
+                    }
                     var db = new AccessDb();
                     var transactions = db.listTransactions(accountNumber);
                     return View(transactions);
