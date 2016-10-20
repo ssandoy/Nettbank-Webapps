@@ -43,7 +43,8 @@ namespace Nettbank___Webapplikasjoner.Models {
         public int amount { get; set; }
 
         [DisplayName("Utførelsesdato")]
-         public DateTime? timeToBeTransfered { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? timeToBeTransfered { get; set; }
 
         [DisplayName("Dato")]
         public DateTime? timeTransfered { get; set; }
@@ -57,7 +58,7 @@ namespace Nettbank___Webapplikasjoner.Models {
         public string toAccountNumber { get; set; }
 
         [DisplayName("Kommentar")]
-        [StringLength(100, ErrorMessage = "Kommentaren kan være på maksimalt 100 tegn.")]
+        [StringLength(30, ErrorMessage = "Kommentaren kan være på maksimalt 30 tegn.")]
         public string comment { get; set; }
     }
 }

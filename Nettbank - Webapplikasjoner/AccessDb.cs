@@ -234,8 +234,9 @@ namespace Nettbank___Webapplikasjoner {
                     transactions.accountNumber = t.fromAccountNumber;
                     transactions.amount = t.amount;
                     transactions.comment = t.comment;
-                    transactions.timeToBeTransfered = t.timeToBeTransfered;
-                    transactions.timeTransfered = t.timeTransfered;
+                    if (t.timeToBeTransfered != null) {
+                        transactions.timeToBeTransfered = t.timeToBeTransfered;
+                    }
                     db.Entry(transactions).State = EntityState.Modified;
                     db.SaveChanges();
                     return true;

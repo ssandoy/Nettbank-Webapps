@@ -38,10 +38,7 @@
 </script>
 <div class="row">
     <div class="col-sm-7">
-        <h1>
-            Betalingsoversikt
-            <small>???? ?? ?????</small>
-        </h1>
+        <h1>Betalingsoversikt</h1>
     </div>
     <div class="col-sm-5">
         @Html.DropDownList("AccountList", ViewBag.AccountList as IEnumerable<SelectListItem>, new { @class = "form-control", @id = "account-dropdown"})
@@ -53,15 +50,15 @@
         <table class="table">
             <tr>
                 <th class="col-md-2">@Html.DisplayNameFor(model => model[0].toAccountNumber)</th>
-                <th class="col-md-1">@Html.DisplayNameFor(model => model[0].amount)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].amount)</th>
                 <th class="col-md-2">@Html.DisplayNameFor(model => model[0].timeToBeTransfered)</th>
-                <th class="col-md-5">@Html.DisplayNameFor(model => model[0].comment)</th>
+                <th class="col-md-4">@Html.DisplayNameFor(model => model[0].comment)</th>
                 <th class="col-md-2"></th>
             </tr>
             @foreach (var item in Model) {
                 <tr>
                     <td>@Int64.Parse(item.toAccountNumber).ToString("0000 00 00000")</td>
-                    <td style="text-align: right">@item.amount kr</td>
+                    <td style="text-align: right">@item.amount.ToString("### ### ##0 kr")</td>
                     <td>@item.timeToBeTransfered.Value.ToShortDateString()</td>
                     <td style="text-align: left">@item.comment</td>
                     <td>

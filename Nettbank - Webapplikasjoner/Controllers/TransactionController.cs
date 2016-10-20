@@ -89,10 +89,10 @@ namespace Nettbank___Webapplikasjoner.Controllers
                         }
                         ViewBag.AccountList = output;
                     }
+                    return View();
                 }
             }
-
-            return View();
+            return RedirectToAction("Login", "Customer");
         }
 
         [HttpPost]
@@ -103,6 +103,16 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 if (db.addTransaction(newTransaction)) {
                     return RedirectToAction("ListTransactions", new { accountNumber=newTransaction.fromAccountNumber}); 
                 }
+            }
+            using (var db = new DbModel()) {
+                Customers c = (Customers)Session["CurrentUser"];
+                string personalNumber = c.personalNumber;
+                List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                List<SelectListItem> output = new List<SelectListItem>();
+                foreach (var acc in accounts) {
+                    output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber });
+                }
+                ViewBag.AccountList = output;
             }
             return View(newTransaction);
         }

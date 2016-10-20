@@ -6,10 +6,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h1>
-            Kontoutskrift
-            <small>???? ?? ?????</small>
-        </h1>
+        <h1>Kontoutskrift</h1>
     </div>
     <div class="col-md-6">
         @Html.DropDownList("AccountList", ViewBag.AccountList as IEnumerable<SelectListItem>, new { @class = "form-control", @id = "account-dropdown" })
@@ -29,9 +26,9 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>@item.timeTransfered.Value.ToShortDateString()</td>
-                    <td>@Int64.Parse(item.fromAccountNumber.Remove(6, 4)).ToString("0000 00 00000")</td>
-                    <td>@Int64.Parse(item.toAccountNumber.Remove(6, 4)).ToString("0000 00 00000")</td>
-                    <td style="text-align: right">@item.amount kr</td>
+                    <td>@Int64.Parse(item.fromAccountNumber).ToString("0000 00 00000")</td>
+                    <td>@Int64.Parse(item.toAccountNumber).ToString("0000 00 00000")</td>
+                    <td style="text-align: right">@item.amount.ToString("### ### ##0 kr")</td>
                     <td>@item.comment</td>
                 </tr>
             }
