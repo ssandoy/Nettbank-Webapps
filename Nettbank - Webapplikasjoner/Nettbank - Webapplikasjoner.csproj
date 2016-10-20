@@ -178,7 +178,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessDb.cs" />
     <Compile Include="AccountDB.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BankIDGenerator.cs" />
