@@ -129,7 +129,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 fromAccountNumber = transactionDb.accountNumber,
                 toAccountNumber = transactionDb.toAccountNumber,
                 timeToBeTransfered = transactionDb.timeToBeTransfered,
-                timeTransfered = transactionDb.timeTransfered,
                 comment = transactionDb.comment
             };
             return View(transaction);
