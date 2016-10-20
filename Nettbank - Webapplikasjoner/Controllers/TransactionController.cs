@@ -61,6 +61,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                         if (accountNumber == null) {
                             accountNumber = output[0].Value;
                         }
+                        ViewBag.AccountNumber = accountNumber;
                     }
                     var db = new AccessDb();
                     var transactions = db.listExecutedTransactions(accountNumber);
