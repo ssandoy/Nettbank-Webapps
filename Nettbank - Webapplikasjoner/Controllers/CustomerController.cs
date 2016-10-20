@@ -13,7 +13,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
     public class CustomerController : Controller
     {
         private string bankID;
-        public ActionResult ListAccounts() 
+        public ActionResult ListAccounts() //TODO: FIX SO IT SENDS PERSONNUMBER
         {
             ViewBag.loggedIn = TempData["login"];
             if (Session["loggedin"] != null)
@@ -22,10 +22,10 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 if (loggetInn)
                 {
                     TempData["login"] = true; //TODO: BENNYTTE SESSION-VERDI I STEDET?
-                    string personnr = "12345678902";
                     var db = new AccountDB();
-                    ViewBag.Customer = (Customers)Session["CurrentUser"];
-                    List<Account> allAccounts = db.listAccounts(personnr);
+                    Customers c = (Customers)Session["CurrentUser"];
+                    ViewBag.Customer = c;
+                    List<Account> allAccounts = db.listAccounts(c.personalNumber);
                     return View(allAccounts);
                 }
                 else
