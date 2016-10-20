@@ -26,19 +26,10 @@ namespace Nettbank___Webapplikasjoner
             return false;
         }
 
-        public bool Logout()
+        public void Logout()
         {
-            if (context.Session["loggedin"] == null)
-            {
-                context.Session["loggedin"] = false;
-            }
-            else
-            {
-                context.Session["loggedin"] = false;
-
-            }
+            context.Session["loggedin"] = false;
             context.Session["CurrentUser"] = null;
-            return true;
         }
 
         public bool ValidateCustomer(FormCollection inList) //TODO: FIX parameterverdi

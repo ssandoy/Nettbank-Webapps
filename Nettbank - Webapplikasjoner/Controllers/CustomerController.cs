@@ -21,7 +21,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 bool loggetInn = (bool) Session["loggedin"];
                 if (loggetInn)
                 {
-                    TempData["login"] = true; //TODO: BENNYTTE SESSION-VERDI I STEDET?
+                    TempData["login"] = true;
                     var db = new AccountDB();
                     Customers c = (Customers)Session["CurrentUser"];
                     ViewBag.Customer = c;
@@ -75,7 +75,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
         public ActionResult Logout()
         {
             var db = new CustomerDB();
-            bool loggedOut = db.Logout(); //TODO MAKE VOID
+            db.Logout(); //TODO MAKE VOID
                 return RedirectToAction("Login");
         }
     }   
