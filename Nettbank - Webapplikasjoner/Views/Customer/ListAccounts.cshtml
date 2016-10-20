@@ -20,7 +20,10 @@
                     <td>@Int64.Parse(item.accountNumber).ToString("0000 00 00000")</td>
                     <td>@item.ownerName</td>
                     <td style="text-align: right">@item.balance.ToString("### ### ##0 kr")</td>
-                    <td>@Html.ActionLink("Betalinger", "ListTransactions", "Transaction", new { accountNumber = item.accountNumber }, new {@class = "btn btn-primary"})</td>
+                    <td>
+                        @Html.ActionLink("Utskrift", "ShowStatement", "Transaction", new { accountNumber = item.accountNumber }, new { @class = "btn btn-xs btn-info" })
+                        @Html.ActionLink("Betalinger", "ListTransactions", "Transaction", new {accountNumber = item.accountNumber}, new {@class = "btn btn-xs btn-primary"})
+                    </td>
                 </tr>
             }
         </table>
