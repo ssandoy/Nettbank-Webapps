@@ -13,7 +13,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
     public class CustomerController : Controller
     {
         private string bankID;
-        public ActionResult ListAccounts() //TODO: FIX SO IT SENDS PERSONNUMBER
+        public ActionResult ListAccounts() 
         {
             ViewBag.loggedIn = TempData["login"];
             if (Session["loggedin"] != null)
@@ -75,8 +75,8 @@ namespace Nettbank___Webapplikasjoner.Controllers
         public ActionResult Logout()
         {
             var db = new CustomerDB();
-            db.Logout(); //TODO MAKE VOID
-                return RedirectToAction("Login");
+            db.Logout(); 
+           return RedirectToAction("Login");
         }
     }   
 }

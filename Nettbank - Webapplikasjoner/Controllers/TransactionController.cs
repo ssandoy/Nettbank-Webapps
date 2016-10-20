@@ -78,11 +78,11 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 if (loggetInn)
                 {
                     TempData["login"] = true;
-                    using (var db = new DbModel())
-                    {
+                    
                         Customers c = (Customers)Session["CurrentUser"];
                         string personalNumber = c.personalNumber;
-                        List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                        AccountDB adb = new AccountDB();
+                        List<Account> accounts = adb.listAccounts(personalNumber);
                         List<SelectListItem> output = new List<SelectListItem>();
                         foreach (var acc in accounts)
                         {
@@ -90,7 +90,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                         }
                         ViewBag.AccountList = output;
                         ViewBag.Customer = c;
-                    }
+                    
                     return View();
                 }
             }
@@ -99,7 +99,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterTransaction(Transaction newTransaction) { //TODO: ADD LOGIN
+        public ActionResult RegisterTransaction(Transaction newTransaction) { /
             if (Session["loggedin"] != null)
             {
                 bool loggetInn = (bool) Session["loggedin"];
@@ -114,11 +114,11 @@ namespace Nettbank___Webapplikasjoner.Controllers
                                 new {accountNumber = newTransaction.fromAccountNumber});
                         }
                     }
-                    using (var db = new DbModel())
-                    {
+                 
+                        AccountDB adb = new AccountDB();
                         Customers c = (Customers) Session["CurrentUser"];
                         string personalNumber = c.personalNumber;
-                        List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                        List<Account> accounts = adb.listAccounts(personalNumber);
                         List<SelectListItem> output = new List<SelectListItem>();
                         foreach (var acc in accounts)
                         {
@@ -126,7 +126,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                         }
                         ViewBag.AccountList = output;
                         ViewBag.Customer = c;
-                    }
+                    
                     return View(newTransaction);
                 }
             }

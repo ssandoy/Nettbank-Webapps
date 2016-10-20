@@ -40,7 +40,7 @@ namespace Nettbank___Webapplikasjoner
                 string password = Convert.ToBase64String(customer.password);
                 string ReHash = createHash(inList["Password"], customer.salt);
                 HttpContext context = HttpContext.Current;
-                if (password.Equals(ReHash)) // && inList["bankID"].Equals(generateBankId())
+                if (password.Equals(ReHash))
                 {
                     context.Session["CurrentUser"] = customer;
                     Debug.WriteLine("Du er nå logget inn");
@@ -48,9 +48,8 @@ namespace Nettbank___Webapplikasjoner
                 }
                 else
                 {
-                    //TODO: SETT SESSION TIL LOGIN FALSE OSV?
                     context.Session["loggedin"] = false;
-                    context.Session["CurrentUser"] = null; //TODO: TRENGS DISSE?
+                    context.Session["CurrentUser"] = null; 
                     Debug.WriteLine("Kunne ikke logge inn");
                     return false;
                 }
