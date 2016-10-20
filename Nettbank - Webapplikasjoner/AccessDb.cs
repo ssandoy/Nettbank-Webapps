@@ -50,6 +50,11 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
+        public List<Transaction> listExecutedTransactions(string accountNumber) {
+            var transactions = listTransactions(accountNumber).Where(t => t.timeTransfered != null);
+            return transactions.ToList();
+        }
+
         public bool insertCustomer()
         {
             using (var db = new DbModel())

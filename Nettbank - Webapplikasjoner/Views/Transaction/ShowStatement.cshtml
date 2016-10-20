@@ -1,0 +1,40 @@
+﻿@model List<Nettbank___Webapplikasjoner.Models.Transaction>
+
+@{
+    ViewBag.Title = "Kontoutskrift";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h1>
+            Kontoutskrift
+            <small>???? ?? ?????</small>
+        </h1>
+    </div>
+    <div class="col-md-6">
+        @Html.DropDownList("AccountList", ViewBag.AccountList as IEnumerable<SelectListItem>, new { @class = "form-control", @id = "account-dropdown" })
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].timeTransfered)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].fromAccountNumber)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].toAccountNumber)</th>
+                <th class="col-md-1">@Html.DisplayNameFor(model => model[0].amount)</th>
+                <th class="col-md-3">@Html.DisplayNameFor(model => model[0].comment)</th>
+            </tr>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@item.timeTransfered.Value.ToShortDateString()</td>
+                    <td>@Int64.Parse(item.fromAccountNumber.Remove(6, 4)).ToString("0000 00 00000")</td>
+                    <td>@Int64.Parse(item.toAccountNumber.Remove(6, 4)).ToString("0000 00 00000")</td>
+                    <td style="text-align: right">@item.amount kr</td>
+                    <td>@item.comment</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

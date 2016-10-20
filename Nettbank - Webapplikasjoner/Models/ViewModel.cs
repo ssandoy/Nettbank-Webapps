@@ -43,12 +43,9 @@ namespace Nettbank___Webapplikasjoner.Models {
         public int amount { get; set; }
 
         [DisplayName("Utførelsesdato")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? timeToBeTransfered { get; set; }
+         public DateTime? timeToBeTransfered { get; set; }
 
-        [DisplayName("Utført")]
-        [DisplayFormat(NullDisplayText = "Nei", DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayName("Dato")]
         public DateTime? timeTransfered { get; set; }
 
         [DisplayName("Fra konto")]

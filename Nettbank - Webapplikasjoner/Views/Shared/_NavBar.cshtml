@@ -14,12 +14,11 @@
             <ul class="nav navbar-nav navbar-right">
                 @if ((bool)Session["loggedin"] == true) {
                     <li>@Html.ActionLink("KONTO", "ListAccounts", "Customer")</li>
-                    <li>@Html.ActionLink("TRANSAKSJONER", "#")</li>
+                    <li>@Html.ActionLink("UTSKRIFT", "ShowStatement", "Transaction")</li>
                     <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>
                     <li>@Html.ActionLink("BETALINGER", "ListTransactions", "Transaction")</li>
                     <li>@Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
                 }
-
             </ul>
         </div>
     </div>

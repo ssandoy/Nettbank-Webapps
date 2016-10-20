@@ -204,8 +204,8 @@
     <Content Include="Views\Transaction\RegisterTransaction.cshtml" />
     <Content Include="Views\Customer\Login.cshtml" />
     <Content Include="Views\Transaction\deleteModal.cshtml" />
-    <Content Include="Views\Transaction\ListPartial.cshtml" />
     <Content Include="Views\Transaction\UpdateTransaction.cshtml" />
+    <Content Include="Views\Transaction\ShowStatement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

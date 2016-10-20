@@ -11,11 +11,9 @@ namespace Nettbank___Webapplikasjoner.Controllers
     public class TransactionController : Controller
     {
         public ActionResult ListTransactions(string accountNumber) {
-            if (Session["loggedin"] != null)
-            {
+            if (Session["loggedin"] != null) {
                 bool loggetInn = (bool) Session["loggedin"];
-                if (loggetInn)
-                {
+                if (loggetInn) {
                     TempData["login"] = true;
                     using (var dbm = new DbModel()) {
                         Customers c = (Customers) Session["CurrentUser"];
@@ -24,9 +22,9 @@ namespace Nettbank___Webapplikasjoner.Controllers
                         List<SelectListItem> output = new List<SelectListItem>();
                         foreach (var acc in accounts) {
                             if (acc.accountNumber == accountNumber) {
-                                output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber, Selected = true });
+                                output.Add(new SelectListItem { Text = Int64.Parse(acc.accountNumber).ToString("0000 00 00000") + " (" + acc.balance + " kr)", Value = acc.accountNumber, Selected = true });
                             } else {
-                                output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
+                                output.Add(new SelectListItem { Text = Int64.Parse(acc.accountNumber).ToString("0000 00 00000") + " (" + acc.balance + " kr)", Value = acc.accountNumber});
                             }
                         }
                         ViewBag.AccountList = output;
@@ -36,6 +34,36 @@ namespace Nettbank___Webapplikasjoner.Controllers
                     }
                     var db = new AccessDb();
                     var transactions = db.listTransactions(accountNumber);
+                    return View(transactions);
+                }
+            }
+            return RedirectToAction("Login", "Customer");
+        }
+
+        public ActionResult ShowStatement(string accountNumber) {
+            if (Session["loggedin"] != null) {
+                bool loggetInn = (bool)Session["loggedin"];
+                if (loggetInn) {
+                    TempData["login"] = true;
+                    using (var dbm = new DbModel()) {
+                        Customers c = (Customers)Session["CurrentUser"];
+                        string personalNumber = c.personalNumber;
+                        List<Accounts> accounts = dbm.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                        List<SelectListItem> output = new List<SelectListItem>();
+                        foreach (var acc in accounts) {
+                            if (acc.accountNumber == accountNumber) {
+                                output.Add(new SelectListItem { Text = Int64.Parse(acc.accountNumber).ToString("0000 00 00000") + " (" + acc.balance + " kr)", Value = acc.accountNumber, Selected = true });
+                            } else {
+                                output.Add(new SelectListItem { Text = Int64.Parse(acc.accountNumber).ToString("0000 00 00000") + " (" + acc.balance + " kr)", Value = acc.accountNumber });
+                            }
+                        }
+                        ViewBag.AccountList = output;
+                        if (accountNumber == null) {
+                            accountNumber = output[0].Value;
+                        }
+                    }
+                    var db = new AccessDb();
+                    var transactions = db.listExecutedTransactions(accountNumber);
                     return View(transactions);
                 }
             }

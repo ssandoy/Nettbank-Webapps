@@ -96,5 +96,16 @@ img {
 }
 
 #account-dropdown {
-    margin-bottom: 10px;
+    float: right;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+th, td {
+    text-align: center;
+}
+
+td a {
+    float: right;
+    margin: 2px;
 }
