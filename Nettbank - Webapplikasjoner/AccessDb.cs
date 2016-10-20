@@ -11,9 +11,7 @@ using System.Data.Entity;
 namespace Nettbank___Webapplikasjoner {
     public class AccessDb {
 
-        HttpContext context = HttpContext.Current;
-        private string bankID = "345281"; //TODO: RANDOMGENERERE DETTE VIA EN ARRAY?
-
+       HttpContext context = HttpContext.Current;
         public List<Account> listAccounts(string personalNumber) {
             using (var db = new DbModel())
             {
@@ -97,7 +95,7 @@ namespace Nettbank___Webapplikasjoner {
             }
         }
 
-        public bool Login()
+        public bool Login() 
         {
             if (context.Session["loggedin"] == null)
             {
@@ -127,15 +125,14 @@ namespace Nettbank___Webapplikasjoner {
 
         public bool ValidateCustomer(FormCollection inList) //TODO: FIX parameterverdi
         {
-            Customers customer = findByPersonNr(inList["personnumber"]);
+            Customers customer = findByPersonNr(inList["Personnumber"]);
             if (customer != null)
             {
                 string password = Convert.ToBase64String(customer.password);
-                string ReHash = createHash(inList["password"], customer.salt);
+                string ReHash = createHash(inList["Password"], customer.salt);
                 HttpContext context = HttpContext.Current;
-                if (password.Equals(ReHash) && inList["bankID"].Equals(bankID))
+                if (password.Equals(ReHash)) // && inList["bankID"].Equals(generateBankId())
                 {
-                    context.Session["loggedin"] = true;
                     context.Session["CurrentUser"] = customer;
                     Debug.WriteLine("Du er nå logget inn");
                     return true;

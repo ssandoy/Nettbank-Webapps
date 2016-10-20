@@ -12,9 +12,9 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
+        private string bankID;
         public ActionResult ListAccounts() 
         {
-
             ViewBag.loggedIn = TempData["login"];
             if (Session["loggedin"] != null)
             {
@@ -46,6 +46,8 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
             }
+             TempData["ID"] = BankIDGenerator.getBankID();
+            ViewBag.bankID = TempData["ID"];
             return View(); //Implisitt else
         }
 
@@ -53,11 +55,12 @@ namespace Nettbank___Webapplikasjoner.Controllers
         [HttpPost]
         public ActionResult ValidateUser(FormCollection inList)
         {
-            
             var db = new AccessDb();
             bool loggedIn = db.ValidateCustomer(inList);
-            if (loggedIn)
-            { 
+            if (loggedIn && inList["BankID"] == (inList["hiddenBankID"]))
+            {
+                HttpContext context = System.Web.HttpContext.Current;
+                context.Session["loggedin"] = true;
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
             }
