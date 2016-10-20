@@ -71,7 +71,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             return RedirectToAction("Login", "Customer");
         }
 
-        public ActionResult RegisterTransaction() { //TODO: ENDRE TIL Å BRUKE DB-KLASSER
+        public ActionResult RegisterTransaction() { 
             if (Session["loggedin"] != null)
             {
                 bool loggetInn = (bool) Session["loggedin"];
@@ -134,7 +134,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }
 
         
-        public ActionResult UpdateTransaction(int id)  //TODO: FIX LOGIN-CHECK
+        public ActionResult UpdateTransaction(int id)  
         {
             if (Session["loggedin"] != null)
             {

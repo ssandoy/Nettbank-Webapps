@@ -32,7 +32,7 @@ namespace Nettbank___Webapplikasjoner
             context.Session["CurrentUser"] = null;
         }
 
-        public bool ValidateCustomer(FormCollection inList) //TODO: FIX parameterverdi
+        public bool ValidateCustomer(FormCollection inList) 
         {
             Customers customer = findByPersonNr(inList["Personnumber"]);
             if (customer != null)
