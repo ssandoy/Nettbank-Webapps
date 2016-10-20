@@ -88,6 +88,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                             output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
                         }
                         ViewBag.AccountList = output;
+                        ViewBag.Customer = c;
                     }
                     return View();
                 }
@@ -113,6 +114,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                     output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber });
                 }
                 ViewBag.AccountList = output;
+                ViewBag.Customer = c;
             }
             return View(newTransaction);
         }
