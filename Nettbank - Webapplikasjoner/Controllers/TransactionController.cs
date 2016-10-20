@@ -99,7 +99,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterTransaction(Transaction newTransaction) { /
+        public ActionResult RegisterTransaction(Transaction newTransaction) { 
             if (Session["loggedin"] != null)
             {
                 bool loggetInn = (bool) Session["loggedin"];
