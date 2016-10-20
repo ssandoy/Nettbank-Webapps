@@ -101,7 +101,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             if (ModelState.IsValid) {
                 var db = new AccessDb();
                 if (db.addTransaction(newTransaction)) {
-                    return RedirectToAction("ListTransactions");
+                    return RedirectToAction("ListTransactions", new { accountNumber=newTransaction.fromAccountNumber}); 
                 }
             }
             return View(newTransaction);
@@ -133,7 +133,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             {
                 var db = new AccessDb();
                 if(db.updateTransaction(transaction))
-                    return RedirectToAction("ListTransactions");
+                    return RedirectToAction("ListTransactions", new {accountNumber=transaction.fromAccountNumber});
             }
             return View(transaction);
         }
