@@ -1,34 +1,32 @@
-﻿@model IEnumerable<Nettbank___Webapplikasjoner.Models.Account>
+﻿@model List<Nettbank___Webapplikasjoner.Models.Account>
 
 @{
-    ViewBag.Title = "Kontooversikt";
+    ViewBag.Title = "Kontoer";
 }
 
 <h1>Kontooversikt</h1>
-@if(ViewBag.loggedIn == true) { 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <table class="table">
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.accountNumber)</th>
-                    <th>@Html.DisplayNameFor(model => model.ownerName)</th>
-                    <th>@Html.DisplayNameFor(model => model.balance)</th>
-                    <th></th>
-                </tr>
+<div class="panel panel-default col-sm-9">
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th class="col-md-3">@Html.DisplayNameFor(model => model[0].accountNumber)</th>
+                <th class="col-md-4">@Html.DisplayNameFor(model => model[0].ownerName)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].balance)</th>
+                <th class="col-md-3"></th>
+            </tr>
 
-                @foreach (var item in Model) {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.accountNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.ownerName)</td>
-                        <td>@Html.DisplayFor(modelItem => item.balance)</td>
-                        <td>@Html.ActionLink("Betalinger", "ListTransactions", "Transaction", new { accountNumber = item.accountNumber }, new {@class = "btn btn-primary"})</td>
-                    </tr>
-                }
-            </table>
-        </div>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>@Int64.Parse(item.accountNumber).ToString("0000 00 00000")</td>
+                    <td>@item.ownerName</td>
+                    <td style="text-align: right">@item.balance.ToString("### ### ##0 kr")</td>
+                    <td>
+                        @Html.ActionLink("Utskrift", "ShowStatement", "Transaction", new { accountNumber = item.accountNumber }, new { @class = "btn btn-xs btn-info" })
+                        @Html.ActionLink("Betalinger", "ListTransactions", "Transaction", new {accountNumber = item.accountNumber}, new {@class = "btn btn-xs btn-primary"})
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
-}
-else
-{
-  <h3>NOT LOGGED IN</h3>
-}
+</div>
+@Html.Partial("AccountInfo", (Nettbank___Webapplikasjoner.Models.Customers)ViewBag.Customer)

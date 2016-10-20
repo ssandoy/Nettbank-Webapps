@@ -61,6 +61,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                         if (accountNumber == null) {
                             accountNumber = output[0].Value;
                         }
+                        ViewBag.AccountNumber = accountNumber;
                     }
                     var db = new AccessDb();
                     var transactions = db.listExecutedTransactions(accountNumber);
@@ -88,11 +89,12 @@ namespace Nettbank___Webapplikasjoner.Controllers
                             output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
                         }
                         ViewBag.AccountList = output;
+                        ViewBag.Customer = c;
                     }
+                    return View();
                 }
             }
-
-            return View();
+            return RedirectToAction("Login", "Customer");
         }
 
         [HttpPost]
@@ -103,6 +105,17 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 if (db.addTransaction(newTransaction)) {
                     return RedirectToAction("ListTransactions", new { accountNumber=newTransaction.fromAccountNumber}); 
                 }
+            }
+            using (var db = new DbModel()) {
+                Customers c = (Customers)Session["CurrentUser"];
+                string personalNumber = c.personalNumber;
+                List<Accounts> accounts = db.accounts.Where(a => a.personalNumber == personalNumber).ToList();
+                List<SelectListItem> output = new List<SelectListItem>();
+                foreach (var acc in accounts) {
+                    output.Add(new SelectListItem { Text = acc.accountNumber, Value = acc.accountNumber });
+                }
+                ViewBag.AccountList = output;
+                ViewBag.Customer = c;
             }
             return View(newTransaction);
         }
@@ -119,7 +132,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 fromAccountNumber = transactionDb.accountNumber,
                 toAccountNumber = transactionDb.toAccountNumber,
                 timeToBeTransfered = transactionDb.timeToBeTransfered,
-                timeTransfered = transactionDb.timeTransfered,
                 comment = transactionDb.comment
             };
             return View(transaction);

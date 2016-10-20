@@ -1,15 +1,12 @@
 ﻿@model List<Nettbank___Webapplikasjoner.Models.Transaction>
 
 @{
-    ViewBag.Title = "Kontoutskrift";
+    ViewBag.Title = "Utskrift";
 }
 
 <div class="row">
     <div class="col-md-6">
-        <h1>
-            Kontoutskrift
-            <small>???? ?? ?????</small>
-        </h1>
+        <h1>Kontoutskrift</h1>
     </div>
     <div class="col-md-6">
         @Html.DropDownList("AccountList", ViewBag.AccountList as IEnumerable<SelectListItem>, new { @class = "form-control", @id = "account-dropdown" })
@@ -21,18 +18,18 @@
         <table class="table">
             <tr>
                 <th class="col-md-2">@Html.DisplayNameFor(model => model[0].timeTransfered)</th>
-                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].fromAccountNumber)</th>
-                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].toAccountNumber)</th>
-                <th class="col-md-1">@Html.DisplayNameFor(model => model[0].amount)</th>
-                <th class="col-md-3">@Html.DisplayNameFor(model => model[0].comment)</th>
+                <th class="col-md-2">Konto</th>
+                <th class="col-md-4">@Html.DisplayNameFor(model => model[0].comment)</th>
+                <th class="col-md-2">Ut fra konto</th>
+                <th class="col-md-2">Inn på konto</th>
             </tr>
             @foreach (var item in Model) {
                 <tr>
                     <td>@item.timeTransfered.Value.ToShortDateString()</td>
-                    <td>@Int64.Parse(item.fromAccountNumber.Remove(6, 4)).ToString("0000 00 00000")</td>
-                    <td>@Int64.Parse(item.toAccountNumber.Remove(6, 4)).ToString("0000 00 00000")</td>
-                    <td style="text-align: right">@item.amount kr</td>
-                    <td>@item.comment</td>
+                    <td>@(item.fromAccountNumber == ViewBag.AccountNumber ? Int64.Parse(item.toAccountNumber).ToString("0000 00 00000") : Int64.Parse(item.fromAccountNumber).ToString("0000 00 00000"))</td>
+                    <td style="text-align: left">@item.comment</td>
+                    <td style="text-align: right">@(item.fromAccountNumber == ViewBag.AccountNumber ? item.amount.ToString("### ### ##0 kr") : "")</td>
+                    <td style="text-align: right">@(item.toAccountNumber == ViewBag.AccountNumber ? item.amount.ToString("### ### ##0 kr") : "")</td>
                 </tr>
             }
         </table>

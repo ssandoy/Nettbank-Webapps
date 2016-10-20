@@ -50,8 +50,23 @@ namespace Nettbank___Webapplikasjoner {
         }
 
         public List<Transaction> listExecutedTransactions(string accountNumber) {
-            var transactions = listTransactions(accountNumber).Where(t => t.timeTransfered != null);
-            return transactions.ToList();
+            using (var db = new DbModel()) {
+                var allTransactions = db.transactions.Where(t => t.accountNumber == accountNumber || t.toAccountNumber == accountNumber);
+                var transactions = new List<Transaction>();
+                foreach (var t in allTransactions) {
+                    if (t.timeTransfered != null) {
+                        transactions.Add(new Transaction {
+                            transactionId = t.transactionID,
+                            amount = t.amount,
+                            timeTransfered = t.timeTransfered,
+                            fromAccountNumber = t.accountNumber,
+                            toAccountNumber = t.toAccountNumber,
+                            comment = t.comment
+                        });
+                    }
+                }
+                return transactions;
+            }
         }
 
         public bool insertCustomer()
@@ -231,8 +246,9 @@ namespace Nettbank___Webapplikasjoner {
                     transactions.accountNumber = t.fromAccountNumber;
                     transactions.amount = t.amount;
                     transactions.comment = t.comment;
-                    transactions.timeToBeTransfered = t.timeToBeTransfered;
-                    transactions.timeTransfered = t.timeTransfered;
+                    if (t.timeToBeTransfered != null) {
+                        transactions.timeToBeTransfered = t.timeToBeTransfered;
+                    }
                     db.Entry(transactions).State = EntityState.Modified;
                     db.SaveChanges();
                     return true;
