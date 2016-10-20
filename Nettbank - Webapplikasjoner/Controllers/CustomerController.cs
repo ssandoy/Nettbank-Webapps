@@ -24,6 +24,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                     TempData["login"] = true; //TODO: BENNYTTE SESSION-VERDI I STEDET?
                     string personnr = "12345678902";
                     var db = new AccessDb();
+                    ViewBag.Customer = db.findByPersonNr(personnr);
                     List<Account> allAccounts = db.listAccounts(personnr);
                     return View(allAccounts);
                 }

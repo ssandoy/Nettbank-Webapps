@@ -109,3 +109,15 @@ td a {
     float: right;
     margin: 2px;
 }
+
+.my-infopanel {
+    float: right;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.my-infopanel img {
+    display: block;
+    margin: 0 auto;
+    width: 90px;
+}
