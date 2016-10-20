@@ -12,6 +12,7 @@ namespace Nettbank___Webapplikasjoner {
     public class AccessDb {
 
         HttpContext context = HttpContext.Current;
+        private string bankID = "345281"; //TODO: RANDOMGENERERE DETTE VIA EN ARRAY?
 
         public List<Account> listAccounts(string personalNumber) {
             using (var db = new DbModel())
@@ -127,7 +128,7 @@ namespace Nettbank___Webapplikasjoner {
                 string password = Convert.ToBase64String(customer.password);
                 string ReHash = createHash(inList["password"], customer.salt);
                 HttpContext context = HttpContext.Current;
-                if (password.Equals(ReHash))
+                if (password.Equals(ReHash) && inList["bankID"].Equals(bankID))
                 {
                     context.Session["loggedin"] = true;
                     context.Session["CurrentUser"] = customer;

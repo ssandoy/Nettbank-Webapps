@@ -12,7 +12,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
-        public ActionResult ListAccounts() //TODO: CHECK IF LOGGED IN
+        public ActionResult ListAccounts() 
         {
 
             ViewBag.loggedIn = TempData["login"];
@@ -37,7 +37,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }
         
 
-        public ActionResult Login() //TODO: TA VARE PÅ LOGGINN-DATA? SJEKK OM ALLEREDE LOGGET INN?
+        public ActionResult Login() 
         {
            var db = new AccessDb();
             bool loggedIn = db.Login();
