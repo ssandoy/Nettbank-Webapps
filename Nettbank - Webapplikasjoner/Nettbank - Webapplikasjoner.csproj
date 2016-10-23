@@ -212,6 +212,7 @@
     <Content Include="Views\Transaction\ShowStatement.cshtml" />
     <Content Include="Views\Customer\AccountInfo.cshtml" />
     <Content Include="Views\Transaction\ListPartial.cshtml" />
+    <Content Include="Views\Transaction\StatementPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

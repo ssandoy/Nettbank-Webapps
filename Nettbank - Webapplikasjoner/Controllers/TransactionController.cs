@@ -30,9 +30,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 accountNumber = list.First(acc => acc.Value != null).Value;
             }
             
-            var tDb = new TransactionDB();
-            var transactions = tDb.listTransactions(accountNumber);
-            return View(transactions);
+            return View();
             
         }
 
@@ -43,34 +41,31 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }
 
         public ActionResult ShowStatement(string accountNumber) {
-            if (Session["loggedin"] != null) {
-                bool loggetInn = (bool)Session["loggedin"];
-                if (loggetInn) {
-                    TempData["login"] = true;
-                    Customers c = (Customers)Session["CurrentUser"];
-                    string personalNumber = c.personalNumber;
-                    var adb = new AccountDB();
-                    List<Account> accounts = adb.listAccounts(personalNumber);
-                    List<SelectListItem> output = new List<SelectListItem>();
-                    foreach (var acc in accounts) {
-                         if (acc.accountNumber == accountNumber) {
-                                output.Add(new SelectListItem { Text = Int64.Parse(acc.accountNumber).ToString("0000 00 00000") + " (" + acc.balance + " kr)", Value = acc.accountNumber, Selected = true });
-                        } else {
-                                output.Add(new SelectListItem { Text = Int64.Parse(acc.accountNumber).ToString("0000 00 00000") + " (" + acc.balance + " kr)", Value = acc.accountNumber });
-                        }
-                    }
-                     ViewBag.AccountList = output;
-                     if (accountNumber == null) {
-                         accountNumber = output[0].Value;
-                     }
-                    ViewBag.AccountNumber = accountNumber;
-                    
-                    var db = new TransactionDB();
-                    var transactions = db.listExecutedTransactions(accountNumber);
-                    return View(transactions);
-                }
+            // Checks if the user isn't logged in, and if so redirects the user to the login page.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
             }
-            return RedirectToAction("Login", "Customer");
+
+            var personalNumber = ((Customers)Session["CurrentUser"]).personalNumber;
+            var aDb = new AccountDB();
+            var accounts = aDb.listAccounts(personalNumber);
+            var list = accounts.Select(acc => new SelectListItem {Text = long.Parse(acc.accountNumber).ToString("0000 00 00000") +
+                    " (" + acc.balance + " kr)", Value = acc.accountNumber, Selected = (acc.accountNumber == accountNumber)});
+
+            ViewBag.AccountList = list;
+
+            if (accountNumber == null) {
+                accountNumber = list.First(acc => acc.Value != null).Value;
+            }
+                    
+            return View();
+        }
+
+        public ActionResult StatementPartial(string accountNumber) {
+            ViewBag.AccountNumber = accountNumber;
+            var tDb = new TransactionDB();
+            var transactions = tDb.listExecutedTransactions(accountNumber);
+            return View(transactions);
         }
 
         public ActionResult RegisterTransaction() { //TODO: ENDRE TIL Å BRUKE DB-KLASSER
