@@ -59,14 +59,10 @@ namespace Nettbank___Webapplikasjoner
             }
         }
 
-        public bool addTransaction(Transaction t)
-        {
-            using (var db = new DbModel())
-            {
-                try
-                {
-                    var newTransaction = new Transactions()
-                    {
+        public string addTransaction(Transaction t) {
+            using (var db = new DbModel()) {
+                try {
+                    var newTransaction = new Transactions() {
                         amount = t.amount,
                         timeToBeTransfered = t.timeToBeTransfered,
                         timeTransfered = null,
@@ -74,25 +70,34 @@ namespace Nettbank___Webapplikasjoner
                         comment = t.comment
                     };
 
-                    if (newTransaction.timeToBeTransfered == null)
-                    {
-                        newTransaction.timeToBeTransfered = DateTime.Now;
+                    // Validerer beløp.
+                    if (newTransaction.amount <= 0) {
+                        return "Beløpet må være positivt.";
                     }
 
-                    var account = db.accounts.FirstOrDefault(a => a.accountNumber == t.fromAccountNumber);
+                    // Validerer utførelsesdato.
+                    if (newTransaction.timeToBeTransfered == null) {
+                        newTransaction.timeToBeTransfered = DateTime.Now;
+                    } else if (newTransaction.timeToBeTransfered.Value.CompareTo(DateTime.Now) < 0) {
+                        return "Utførelsesdatoen på være en dato i fremtiden. La feltet stå tomt for å utføre betalingen umiddelbart.";
+                    }
 
-                    if (account == null)
-                    {
-                        return false;
+                    // Setter og validerer fra-kontonummer.
+                    var account = db.accounts.FirstOrDefault(a => a.accountNumber == t.fromAccountNumber);
+                    if (account == null) {
+                        return "Kontoen du vil betale fra eksisterer ikke";
+                    }
+
+                    // Validerer til-kontonummer.
+                    if (db.accounts.FirstOrDefault(a => a.accountNumber == newTransaction.toAccountNumber) == null) {
+                        return "Kontoen du vil betale til eksisterer ikke";
                     }
 
                     account.transactions.Add(newTransaction);
                     db.SaveChanges();
-                    return true;
-                }
-                catch (Exception exc)
-                {
-                    return false;
+                    return "";
+                } catch (Exception exc) {
+                    return "Feil: " + exc.Message;
                 }
             }
         }

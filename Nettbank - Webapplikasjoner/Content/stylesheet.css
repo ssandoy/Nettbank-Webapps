@@ -125,3 +125,42 @@ td a {
 .my-form {
     padding-left: 30px;
 }
+
+.my-bankid {
+    background-color: #333333;
+    border: 1px solid black;
+    border-radius: 30px;
+    float: right;
+    height: 50px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    padding: 0;
+    position: relative;
+    width: 130px;
+    z-index: 2;
+}
+
+.my-bankid-inner {
+    background-color: palegoldenrod;
+    border-radius: 4px;
+    height: 26px;
+    line-height: 26px;
+    margin: 12px 0 12px 16px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    width: 60px;
+}
+
+.my-bankid button {
+    height: 20px;
+    margin: 15px 0 15px 82px;
+    position: absolute;
+    width: 28px;
+}
+
+.my-login-input {
+    margin: 0 15px;
+    max-width: 400px !important;
+    width: 90% !important;
+}
