@@ -9,7 +9,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
-            }
+                            }
 
             TempData["login"] = true;
 
@@ -22,10 +22,10 @@ namespace Nettbank___Webapplikasjoner.Controllers
             
             ViewBag.AccountList = list;
 
-            if (accountNumber == null) {
+                        if (accountNumber == null) {
                 accountNumber = list.First(acc => acc.Value != null).Value;
-            }
-            
+                        }
+                    
             return View();
             
         }
@@ -33,14 +33,14 @@ namespace Nettbank___Webapplikasjoner.Controllers
         public ActionResult ListPartial(string accountNumber) {
             var tDb = new TransactionDB();
             var transactions = tDb.listTransactions(accountNumber);
-            return View(transactions);
-        }
+                    return View(transactions);
+                }
 
         public ActionResult ShowStatement(string accountNumber) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
-            }
+                        }
 
             var personalNumber = ((Customers)Session["CurrentUser"]).personalNumber;
             var aDb = new AccountDB();
@@ -50,9 +50,9 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
             ViewBag.AccountList = list;
 
-            if (accountNumber == null) {
+                     if (accountNumber == null) {
                 accountNumber = list.First(acc => acc.Value != null).Value;
-            }
+                     }
                     
             return View();
         }
@@ -61,30 +61,30 @@ namespace Nettbank___Webapplikasjoner.Controllers
             ViewBag.AccountNumber = accountNumber;
             var tDb = new TransactionDB();
             var transactions = tDb.listExecutedTransactions(accountNumber);
-            return View(transactions);
-        }
+                    return View(transactions);
+                }
 
         public ActionResult RegisterTransaction() {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
-                return RedirectToAction("Login", "Customer");
-            }
+            return RedirectToAction("Login", "Customer");
+        }
 
             var customer = (Customers) Session["CurrentUser"];
             var personalNumber = customer.personalNumber;
             var aDb = new AccountDB();
             var accounts = aDb.listAccounts(personalNumber);
             var list = accounts.Select(acc => new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber}).ToList();
-
+                    
             ViewBag.Customer = customer;
             ViewBag.AccountList = list;
                     
-            return View();
-        }
+                    return View();
+                }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterTransaction(Transaction newTransaction) {
+        public ActionResult RegisterTransaction(Transaction newTransaction) { 
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
@@ -98,9 +98,9 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 validationMessage = tDb.addTransaction(newTransaction);
                 if (validationMessage == "") {
                     return RedirectToAction("ListTransactions", new {accountNumber = newTransaction.fromAccountNumber});
-                }
-            }
-
+                        }
+                    }
+                 
             // Implisitt else. Hvis registreringen feilet, lastes siden inn på nytt.
             var customer = (Customers)Session["CurrentUser"];
             var personalNumber = customer.personalNumber;
@@ -112,14 +112,14 @@ namespace Nettbank___Webapplikasjoner.Controllers
             ViewBag.AccountList = list;
             ViewBag.ValidationMessage = validationMessage;
                     
-            return View(newTransaction);
-        }
+                    return View(newTransaction);
+                }
 
-        public ActionResult UpdateTransaction(int id) { //TODO: FIX LOGIN-CHECK
+        public ActionResult UpdateTransaction(int id) { 
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
-                return RedirectToAction("Login", "Customer");
-            }
+            return RedirectToAction("Login", "Customer");
+        }
 
             var tDb = new TransactionDB();
             var oldTransaction = tDb.findTransanction(id);
@@ -130,7 +130,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 toAccountNumber = oldTransaction.toAccountNumber,
                 timeToBeTransfered = oldTransaction.timeToBeTransfered,
                 comment = oldTransaction.comment
-            };
+                    };
 
             return View(newTransaction);
         }
@@ -141,7 +141,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
-            }
+                    }
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
@@ -163,7 +163,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
         {
             var tDb = new TransactionDB();
             bool deleteOK = tDb.deleteTransaction(id);
-            //TODO: FIX CHECK OM SUCCESSFUL
         }
     }
 }

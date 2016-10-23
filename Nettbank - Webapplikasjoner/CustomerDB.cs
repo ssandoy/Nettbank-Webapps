@@ -32,7 +32,7 @@ namespace Nettbank___Webapplikasjoner
             context.Session["CurrentUser"] = null;
         }
 
-        public bool ValidateCustomer(FormCollection inList) //TODO: FIX parameterverdi
+        public bool ValidateCustomer(FormCollection inList) 
         {
             Customers customer = findByPersonNr(inList["Personnumber"]);
             if (customer != null)
@@ -91,48 +91,6 @@ namespace Nettbank___Webapplikasjoner
             byte[] salt = new byte[size];
             RandomNumberGenerator.GetBytes(salt);
             return Convert.ToBase64String(salt);
-        }
-
-
-        public bool insertCustomer()
-        {
-            using (var db = new DbModel())
-            {
-                var customer = new Customers();
-                customer.firstName = "Sander";
-                customer.lastName = "Sandøy";
-                customer.personalNumber = "12345678902";
-                customer.address = "Masterberggata 25";
-                string innPassord = "Sofa123";
-                string salt = createSalt(32); //TODO: Hvilken størrelse?
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(innPassord + salt);
-                SHA256Managed SHA256String = new SHA256Managed();
-                byte[] utdata = SHA256String.ComputeHash(bytes);
-                customer.salt = salt;
-                customer.password = utdata;
-                PostalNumbers p = new PostalNumbers();
-                p.postalNumber = "8900";
-                p.postalCity = "Brønnøysund";
-                customer.postalNumbers = p;
-
-                var a = new Accounts();
-                a.accountNumber = "12345678901";
-                a.balance = 0;
-                a.owner = customer;
-                a.transactions = new List<Transactions>();
-                try
-                {
-                    db.customers.Add(customer);
-                    db.postalNumbers.Add(p);
-                    db.accounts.Add(a);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
         }
     }
 }

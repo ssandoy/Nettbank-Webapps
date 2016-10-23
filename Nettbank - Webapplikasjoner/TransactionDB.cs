@@ -5,9 +5,10 @@ using System.Linq;
 using System.Web;
 using Nettbank___Webapplikasjoner.Models;
 
-namespace Nettbank___Webapplikasjoner {
-    public class TransactionDB {
-        HttpContext context = HttpContext.Current;
+namespace Nettbank___Webapplikasjoner
+{
+    public class TransactionDB
+    {
 
         public List<Transaction> listTransactions(string accountNumber) {
             using (var db = new DbModel()) {
@@ -137,7 +138,7 @@ namespace Nettbank___Webapplikasjoner {
                     // Setter og validerer utførelsesdato.
                     if (t.timeToBeTransfered != null) {
                         if (t.timeToBeTransfered.Value.CompareTo(DateTime.Now) > 0) {
-                            transactions.timeToBeTransfered = t.timeToBeTransfered;
+                        transactions.timeToBeTransfered = t.timeToBeTransfered;
                         } else {
                             return "Utførelsesdatoen på være en dato i fremtiden. La feltet stå tomt for å ikke endre på datoen.";
                         }
@@ -158,12 +159,12 @@ namespace Nettbank___Webapplikasjoner {
 
                         if (newAccount == null) {
                             return "Kontoen du vil betale fra eksisterer ikke";
-                        }
+                    }
 
                         oldAccount.transactions.Remove(transactions);
                         newAccount.transactions.Add(transactions);
                     } else {
-                        db.Entry(transactions).State = EntityState.Modified;
+                    db.Entry(transactions).State = EntityState.Modified;
                     }
                     
                     db.SaveChanges();
@@ -174,5 +175,6 @@ namespace Nettbank___Webapplikasjoner {
                 }
             }
         }
+
     }
 }
