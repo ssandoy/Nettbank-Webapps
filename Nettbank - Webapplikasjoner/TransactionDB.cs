@@ -14,15 +14,17 @@ namespace Nettbank___Webapplikasjoner {
                 var allTransactions = db.transactions.Where(t => t.accountNumber == accountNumber);
                 var transactions = new List<Transaction>();
                 foreach (var t in allTransactions) {
-                    transactions.Add(new Transaction {
-                        transactionId = t.transactionID,
-                        amount = t.amount,
-                        timeToBeTransfered = t.timeToBeTransfered,
-                        timeTransfered = t.timeTransfered,
-                        fromAccountNumber = t.accountNumber,
-                        toAccountNumber = t.toAccountNumber,
-                        comment = t.comment
-                    });
+                    if (t.timeTransfered == null) {
+                        transactions.Add(new Transaction {
+                            transactionId = t.transactionID,
+                            amount = t.amount,
+                            timeToBeTransfered = t.timeToBeTransfered,
+                            timeTransfered = t.timeTransfered,
+                            fromAccountNumber = t.accountNumber,
+                            toAccountNumber = t.toAccountNumber,
+                            comment = t.comment
+                        });
+                    }
                 }
                 return transactions;
             }
