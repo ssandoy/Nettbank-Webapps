@@ -90,14 +90,17 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 return RedirectToAction("Login", "Customer");
             }
 
+            // Meldingen som vises hvis ModelState ikke er gyldig.
+            var validationMessage = "Du har skrevet inn ugyldige verdier.";
 
             if (ModelState.IsValid) {
                 var tDb = new TransactionDB();
-                if (tDb.addTransaction(newTransaction)) {
+                validationMessage = tDb.addTransaction(newTransaction);
+                if (validationMessage == "") {
                     return RedirectToAction("ListTransactions", new {accountNumber = newTransaction.fromAccountNumber});
                 }
             }
-            
+
             // Implisitt else. Hvis registreringen feilet, lastes siden inn på nytt.
             var customer = (Customers)Session["CurrentUser"];
             var personalNumber = customer.personalNumber;
@@ -107,6 +110,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
             ViewBag.Customer = customer;
             ViewBag.AccountList = list;
+            ViewBag.ValidationMessage = validationMessage;
                     
             return View(newTransaction);
         }
