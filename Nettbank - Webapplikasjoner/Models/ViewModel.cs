@@ -25,31 +25,40 @@ namespace Nettbank___Webapplikasjoner.Models {
         [DisplayName("Kontonummer")]
         public string accountNumber { get; set; }
 
+        [DisplayName("Eier")]
+        public string ownerName { get; set; }
+
         [DisplayName("Saldo")]
         public int balance { get; set; }
     }
 
     // For use in RegisterTransaction and ListTransactions
     public class Transaction {
+        [DisplayName("Betalings-Id")]
+        public int transactionId { get; set; }
+
         [DisplayName("Beløp")]
         [Required(ErrorMessage = "Beløpet må oppgis.")]
         [RegularExpression(@"[0-9]+", ErrorMessage = "Beløpet må være et positivt tall.")]
         public int amount { get; set; }
 
-        public bool executed { get; set; }
-
         [DisplayName("Utførelsesdato")]
-        public DateTime timeToBeTransfered { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? timeToBeTransfered { get; set; }
 
-        [DisplayName("Dato utført")]
-        public DateTime timeTransfered { get; set; }
+        [DisplayName("Dato")]
+        public DateTime? timeTransfered { get; set; }
 
         [DisplayName("Fra konto")]
         public string fromAccountNumber { get; set; }
 
         [DisplayName("Til konto")]
         [Required(ErrorMessage = "Kontonummer å betale til må oppgis.")]
-        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Kontonummer å betale til må oppgis.")]
+        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Kontonummeret må være på 11 siffer.")]
         public string toAccountNumber { get; set; }
+
+        [DisplayName("Kommentar")]
+        [StringLength(30, ErrorMessage = "Kommentaren kan være på maksimalt 30 tegn.")]
+        public string comment { get; set; }
     }
 }

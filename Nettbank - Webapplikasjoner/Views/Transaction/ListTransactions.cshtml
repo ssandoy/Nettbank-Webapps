@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Betalinger";
+}
+
+<script>
+    window.onload = function() {
+        reloadTransactions();
+    }
+
+    function reloadTransactions() {
+        $("#list-partial").load("/Transaction/ListPartial", {accountNumber: $("#account-dropdown").val()});
+    }
+</script>
+
+<div class="row">
+    <div class="col-sm-7">
+        <h1>Betalingsoversikt</h1>
+    </div>
+    <div class="col-sm-5">
+        <select class="form-control" id="account-dropdown" onchange="reloadTransactions()">
+            @foreach (SelectListItem account in @ViewBag.AccountList) {
+                <option value=@account.Value selected=@account.Selected>@account.Text</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div id="list-partial"></div>
+    </div>
+</div>
+
+@Html.Partial("deleteModal")
