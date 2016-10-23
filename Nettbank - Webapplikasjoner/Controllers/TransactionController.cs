@@ -143,12 +143,18 @@ namespace Nettbank___Webapplikasjoner.Controllers
                 return RedirectToAction("Login", "Customer");
                     }
 
+            // Meldingen som vises hvis ModelState ikke er gyldig.
+            var validationMessage = "Du har skrevet inn ugyldige verdier.";
+
             if (ModelState.IsValid) {
                 var tDb = new TransactionDB();
-                if (tDb.updateTransaction(transaction)) {
+                validationMessage = tDb.updateTransaction(transaction);
+                if (validationMessage == "") {
                     return RedirectToAction("ListTransactions", new {accountNumber = transaction.fromAccountNumber});
                 }
             }
+
+            ViewBag.ValidationMessage = validationMessage;
 
             return View(transaction);
         }
