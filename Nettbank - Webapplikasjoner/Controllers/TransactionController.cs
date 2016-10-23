@@ -115,7 +115,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
                     return View(newTransaction);
                 }
 
-        public ActionResult UpdateTransaction(int id) { //TODO: FIX LOGIN-CHECK
+        public ActionResult UpdateTransaction(int id) { 
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
             return RedirectToAction("Login", "Customer");
@@ -157,7 +157,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
         {
             var tDb = new TransactionDB();
             bool deleteOK = tDb.deleteTransaction(id);
-            //TODO: FIX CHECK OM SUCCESSFUL
         }
     }
 }

@@ -44,28 +44,6 @@ namespace Nettbank___Webapplikasjoner
         }
 
 
-        public bool insertAccount()
-        {
-            using (var db = new DbModel())
-            {
-
-
-                var a = new Accounts();
-                a.accountNumber = "12345678904";
-                a.balance = 0;
-                a.owner = db.customers.Find("12345678902");
-                a.transactions = new List<Transactions>();
-                try
-                {
-                    db.accounts.Add(a);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-        }
+    
     }
 }

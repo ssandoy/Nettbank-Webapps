@@ -12,29 +12,22 @@ namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class CustomerController : Controller
     {
-        private string bankID;
         public ActionResult ListAccounts() 
         {
-            ViewBag.loggedIn = TempData["login"];
-            if (Session["loggedin"] != null)
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
             {
-                bool loggetInn = (bool) Session["loggedin"];
-                if (loggetInn)
-                {
+                return RedirectToAction("Login", "Customer");
+            }
+           
                     TempData["login"] = true;
                     var db = new AccountDB();
+            var tdb = new TransactionDB();
+           // tdb.insertDoneTransaction();
                     Customers c = (Customers)Session["CurrentUser"];
                     ViewBag.Customer = c;
                     List<Account> allAccounts = db.listAccounts(c.personalNumber);
                     return View(allAccounts);
-                }
-                else
-                {
-                   return RedirectToAction("Login");
-                }
-            }
-               return RedirectToAction("Login");
-            
+                
         }
         
 
@@ -49,7 +42,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
             }
              TempData["ID"] = BankIDGenerator.getBankID();
             ViewBag.bankID = TempData["ID"];
-            return View(); //Implisitt else
+            return View();
         }
 
 
@@ -74,8 +67,8 @@ namespace Nettbank___Webapplikasjoner.Controllers
 
         public ActionResult Logout()
         {
-            var db = new CustomerDB();
-            db.Logout(); 
+           var db = new CustomerDB();
+           db.Logout(); 
            return RedirectToAction("Login");
         }
     }   

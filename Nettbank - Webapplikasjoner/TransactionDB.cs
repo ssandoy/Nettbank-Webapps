@@ -9,7 +9,6 @@ namespace Nettbank___Webapplikasjoner
 {
     public class TransactionDB
     {
-        HttpContext context = HttpContext.Current;
 
         public List<Transaction> listTransactions(string accountNumber)
         {
@@ -88,10 +87,10 @@ namespace Nettbank___Webapplikasjoner
                         return "Kontoen du vil betale fra eksisterer ikke";
                     }
 
-                    // Validerer til-kontonummer.
+                   /* // Validerer til-kontonummer.
                     if (db.accounts.FirstOrDefault(a => a.accountNumber == newTransaction.toAccountNumber) == null) {
                         return "Kontoen du vil betale til eksisterer ikke";
-                    }
+                    }*/
 
                     account.transactions.Add(newTransaction);
                     db.SaveChanges();
@@ -164,5 +163,6 @@ namespace Nettbank___Webapplikasjoner
                 }
             }
         }
+
     }
 }
