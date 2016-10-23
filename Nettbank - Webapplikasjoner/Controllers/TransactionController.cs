@@ -1,23 +1,19 @@
 ﻿using Nettbank___Webapplikasjoner.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Nettbank___Webapplikasjoner.Controllers
 {
     public class TransactionController : Controller {
         public ActionResult ListTransactions(string accountNumber) {
-            // Checks if the user isn't logged in, and if so redirects the user to the login page.
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
             }
 
             TempData["login"] = true;
 
-            // Populates the dropdown list with accounts through a ViewBag.
+            // Fyller dropdown listen med kontoer via en ViewBag.
             var personalNumber = ((Customers)Session["CurrentUser"]).personalNumber;
             var aDb = new AccountDB();
             var accounts = aDb.listAccounts(personalNumber);
@@ -41,7 +37,7 @@ namespace Nettbank___Webapplikasjoner.Controllers
         }
 
         public ActionResult ShowStatement(string accountNumber) {
-            // Checks if the user isn't logged in, and if so redirects the user to the login page.
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
             }
@@ -68,119 +64,95 @@ namespace Nettbank___Webapplikasjoner.Controllers
             return View(transactions);
         }
 
-        public ActionResult RegisterTransaction() { //TODO: ENDRE TIL Å BRUKE DB-KLASSER
-            if (Session["loggedin"] != null)
-            {
-                bool loggetInn = (bool) Session["loggedin"];
-                if (loggetInn)
-                {
-                    TempData["login"] = true;
-                    
-                        Customers c = (Customers)Session["CurrentUser"];
-                        string personalNumber = c.personalNumber;
-                        AccountDB adb = new AccountDB();
-                        List<Account> accounts = adb.listAccounts(personalNumber);
-                        List<SelectListItem> output = new List<SelectListItem>();
-                        foreach (var acc in accounts)
-                        {
-                            output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
-                        }
-                        ViewBag.AccountList = output;
-                        ViewBag.Customer = c;
-                    
-                    return View();
-                }
+        public ActionResult RegisterTransaction() {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
             }
-            return RedirectToAction("Login", "Customer");
+
+            var customer = (Customers) Session["CurrentUser"];
+            var personalNumber = customer.personalNumber;
+            var aDb = new AccountDB();
+            var accounts = aDb.listAccounts(personalNumber);
+            var list = accounts.Select(acc => new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber}).ToList();
+
+            ViewBag.Customer = customer;
+            ViewBag.AccountList = list;
+                    
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RegisterTransaction(Transaction newTransaction) { 
-            if (Session["loggedin"] != null)
-            {
-                bool loggetInn = (bool) Session["loggedin"];
-                if (loggetInn)
-                {
-                    if (ModelState.IsValid)
-                    {
-                        var db = new TransactionDB();
-                        if (db.addTransaction(newTransaction))
-                        {
-                            return RedirectToAction("ListTransactions",
-                                new {accountNumber = newTransaction.fromAccountNumber});
-                        }
-                    }
-                 
-                        AccountDB adb = new AccountDB();
-                        Customers c = (Customers) Session["CurrentUser"];
-                        string personalNumber = c.personalNumber;
-                        List<Account> accounts = adb.listAccounts(personalNumber);
-                        List<SelectListItem> output = new List<SelectListItem>();
-                        foreach (var acc in accounts)
-                        {
-                            output.Add(new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber});
-                        }
-                        ViewBag.AccountList = output;
-                        ViewBag.Customer = c;
-                    
-                    return View(newTransaction);
+        public ActionResult RegisterTransaction(Transaction newTransaction) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
+            }
+
+
+            if (ModelState.IsValid) {
+                var tDb = new TransactionDB();
+                if (tDb.addTransaction(newTransaction)) {
+                    return RedirectToAction("ListTransactions", new {accountNumber = newTransaction.fromAccountNumber});
                 }
             }
-            return RedirectToAction("Login", "Customer");
+            
+            // Implisitt else. Hvis registreringen feilet, lastes siden inn på nytt.
+            var customer = (Customers)Session["CurrentUser"];
+            var personalNumber = customer.personalNumber;
+            var aDb = new AccountDB();
+            var accounts = aDb.listAccounts(personalNumber);
+            var list = accounts.Select(acc => new SelectListItem {Text = acc.accountNumber, Value = acc.accountNumber}).ToList();
+
+            ViewBag.Customer = customer;
+            ViewBag.AccountList = list;
+                    
+            return View(newTransaction);
         }
 
-        
-        public ActionResult UpdateTransaction(int id)  //TODO: FIX LOGIN-CHECK
-        {
-            if (Session["loggedin"] != null)
-            {
-                bool loggetInn = (bool) Session["loggedin"];
-                if (loggetInn)
-                {
-                    var db = new TransactionDB();
-                    Transactions transactionDb = db.findTransanction(id);
-                    Transaction transaction = new Transaction()
-                    {
-                        transactionId = transactionDb.transactionID,
-                        amount = transactionDb.amount,
-                        fromAccountNumber = transactionDb.accountNumber,
-                        toAccountNumber = transactionDb.toAccountNumber,
-                        timeToBeTransfered = transactionDb.timeToBeTransfered,
-                        comment = transactionDb.comment
-                    };
-                    return View(transaction);
-                }
+        public ActionResult UpdateTransaction(int id) { //TODO: FIX LOGIN-CHECK
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
             }
-            return RedirectToAction("Login", "Customer");
+
+            var tDb = new TransactionDB();
+            var oldTransaction = tDb.findTransanction(id);
+            var newTransaction = new Transaction() {
+                transactionId = oldTransaction.transactionID,
+                amount = oldTransaction.amount,
+                fromAccountNumber = oldTransaction.accountNumber,
+                toAccountNumber = oldTransaction.toAccountNumber,
+                timeToBeTransfered = oldTransaction.timeToBeTransfered,
+                comment = oldTransaction.comment
+            };
+
+            return View(newTransaction);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateTransaction(Transaction transaction)
-        {
-            if (Session["loggedin"] != null)
-            {
-                bool loggetInn = (bool) Session["loggedin"];
-                if (loggetInn)
-                {
-                    if (ModelState.IsValid)
-                    {
-                        var db = new TransactionDB();
-                        if (db.updateTransaction(transaction))
-                            return RedirectToAction("ListTransactions",
-                                new {accountNumber = transaction.fromAccountNumber});
-                    }
-                    return View(transaction);
+        public ActionResult UpdateTransaction(Transaction transaction) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
+            }
+
+            if (ModelState.IsValid) {
+                var tDb = new TransactionDB();
+                if (tDb.updateTransaction(transaction)) {
+                    return RedirectToAction("ListTransactions", new {accountNumber = transaction.fromAccountNumber});
                 }
             }
-            return RedirectToAction("Login", "Customer");
+
+            return View(transaction);
         }
 
         public void Delete(int id)
         {
-            var db = new TransactionDB();
-            bool deleteOK = db.deleteTransaction(id);
+            var tDb = new TransactionDB();
+            bool deleteOK = tDb.deleteTransaction(id);
             //TODO: FIX CHECK OM SUCCESSFUL
         }
     }
