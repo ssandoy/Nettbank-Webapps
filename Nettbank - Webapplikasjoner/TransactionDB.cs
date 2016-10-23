@@ -79,9 +79,12 @@ namespace Nettbank___Webapplikasjoner {
                     }
 
                     // Validerer til-kontonummer.
+                    /* Kommentert bort ettersom vi vil tillate at det betales til andre banker selv om de
+                     * ikke eksisterer innad i prosjektet. Man kan fjerne kommentaren dersom man kun vil
+                     * tillate transaksjoner mellom kontoer i databasen.
                     if (db.accounts.FirstOrDefault(a => a.accountNumber == newTransaction.toAccountNumber) == null) {
                         return "Kontoen du vil betale til eksisterer ikke";
-                    }
+                    }*/
 
                     account.transactions.Add(newTransaction);
                     db.SaveChanges();
@@ -139,9 +142,12 @@ namespace Nettbank___Webapplikasjoner {
                     }
 
                     // Validerer til-kontonummer.
+                    /* Kommentert bort ettersom vi vil tillate at det betales til andre banker selv om de
+                     * ikke eksisterer innad i prosjektet. Man kan fjerne kommentaren dersom man kun vil
+                     * tillate transaksjoner mellom kontoer i databasen.
                     if (db.accounts.FirstOrDefault(a => a.accountNumber == t.toAccountNumber) == null) {
                         return "Kontoen du vil betale til eksisterer ikke";
-                    }
+                    }*/
 
                     // Validerer og setter fra-kontonummer hvis det er endret.
                     if (transactions.accountNumber != t.fromAccountNumber) {
