@@ -6,8 +6,32 @@ using System.Linq;
 using System.Web;
 
 namespace Nettbank___Webapplikasjoner.Models {
+
+    public class Admin
+    {
+        [Required(ErrorMessage = "Personnummer må oppgis.")]
+        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Ansattnummeret må være på X siffer.")]
+        public string personalNumber { get; set; }
+
+        [Required(ErrorMessage = "Passord må oppgis.")]
+        public string password { get; set; }
+    }
+
+    public class CustomerAdmin //TODO: REFACTOR TO BETTER NAME
+    {
+        [DisplayName("Personnummer")]
+        public string personalNumber { get; set; }
+
+        [DisplayName("Fornavn")]
+        public string firstName { get; set; }
+
+        [DisplayName("Etternavn")]
+        public string lastName { get; set; }
+        //TODO: ADD FIELDS?
+    }
+
     // For use in Index
-    public class Customer {
+    public class Customer { //TODO: OPPDATERE DENNE?
         [Required(ErrorMessage = "Personnummer må oppgis.")]
         [RegularExpression(@"[0-9]{11}", ErrorMessage = "Personnummeret må være på 11 siffer.")]
         public string personalNumber { get; set; }

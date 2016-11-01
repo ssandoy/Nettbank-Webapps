@@ -9,7 +9,7 @@ using Nettbank___Webapplikasjoner.Models;
 
 namespace Nettbank___Webapplikasjoner
 {
-    public class CustomerDB
+    public class AdminDB
     {
         HttpContext context = HttpContext.Current;
 
@@ -29,28 +29,26 @@ namespace Nettbank___Webapplikasjoner
         public void Logout()
         {
             context.Session["loggedin"] = false;
-            context.Session["CurrentUser"] = null;
+            context.Session["CurrentAdmin"] = null;
         }
 
-        public bool ValidateCustomer(FormCollection inList) 
+
+        public bool ValidateAdmin(FormCollection inList)
         {
-            Customers customer = findByPersonNr(inList["Personnumber"]);
-            if (customer != null)
+            Admins admin = findAdminByEmployeeNumber(inList["employeeNumber"]);
+            if (admin != null)
             {
-                string password = Convert.ToBase64String(customer.password);
-                string ReHash = createHash(inList["Password"], customer.salt);
+                string password = Convert.ToBase64String(admin.password);
+                string reHash = createHash(inList["password"], admin.salt);
                 HttpContext context = HttpContext.Current;
-                if (password.Equals(ReHash))
+                if (password.Equals(reHash))
                 {
-                    context.Session["CurrentUser"] = customer;
-                    Debug.WriteLine("Du er nå logget inn");
+                    context.Session["CurrentAdmin"] = admin;
+                    Debug.WriteLine("Du er nå logget inn som Admin!");
                     return true;
                 }
                 else
                 {
-                    context.Session["loggedin"] = false;
-                    context.Session["CurrentUser"] = null; 
-                    Debug.WriteLine("Kunne ikke logge inn");
                     return false;
                 }
             }
@@ -60,40 +58,21 @@ namespace Nettbank___Webapplikasjoner
             }
         }
 
-        public Customers findByPersonNr(string personnr)
+        public Admins findAdminByEmployeeNumber(string employeeNumber)
         {
             using (var db = new DbModel())
             {
-                List<Customers> customers = db.customers.ToList();
-                for (int i = 0; i < customers.Count; i++)
+                List<Admins> admins = db.admins.ToList();
+                for (int i = 0; i < admins.Count; i++)
                 {
-                    if (customers[i].personalNumber == personnr)
+                    if (admins[i].employeeNumber == employeeNumber)
                     {
-                        return customers[i];
+                        return admins[i];
                     }
                 }
                 return null;
             }
-        }
 
-        public List<CustomerAdmin> ListCustomers() //TODO: IN HERE OR IN ADMINDB?
-        {
-            using (var db = new DbModel())
-            {
-                List<CustomerAdmin> customers = (from p in db.customers
-                    select
-                    new CustomerAdmin()
-                    {
-                        personalNumber = p.personalNumber,
-                        firstName = p.firstName,
-                        lastName = p.lastName,
-
-
-                    }).ToList();
-
-                return customers;
-
-            }
         }
 
         public string createHash(string password, string salt)
@@ -113,27 +92,29 @@ namespace Nettbank___Webapplikasjoner
             return Convert.ToBase64String(salt);
         }
 
-        public bool insertCustomer()
+        public bool insertAdmin()
         {
             using (var db = new DbModel())
             {
-                var customer = new Customers();
-                customer.firstName = "Ole Johan";
-                customer.lastName = "Olsen";
-                customer.personalNumber = "12126948141";
-                customer.address = "Steinåsen 4";
-                string innPassord = "Sofa123456";
+                var admin = new Admins();
+                admin.firstName = "Sander Fagerland";
+                admin.lastName = "Sandøy";
+                admin.employeeNumber = "12345678901";
+                admin.address = "Steinåsen 4";
+                string innPassord = "Sofa1234";
                 string salt = createSalt(32);
                 byte[] bytes = System.Text.Encoding.UTF8.GetBytes(innPassord + salt);
                 SHA256Managed SHA256String = new SHA256Managed();
                 byte[] utdata = SHA256String.ComputeHash(bytes);
-                customer.salt = salt;
-                customer.password = utdata;
-                PostalNumbers p = db.postalNumbers.Find("8909");
-                customer.postalNumbers = p;
+                admin.salt = salt;
+                admin.password = utdata;
+                PostalNumbers p = new PostalNumbers();
+                p.postalNumber = "8909";
+                p.postalCity = "Brønnøysund";
+                admin.postalNumbers = p;
                 try
                 {
-                    db.customers.Add(customer);
+                    db.admins.Add(admin);
                     db.SaveChanges();
                     return true;
                 }
@@ -143,6 +124,7 @@ namespace Nettbank___Webapplikasjoner
                 }
             }
         }
+
 
     }
 }

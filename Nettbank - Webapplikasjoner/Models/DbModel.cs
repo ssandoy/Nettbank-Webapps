@@ -12,7 +12,7 @@ namespace Nettbank___Webapplikasjoner.Models {
             : base("name=DbModel") {
             Database.CreateIfNotExists();
         }
-
+        public DbSet<Admins> admins { get; set; }
         public DbSet<Customers> customers { get; set; }
         public DbSet<PostalNumbers> postalNumbers { get; set; }
         public DbSet<Accounts> accounts { get; set; }
@@ -21,6 +21,20 @@ namespace Nettbank___Webapplikasjoner.Models {
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+    }
+
+    public class Admins
+    {
+        [Key]
+        public string employeeNumber { get; set; }
+        public byte[] password { get; set; }
+        public string salt { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string address { get; set; }
+        public string postalNumber { get; set; }
+        public virtual PostalNumbers postalNumbers { get; set; }
+
     }
 
     public class Customers {

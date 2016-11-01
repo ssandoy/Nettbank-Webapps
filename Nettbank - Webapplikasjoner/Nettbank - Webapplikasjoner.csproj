@@ -143,10 +143,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Nettbank.mdf" />
-    <Content Include="App_Data\Nettbank_log.ldf">
-      <DependentUpon>Nettbank.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -183,8 +179,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountDB.cs" />
+    <Compile Include="AdminDB.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="BankIDGenerator.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="CustomerDB.cs" />
@@ -217,6 +215,8 @@
     <Content Include="Views\Customer\AccountInfo.cshtml" />
     <Content Include="Views\Transaction\ListPartial.cshtml" />
     <Content Include="Views\Transaction\StatementPartial.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\ListCustomers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -224,7 +224,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
