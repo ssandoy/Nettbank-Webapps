@@ -7,31 +7,14 @@ using System.Web;
 using System.Web.Mvc;
 using Model;
 
-namespace DAL { //TODO: Fiks
-    public class AdminDB {
-        HttpContext context = HttpContext.Current;
-
-        public bool Login() {
-            if (context.Session["loggedin"] == null) {
-                context.Session["loggedin"] = false;
-            } else {
-                return (bool)context.Session["loggedin"];
-            }
-            return false;
-        }
-
-        public void Logout() {
-            context.Session["loggedin"] = false;
-            context.Session["CurrentAdmin"] = null;
-        }
-
-
+namespace DAL {
+    public class AdminRepository {
         public bool ValidateAdmin(FormCollection inList) {
-            Admins admin = findAdminByEmployeeNumber(inList["employeeNumber"]);
+            var admin = FindAdminByEmployeeNumber(inList["employeeNumber"]);
             if (admin != null) {
-                string password = Convert.ToBase64String(admin.password);
-                string reHash = createHash(inList["password"], admin.salt);
-                HttpContext context = HttpContext.Current;
+                var password = Convert.ToBase64String(admin.password);
+                var reHash = CreateHash(inList["password"], admin.salt);
+                var context = HttpContext.Current;
                 if (password.Equals(reHash)) {
                     context.Session["CurrentAdmin"] = admin;
                     Debug.WriteLine("Du er nå logget inn som Admin!");
@@ -44,54 +27,49 @@ namespace DAL { //TODO: Fiks
             }
         }
 
-        public Admins findAdminByEmployeeNumber(string employeeNumber) {
+        public Admins FindAdminByEmployeeNumber(string employeeNumber) {
             using (var db = new DbModel()) {
-                List<Admins> admins = db.admins.ToList();
-                for (int i = 0; i < admins.Count; i++) {
-                    if (admins[i].employeeNumber == employeeNumber) {
-                        return admins[i];
-                    }
-                }
-                return null;
+                var admins = db.Admins.ToList();
+                return admins.FirstOrDefault(t => t.employeeNumber == employeeNumber);
             }
-
         }
 
-        public string createHash(string password, string salt) {
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
-            SHA256Managed SHA256String = new SHA256Managed();
-            byte[] hash = SHA256String.ComputeHash(bytes);
-
+        public string CreateHash(string password, string salt) {
+            var bytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            var sha256String = new SHA256Managed();
+            var hash = sha256String.ComputeHash(bytes);
             return Convert.ToBase64String(hash);
         }
 
-        public string createSalt(int size) {
-            var RandomNumberGenerator = new System.Security.Cryptography.RNGCryptoServiceProvider();
-            byte[] salt = new byte[size];
-            RandomNumberGenerator.GetBytes(salt);
+        public string CreateSalt(int size) {
+            var randomNumberGenerator = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var salt = new byte[size];
+            randomNumberGenerator.GetBytes(salt);
             return Convert.ToBase64String(salt);
         }
 
-        public bool insertAdmin() {
+        public bool InsertAdmin() {
             using (var db = new DbModel()) {
-                var admin = new Admins();
-                admin.firstName = "Sander Fagerland";
-                admin.lastName = "Sandøy";
-                admin.employeeNumber = "12345678901";
-                admin.address = "Steinåsen 4";
-                string innPassord = "Sofa1234";
-                string salt = createSalt(32);
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(innPassord + salt);
-                SHA256Managed SHA256String = new SHA256Managed();
-                byte[] utdata = SHA256String.ComputeHash(bytes);
+                var admin = new Admins {
+                    firstName = "Sander Fagerland",
+                    lastName = "Sandøy",
+                    employeeNumber = "12345678901",
+                    address = "Steinåsen 4"
+                };
+                var innPassord = "Sofa1234";
+                var salt = CreateSalt(32);
+                var bytes = System.Text.Encoding.UTF8.GetBytes(innPassord + salt);
+                var sha256String = new SHA256Managed();
+                var utdata = sha256String.ComputeHash(bytes);
                 admin.salt = salt;
                 admin.password = utdata;
-                PostalNumbers p = new PostalNumbers();
-                p.postalNumber = "8909";
-                p.postalCity = "Brønnøysund";
+                var p = new PostalNumbers {
+                    PostalNumber = "8909",
+                    PostalCity = "Brønnøysund"
+                };
                 admin.postalNumbers = p;
                 try {
-                    db.admins.Add(admin);
+                    db.Admins.Add(admin);
                     db.SaveChanges();
                     return true;
                 } catch (Exception e) {
@@ -99,7 +77,5 @@ namespace DAL { //TODO: Fiks
                 }
             }
         }
-
-
     }
 }
