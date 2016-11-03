@@ -37,9 +37,15 @@ namespace BLL {
             return customerAccess.ValidateCustomer(inList);
         }
 
-        public Customers FindByPersonNr(string personalNumber) {
+        public Customers FindByPersonNr(string personalNumber) { //TODO: FJERN?
             var customerAccess = new CustomerRepository();
             return customerAccess.FindByPersonNr(personalNumber);
+        }
+
+        public List<CustomerInfo> ListCustomers()
+        {
+            var customerAccess = new CustomerRepository();
+            return customerAccess.ListCustomers();
         }
 
         public string CreateHash(string password, string salt) {
@@ -55,6 +61,12 @@ namespace BLL {
         public CustomerInfo GetCustomerInfo(string personalNumber) {
             var customerAccess = new CustomerRepository();
             return customerAccess.GetCustomerInfo(personalNumber);
+        }
+
+        public string UpdateCustomer(CustomerInfo c)
+        {
+            var customerAccess = new CustomerRepository();
+            return customerAccess.UpdateCustomer(c);
         }
 
         public void insertCustomer() {

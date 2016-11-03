@@ -14,8 +14,8 @@ namespace Nettbank.Controllers {
                 return RedirectToAction("Login", "Admin");
             }
             TempData["login"] = true;
-            var db = new CustomerDB();
-            List<CustomerAdmin> allCustomers = db.ListCustomers();
+            var cL = new CustomerLogic();
+            List<CustomerInfo> allCustomers = cL.ListCustomers();
             return View(allCustomers);
         }
 
@@ -23,8 +23,8 @@ namespace Nettbank.Controllers {
 
         public ActionResult Login() {
 
-            var db = new AdminDB();
-            bool loggedIn = db.Login();
+            var aL = new AdminLogic();
+            bool loggedIn = aL.Login();
             if (loggedIn) {
                 TempData["login"] = true;
                 return RedirectToAction("ListCustomers");
@@ -34,8 +34,8 @@ namespace Nettbank.Controllers {
 
         [HttpPost]
         public ActionResult ValidateAdmin(FormCollection inList) {
-            var db = new AdminDB();
-            bool loggedIn = db.ValidateAdmin(inList);
+            var aL = new AdminLogic();
+            bool loggedIn = aL.ValidateAdmin(inList);
             if (loggedIn) {
                 HttpContext context = System.Web.HttpContext.Current;
                 context.Session["loggedin"] = true;
@@ -53,12 +53,13 @@ namespace Nettbank.Controllers {
                 return RedirectToAction("Login");
             }
 
-            var cDb = new CustomerLogic();
-            var oldCustomer = cDb.FindByPersonNr(personnumber);
-            var newCustomer = new CustomerAdmin() {
-                PersonalNumber = oldCustomer.personalNumber,
-                FirstName = oldCustomer.firstName,
-                LastName = oldCustomer.lastName,
+            var cL = new CustomerLogic();
+            var oldCustomer = cL.GetCustomerInfo(personnumber);
+            var newCustomer = new CustomerInfo() {
+                PersonalNumber = oldCustomer.PersonalNumber,
+                FirstName = oldCustomer.FirstName,
+                LastName = oldCustomer.LastName,
+                Address = oldCustomer.Address
                 //TODO: ADD POSTALNUMBER ETC.  SENDE MED PERSONNUMMER I VIEWBAG SLIK AT DET OGSÅ KAN ENDRES?
             };
 
@@ -67,7 +68,7 @@ namespace Nettbank.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateCustomer(CustomerAdmin customer) //TODO: FIXME
+        public ActionResult UpdateCustomer(CustomerInfo customer) //TODO: FIXME
         {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
@@ -78,8 +79,8 @@ namespace Nettbank.Controllers {
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
 
             if (ModelState.IsValid) {
-                var cDb = new CustomerDB();
-                validationMessage = cDb.updateCustomer(customer);
+                var cL = new CustomerLogic();
+                validationMessage = cL.UpdateCustomer(customer);
                 if (validationMessage == "") {
                     return RedirectToAction("ListCustomers");
                 }

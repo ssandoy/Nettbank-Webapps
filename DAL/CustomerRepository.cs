@@ -142,7 +142,6 @@ namespace DAL {
                                                      FirstName = p.FirstName,
                                                      LastName = p.LastName,
                                                      Address = p.Address +  " " + p.PostalNumber + " " + p.PostalNumbers.PostalCity
-
                                                  }).ToList();
 
                 return customers;
