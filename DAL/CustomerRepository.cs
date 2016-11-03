@@ -102,7 +102,7 @@ namespace DAL {
             }
         }
 
-        public string updateCustomer(CustomerInfo customer) { //TODO: Fiks
+        public string UpdateCustomer(CustomerInfo customer) {
             using (var db = new DbModel()) {
                 try {
                     var customers = db.Customers.Find(customer.PersonalNumber); //TODO: THIS WONT WORK WHEN CHANGED. Kanskje ikke ha mulighet for å endre personnummer?
@@ -131,7 +131,7 @@ namespace DAL {
             }
         }
 
-        public List<CustomerInfo> ListCustomers() //TODO: Fiks
+        public List<CustomerInfo> ListCustomers()
         {
             using (var db = new DbModel())
             {
