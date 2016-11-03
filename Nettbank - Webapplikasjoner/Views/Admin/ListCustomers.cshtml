@@ -1,18 +1,14 @@
-﻿@model IEnumerable<Nettbank___Webapplikasjoner.Models.CustomerAdmin>
+﻿@model IEnumerable<Model.CustomerInfo>
 
 @{
     ViewBag.Title = "ListCustomers";
 }
 
 <h2>ListCustomers</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.personalNumber)
+            @Html.DisplayNameFor(model => model.PersonalNumber)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -26,7 +22,7 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.personalNumber)
+                @Html.DisplayFor(modelItem => item.PersonalNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -35,10 +31,9 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "UpdateCustomer", new { personnumber = item.personalNumber }) |
+                @Html.ActionLink("Edit", "UpdateCustomer", new { personnumber = item.PersonalNumber }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
     }
-
 </table>
