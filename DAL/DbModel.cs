@@ -62,16 +62,15 @@ namespace DAL {
         public string Comment { get; set; }
     }
 
-    public class Admins { //TODO: Fiks
+    public class Admins {
         [Key]
-        public string employeeNumber { get; set; }
-        public byte[] password { get; set; }
-        public string salt { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string address { get; set; }
-        public string postalNumber { get; set; }
-        public virtual PostalNumbers postalNumbers { get; set; }
-
+        public string EmployeeNumber { get; set; }
+        public byte[] Password { get; set; }
+        public string Salt { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
+        public string PostalNumber { get; set; }
+        public virtual PostalNumbers PostalNumbers { get; set; }
     }
 }
