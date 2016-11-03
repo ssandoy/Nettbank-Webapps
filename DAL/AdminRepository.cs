@@ -63,11 +63,7 @@ namespace DAL {
                 var utdata = sha256String.ComputeHash(bytes);
                 admin.Salt = salt;
                 admin.Password = utdata;
-                var p = new PostalNumbers {
-                    PostalNumber = "8909",
-                    PostalCity = "Brønnøysund"
-                };
-                admin.PostalNumbers = p;
+                admin.PostalNumbers = db.PostalNumbers.Find("8909");
                 try {
                     db.Admins.Add(admin);
                     db.SaveChanges();

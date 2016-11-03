@@ -87,13 +87,9 @@ namespace DAL {
                 byte[] utdata = SHA256String.ComputeHash(bytes);
                 customer.Salt = salt;
                 customer.Password = utdata;
-                PostalNumbers p = new PostalNumbers();
-                p.PostalNumber = "8909";
-                p.PostalCity = "Brønnøysund";
-                customer.PostalNumbers = p;
+                customer.PostalNumbers = db.PostalNumbers.Find("8909");
                 try {
                     db.Customers.Add(customer);
-                    db.PostalNumbers.Add(p);
                     db.SaveChanges();
                     return true;
                 } catch (Exception e) {
@@ -147,6 +143,25 @@ namespace DAL {
                 return customers;
 
             }
-}
+
+        }
+
+        public bool DeleteCustomer(string personalNumber)
+        {
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    var deleteCustomer = db.Customers.Find(personalNumber);
+                    db.Customers.Remove(deleteCustomer);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception exc)
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
