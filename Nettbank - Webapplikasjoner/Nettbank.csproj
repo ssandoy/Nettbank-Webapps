@@ -217,6 +217,8 @@
     <Content Include="Views\Admin\ListCustomers.cshtml" />
     <Content Include="Views\Admin\deleteCustomerModal.cshtml" />
     <Content Include="Views\Admin\ListPartial.cshtml" />
+    <Content Include="Views\Admin\RegisterCustomer.cshtml" />
+    <Content Include="Views\Shared\_AdminNavBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -101,21 +101,16 @@ namespace DAL {
         public string UpdateCustomer(CustomerInfo customer) {
             using (var db = new DbModel()) {
                 try {
-                    var customers = db.Customers.Find(customer.PersonalNumber); //TODO: THIS WONT WORK WHEN CHANGED. Kanskje ikke ha mulighet for å endre personnummer?
+                    var customers = db.Customers.Find(customer.PersonalNumber);
                     customers.PersonalNumber = customer.PersonalNumber;
                     customers.FirstName = customer.FirstName;
                     customers.LastName = customer.LastName;
+                    customers.Address = customer.Address; //TODO: IMPLEMENT POSTAL AND POSTALNUMBER
 
                     // Validerer navn.
                     if (customers.FirstName == null || customers.LastName == null) {
                         return "Fornavn og etternavn må skrives inn.";
-                    }   
-
-
-                    // Validerer personnummer
-                    if (customers.PersonalNumber == null) { //TODO: TRENGS DISSE SIDEN VI HAR VIEWMODEL?
-                        return "Kontoen du vil betale til eksisterer ikke";
-                    }
+                    }  
 
 
                     db.Entry(customers).State = EntityState.Modified;
@@ -160,6 +155,51 @@ namespace DAL {
                 catch (Exception exc)
                 {
                     return false;
+                }
+            }
+        }
+
+        public string AddCustomer(CustomerInfo customerInfo)
+        {
+            PostalNumbers p;
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    if (db.PostalNumbers.Find(customerInfo.PostalNumber) == null)
+                    {
+                        p = new PostalNumbers();
+                        p.PostalNumber = customerInfo.PostalNumber;
+                        p.PostalCity = customerInfo.PostalCity;
+                        db.PostalNumbers.Add(p);
+                    }
+                    else
+                    {
+                        p = db.PostalNumbers.Find(customerInfo.PostalNumber);
+                    }
+
+                    var newCustomer = new Customers()
+                    {
+                        FirstName = customerInfo.FirstName,
+                        LastName = customerInfo.LastName,
+                        Address = customerInfo.Address,
+                        PostalNumbers = p,
+                        PostalNumber =  p.PostalNumber
+                        //TODO: FIX CUSTOMERINFO.ADRESS
+                    };
+
+                    if (customerInfo.FirstName == null || customerInfo.LastName == null)
+                    {
+                        return "Fornavn og etternavn må skrives inn.";
+                    }
+
+                    db.Customers.Add(newCustomer);
+                    db.SaveChanges();
+                    return "";
+                }
+                catch (Exception exc)
+                {
+                    return "Feil: " + exc.Message;
                 }
             }
         }

@@ -69,6 +69,12 @@ namespace BLL {
             return customerAccess.UpdateCustomer(c);
         }
 
+        public string AddCustomer(CustomerInfo c)
+        {
+            var customerAccess = new CustomerRepository();
+            return customerAccess.AddCustomer(c);
+        }
+
         public void insertCustomer() {
             var customerAccess = new CustomerRepository();
             customerAccess.insertCustomer();

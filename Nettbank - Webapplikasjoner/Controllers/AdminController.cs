@@ -61,7 +61,7 @@ namespace Nettbank.Controllers {
                 FirstName = oldCustomer.FirstName,
                 LastName = oldCustomer.LastName,
                 Address = oldCustomer.Address
-                //TODO: ADD POSTALNUMBER ETC.  SENDE MED PERSONNUMMER I VIEWBAG SLIK AT DET OGSÅ KAN ENDRES?
+                //TODO: ADD POSTALNUMBER ETC.
             };
 
             return View(newCustomer);
@@ -91,6 +91,44 @@ namespace Nettbank.Controllers {
 
             return View(customer);
         }
+
+        public ActionResult RegisterCustomer()
+        {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterCustomer(CustomerInfo newCustomer)
+        {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            {
+                return RedirectToAction("Login", "Customer");
+            }
+
+            // Meldingen som vises hvis ModelState ikke er gyldig.
+            var validationMessage = "Du har skrevet inn ugyldige verdier.";
+
+            if (ModelState.IsValid)
+            {
+                var cL = new CustomerLogic(); //TODO: ADD PASSORD I MODELL??
+                validationMessage = cL.AddCustomer(newCustomer);
+                if (validationMessage == "")
+                {
+                    return RedirectToAction("ListCustomers");
+                }
+            }
+
+            return View(newCustomer);
+        }
+
 
 
         public void Delete(string personalNumber) {

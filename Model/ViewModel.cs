@@ -19,7 +19,7 @@ namespace Model {
     }
 
     // For use in AccountInfo
-    public class CustomerInfo {
+    public class CustomerInfo { //TODO: ADD FIELDS FOR POSTAL
         [DisplayName("Personnummer")]
         public string PersonalNumber { get; set; }
         [DisplayName("Fornavn")]
@@ -28,6 +28,10 @@ namespace Model {
         public string LastName { get; set; }
         [DisplayName("Adresse")]
         public string Address { get; set; }
+        [DisplayName("Postnummer")]
+        public string PostalNumber { get; set; }
+        [DisplayName("Poststed")]
+        public string PostalCity { get; set; }
     }
 
     // For use in ListAccounts

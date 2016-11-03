@@ -1,0 +1,22 @@
+﻿<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="nav navbar-brand">
+                @Html.ActionLink("BEBA & SANDØY BANK", "Login", "Admin")
+            </div>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                @if ((bool)Session["loggedin"] == true)
+                {
+                    <li>@Html.ActionLink("REG KUNDE", "RegisterCustomer", "Admin")</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
