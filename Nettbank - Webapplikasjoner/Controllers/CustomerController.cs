@@ -34,7 +34,6 @@ namespace Nettbank___Webapplikasjoner.Controllers
         public ActionResult Login() 
         {
            var db = new CustomerDB();
-            //db.insertCustomer();
             bool loggedIn = db.Login();
             if (loggedIn)
             {

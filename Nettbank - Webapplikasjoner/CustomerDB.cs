@@ -76,26 +76,6 @@ namespace Nettbank___Webapplikasjoner
             }
         }
 
-        public List<CustomerAdmin> ListCustomers() //TODO: IN HERE OR IN ADMINDB?
-        {
-            using (var db = new DbModel())
-            {
-                List<CustomerAdmin> customers = (from p in db.customers
-                    select
-                    new CustomerAdmin()
-                    {
-                        personalNumber = p.personalNumber,
-                        firstName = p.firstName,
-                        lastName = p.lastName,
-
-
-                    }).ToList();
-
-                return customers;
-
-            }
-        }
-
         public string createHash(string password, string salt)
         {
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
@@ -112,37 +92,5 @@ namespace Nettbank___Webapplikasjoner
             RandomNumberGenerator.GetBytes(salt);
             return Convert.ToBase64String(salt);
         }
-
-        public bool insertCustomer()
-        {
-            using (var db = new DbModel())
-            {
-                var customer = new Customers();
-                customer.firstName = "Ole Johan";
-                customer.lastName = "Olsen";
-                customer.personalNumber = "12126948141";
-                customer.address = "Steinåsen 4";
-                string innPassord = "Sofa123456";
-                string salt = createSalt(32);
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(innPassord + salt);
-                SHA256Managed SHA256String = new SHA256Managed();
-                byte[] utdata = SHA256String.ComputeHash(bytes);
-                customer.salt = salt;
-                customer.password = utdata;
-                PostalNumbers p = db.postalNumbers.Find("8909");
-                customer.postalNumbers = p;
-                try
-                {
-                    db.customers.Add(customer);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-            }
-        }
-
     }
 }
