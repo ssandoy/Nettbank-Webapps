@@ -1,5 +1,7 @@
 ﻿using Model;
 using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
@@ -7,24 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace DAL {
-    public class CustomerAccess {
-        private readonly HttpContext _context = HttpContext.Current;
-
-        public bool Login() {
-            if (_context.Session["loggedin"] == null) {
-                _context.Session["loggedin"] = false;
-            }
-            else {
-                return (bool) _context.Session["loggedin"];
-            }
-            return false;
-        }
-
-        public void Logout() {
-            _context.Session["loggedin"] = false;
-            _context.Session["CurrentUser"] = null;
-        }
-
+    public class CustomerRepository {
+      
         public bool ValidateCustomer(FormCollection inList) {
             var customer = FindByPersonNr(inList["Personnumber"]);
             if (customer != null) {
@@ -116,22 +102,22 @@ namespace DAL {
             }
         }
 
-        public string updateCustomer(CustomerAdmin customer) { //TODO: Fiks
+        public string updateCustomer(CustomerInfo customer) { //TODO: Fiks
             using (var db = new DbModel()) {
                 try {
-                    var customers = db.customers.Find(customer.personalNumber); //TODO: THIS WONT WORK WHEN CHANGED. Kanskje ikke ha mulighet for å endre personnummer?
-                    customers.personalNumber = customer.personalNumber;
-                    customers.firstName = customer.firstName;
-                    customers.lastName = customer.lastName;
+                    var customers = db.Customers.Find(customer.PersonalNumber); //TODO: THIS WONT WORK WHEN CHANGED. Kanskje ikke ha mulighet for å endre personnummer?
+                    customers.PersonalNumber = customer.PersonalNumber;
+                    customers.FirstName = customer.FirstName;
+                    customers.LastName = customer.LastName;
 
                     // Validerer navn.
-                    if (customers.firstName == null || customers.lastName == null) {
+                    if (customers.FirstName == null || customers.LastName == null) {
                         return "Fornavn og etternavn må skrives inn.";
-                    }
+                    }   
 
 
                     // Validerer personnummer
-                    if (customers.personalNumber == null) { //TODO: TRENGS DISSE SIDEN VI HAR VIEWMODEL?
+                    if (customers.PersonalNumber == null) { //TODO: TRENGS DISSE SIDEN VI HAR VIEWMODEL?
                         return "Kontoen du vil betale til eksisterer ikke";
                     }
 
@@ -145,17 +131,17 @@ namespace DAL {
             }
         }
 
-        public List<CustomerAdmin> ListCustomers() //TODO: Fiks
+        public List<CustomerInfo> ListCustomers() //TODO: Fiks
         {
             using (var db = new DbModel())
             {
-                List<CustomerAdmin> customers = (from p in db.customers
+                List<CustomerInfo> customers = (from p in db.Customers
                                                  select
-                                                 new CustomerAdmin() {
-                                                     personalNumber = p.personalNumber,
-                                                     firstName = p.firstName,
-                                                     lastName = p.lastName,
-
+                                                 new CustomerInfo() {
+                                                     PersonalNumber = p.PersonalNumber,
+                                                     FirstName = p.FirstName,
+                                                     LastName = p.LastName,
+                                                     Address = p.Address +  " " + p.PostalNumber + " " + p.PostalNumbers.PostalCity
 
                                                  }).ToList();
 
