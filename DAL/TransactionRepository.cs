@@ -5,7 +5,7 @@ using System.Linq;
 using Model;
 
 namespace DAL {
-    public class TransactionAccess {
+    public class TransactionRepository {
         public List<Transaction> ListTransactions(string accountNumber) {
             using (var db = new DbModel()) {
                 var allTransactions = db.Transactions.Where(t => t.AccountNumber == accountNumber);

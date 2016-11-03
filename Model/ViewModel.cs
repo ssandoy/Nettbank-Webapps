@@ -69,7 +69,7 @@ namespace Model {
     }
 
     public class Admin {
-        [Required(ErrorMessage = "Personnummer må oppgis.")]
+        [Required(ErrorMessage = "Ansattnummer må oppgis.")]
         [RegularExpression(@"[0-9]{11}", ErrorMessage = "Ansattnummeret må være på X siffer.")]
         public string PersonalNumber { get; set; }
 

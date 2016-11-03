@@ -3,49 +3,62 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using DAL;
 using Model;
 
 namespace BLL {
     public class CustomerLogic {
-        public bool Login() {
-            var customerAccess = new CustomerAccess();
-            return customerAccess.Login();
+
+        private readonly HttpContext _context = HttpContext.Current;
+
+        public bool Login()
+        {
+            if (_context.Session["loggedin"] == null)
+            {
+                _context.Session["loggedin"] = false;
+            }
+            else {
+                return (bool)_context.Session["loggedin"];
+            }
+            return false;
         }
 
-        public void Logout() {
-            var customerAccess = new CustomerAccess();
-            customerAccess.Logout();
+        public void Logout()
+        {
+            _context.Session["loggedin"] = false;
+            _context.Session["CurrentUser"] = null;
         }
+
 
         public bool ValidateCustomer(FormCollection inList) {
-            var customerAccess = new CustomerAccess();
+            var customerAccess = new CustomerRepository();
             return customerAccess.ValidateCustomer(inList);
         }
 
         public Customers FindByPersonNr(string personalNumber) {
-            var customerAccess = new CustomerAccess();
+            var customerAccess = new CustomerRepository();
             return customerAccess.FindByPersonNr(personalNumber);
         }
 
         public string CreateHash(string password, string salt) {
-            var customerAccess = new CustomerAccess();
+            var customerAccess = new CustomerRepository();
             return customerAccess.CreateHash(password, salt);
         }
 
         public string CreateSalt(int size) {
-            var customerAccess = new CustomerAccess();
+            var customerAccess = new CustomerRepository();
             return customerAccess.CreateSalt(size);
         }
 
         public CustomerInfo GetCustomerInfo(string personalNumber) {
-            var customerAccess = new CustomerAccess();
+            var customerAccess = new CustomerRepository();
             return customerAccess.GetCustomerInfo(personalNumber);
         }
 
         public void insertCustomer() {
-            var customerAccess = new CustomerAccess();
+            var customerAccess = new CustomerRepository();
             customerAccess.insertCustomer();
         }
     }
