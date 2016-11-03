@@ -10,10 +10,10 @@ using Model;
 namespace DAL {
     public class AdminRepository {
         public bool ValidateAdmin(FormCollection inList) {
-            var admin = FindAdminByEmployeeNumber(inList["employeeNumber"]);
+            var admin = FindAdminByEmployeeNumber(inList["EmployeeNumber"]);
             if (admin != null) {
-                var password = Convert.ToBase64String(admin.password);
-                var reHash = CreateHash(inList["password"], admin.salt);
+                var password = Convert.ToBase64String(admin.Password);
+                var reHash = CreateHash(inList["Password"], admin.Salt);
                 var context = HttpContext.Current;
                 if (password.Equals(reHash)) {
                     context.Session["CurrentAdmin"] = admin;
@@ -30,7 +30,7 @@ namespace DAL {
         public Admins FindAdminByEmployeeNumber(string employeeNumber) {
             using (var db = new DbModel()) {
                 var admins = db.Admins.ToList();
-                return admins.FirstOrDefault(t => t.employeeNumber == employeeNumber);
+                return admins.FirstOrDefault(t => t.EmployeeNumber == employeeNumber);
             }
         }
 
@@ -51,23 +51,23 @@ namespace DAL {
         public bool InsertAdmin() {
             using (var db = new DbModel()) {
                 var admin = new Admins {
-                    firstName = "Sander Fagerland",
-                    lastName = "Sandøy",
-                    employeeNumber = "12345678901",
-                    address = "Steinåsen 4"
+                    FirstName = "Sander Fagerland",
+                    LastName = "Sandøy",
+                    EmployeeNumber = "12345678901",
+                    Address = "Steinåsen 4"
                 };
                 var innPassord = "Sofa1234";
                 var salt = CreateSalt(32);
                 var bytes = System.Text.Encoding.UTF8.GetBytes(innPassord + salt);
                 var sha256String = new SHA256Managed();
                 var utdata = sha256String.ComputeHash(bytes);
-                admin.salt = salt;
-                admin.password = utdata;
+                admin.Salt = salt;
+                admin.Password = utdata;
                 var p = new PostalNumbers {
                     PostalNumber = "8909",
                     PostalCity = "Brønnøysund"
                 };
-                admin.postalNumbers = p;
+                admin.PostalNumbers = p;
                 try {
                     db.Admins.Add(admin);
                     db.SaveChanges();
