@@ -1,64 +1,79 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace Nettbank___Webapplikasjoner.Models {
+namespace Model {
     // For use in Index
     public class Customer {
         [Required(ErrorMessage = "Personnummer må oppgis.")]
         [RegularExpression(@"[0-9]{11}", ErrorMessage = "Personnummeret må være på 11 siffer.")]
-        public string personalNumber { get; set; }
+        public string PersonalNumber { get; set; }
 
         [Required(ErrorMessage = "Passord må oppgis.")]
-        public string password { get; set; }
+        public string Password { get; set; }
 
         [Required(ErrorMessage = "Koden fra din kodebrikke må oppgis.")]
         [RegularExpression(@"[0-9]{6}", ErrorMessage = "Koden må være på 6 siffer.")]
-        public string bankId { get; set; }
+        public string BankId { get; set; }
+        
+    }
+
+    // For use in AccountInfo
+    public class CustomerInfo {
+        public string PersonalNumber { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Address { get; set; }
     }
 
     // For use in ListAccounts
     public class Account {
         [DisplayName("Kontonummer")]
-        public string accountNumber { get; set; }
+        public string AccountNumber { get; set; }
 
         [DisplayName("Eier")]
-        public string ownerName { get; set; }
+        public string OwnerName { get; set; }
 
         [DisplayName("Saldo")]
-        public int balance { get; set; }
+        public int Balance { get; set; }
     }
 
     // For use in RegisterTransaction and ListTransactions
     public class Transaction {
         [DisplayName("Betalings-Id")]
-        public int transactionId { get; set; }
+        public int TransactionId { get; set; }
 
         [DisplayName("Beløp")]
         [Required(ErrorMessage = "Beløpet må oppgis.")]
         [RegularExpression(@"[0-9]+", ErrorMessage = "Beløpet må være et positivt tall.")]
-        public int amount { get; set; }
+        public int Amount { get; set; }
 
         [DisplayName("Utførelsesdato")]
         [DataType(DataType.Date)]
-        public DateTime? timeToBeTransfered { get; set; }
+        public DateTime? TimeToBeTransfered { get; set; }
 
         [DisplayName("Dato")]
-        public DateTime? timeTransfered { get; set; }
+        public DateTime? TimeTransfered { get; set; }
 
         [DisplayName("Fra konto")]
-        public string fromAccountNumber { get; set; }
+        public string FromAccountNumber { get; set; }
 
         [DisplayName("Til konto")]
         [Required(ErrorMessage = "Kontonummer å betale til må oppgis.")]
         [RegularExpression(@"[0-9]{11}", ErrorMessage = "Kontonummeret må være på 11 siffer.")]
-        public string toAccountNumber { get; set; }
+        public string ToAccountNumber { get; set; }
 
         [DisplayName("Kommentar")]
         [StringLength(30, ErrorMessage = "Kommentaren kan være på maksimalt 30 tegn.")]
-        public string comment { get; set; }
+        public string Comment { get; set; }
+    }
+
+    public class Admin {
+        [Required(ErrorMessage = "Personnummer må oppgis.")]
+        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Ansattnummeret må være på X siffer.")]
+        public string PersonalNumber { get; set; }
+
+        [Required(ErrorMessage = "Passord må oppgis.")]
+        public string Password { get; set; }
     }
 }

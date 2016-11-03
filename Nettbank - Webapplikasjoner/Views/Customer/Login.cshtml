@@ -26,7 +26,7 @@
 </div>
 <div class="row">
     <div class="col-sm-6">
-        <img src="~/Content/Images/happy_people.jpg"/>
+        <img src="~/Content/Images/happy_people.jpg" />
     </div>
     <div class="col-sm-6">
         <div class="my-bankid">
@@ -48,11 +48,14 @@
                 <input type="hidden" name="hiddenBankID" id="hiddenBankID" />
             </div>
             <div class="form-group">
-                <input class="btn btn-lg btn-primary btn-block my-login-input" type="submit" value="Logg inn!"/>
+                <input class="btn btn-lg btn-primary btn-block my-login-input" type="submit" value="Logg inn!" />
             </div>
         </form>
+        <div class="col-sm-1">
+            @Html.ActionLink("ADMIN-LOGIN", "Login", "Admin")
+        </div>
     </div>
-</div> 
+</div>
 
 <script type="text/javascript">
     function showHide() {
