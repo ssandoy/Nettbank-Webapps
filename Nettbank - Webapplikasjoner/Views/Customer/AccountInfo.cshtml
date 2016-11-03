@@ -1,14 +1,14 @@
-﻿@model Nettbank___Webapplikasjoner.Models.Customers
+﻿@model Model.CustomerInfo
 
 <div class="col-sm-3">
     <div class="panel panel-default my-infopanel">
         <h4>Du er logget inn som</h4>
         <img src="~/Content/Images/user.png"/>
         <b>Navn:</b>
-        <p>@Model.firstName @Model.lastName</p>
+        <p>@Model.FirstName @Model.LastName</p>
         <b>Personnummer:</b>
-        <p>@Int64.Parse(Model.personalNumber).ToString("0000 00 00000")</p>
+        <p>@long.Parse(Model.PersonalNumber).ToString("0000 00 00000")</p>
         <b>Adresse:</b>
-        <p>@Model.address</p>
+        <p>@Model.Address</p>
     </div>  
 </div>

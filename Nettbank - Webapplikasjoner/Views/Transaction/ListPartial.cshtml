@@ -1,4 +1,4 @@
-﻿@model List<Nettbank___Webapplikasjoner.Models.Transaction>
+﻿@model List<Model.Transaction>
 
 @{
     Layout = null;
@@ -39,23 +39,23 @@
 
 <table class="table">
     <tr>
-        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].toAccountNumber)</th>
-        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].amount)</th>
-        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].timeToBeTransfered)</th>
-        <th class="col-md-4">@Html.DisplayNameFor(model => model[0].comment)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].ToAccountNumber)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].Amount)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].TimeToBeTransfered)</th>
+        <th class="col-md-4">@Html.DisplayNameFor(model => model[0].Comment)</th>
         <th class="col-md-2"></th>
     </tr>
     @foreach (var item in Model) {
         <tr>
-            <td>@long.Parse(item.toAccountNumber).ToString("0000 00 00000")</td>
-            <td style="text-align: right">@item.amount.ToString("### ### ##0 kr")</td>
-            <td>@item.timeToBeTransfered.Value.ToShortDateString()</td>
-            <td style="text-align: left">@item.comment</td>
+            <td>@long.Parse(item.ToAccountNumber).ToString("0000 00 00000")</td>
+            <td style="text-align: right">@item.Amount.ToString("### ### ##0 kr")</td>
+            <td>@item.TimeToBeTransfered.Value.ToShortDateString()</td>
+            <td style="text-align: left">@item.Comment</td>
             <td>
                 <a href="#deleteModal" class="btn btn-xs btn-danger" id="deleteButton"
-                   data-navn="Beløp: @item.amount.ToString("### ### ##0 kr"), Fra konto: @long.Parse(item.fromAccountNumber).ToString("0000 00 00000"), Til konto: @long.Parse(item.toAccountNumber).ToString("0000 00 00000")"
-                   data-id="@item.transactionId" data-toggle="modal" data-deleteModal="true">Slett</a>
-                @Html.ActionLink(linkText: "Endre", actionName: "UpdateTransaction", controllerName: "Transaction", routeValues: new { id = item.transactionId }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
+                   data-navn="Beløp: @item.Amount.ToString("### ### ##0 kr"), Fra konto: @long.Parse(item.FromAccountNumber).ToString("0000 00 00000"), Til konto: @long.Parse(item.ToAccountNumber).ToString("0000 00 00000")"
+                   data-id="@item.TransactionId" data-toggle="modal" data-deleteModal="true">Slett</a>
+                @Html.ActionLink(linkText: "Endre", actionName: "UpdateTransaction", controllerName: "Transaction", routeValues: new { id = item.TransactionId }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
             </td>
         </tr>
     }
