@@ -39,11 +39,11 @@
 
 <table class="table">
     <tr>
-        <th class="col-md-4">@Html.DisplayNameFor(model => model[0].PersonalNumber)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].PersonalNumber)</th>
         <th class="col-md-2">@Html.DisplayNameFor(model => model[0].FirstName)</th>
         <th class="col-md-2">@Html.DisplayNameFor(model => model[0].LastName)</th>
-        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].Address)</th>
-        <th class="col-md-2"></th>
+        <th class="col-md-3">@Html.DisplayNameFor(model => model[0].Address)</th>
+        <th class="col-md-3"></th>
     </tr>
     @foreach (var item in Model)
     {
@@ -57,7 +57,7 @@
                    data-navn="Personnummer: @item.PersonalNumber, Fornavn: @item.FirstName, Etternavn: @item.LastName, Adresse: @item.Address"
                    data-id="@item.PersonalNumber" data-toggle="modal" data-deleteCustomerModal="true">Slett</a>
                 @Html.ActionLink(linkText: "Endre", actionName: "UpdateCustomer", controllerName: "Admin", routeValues: new { personalNumber = item.PersonalNumber }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
-                @Html.ActionLink(linkText: "Ny konto", actionName: "AddAccount", controllerName: "Admin", routeValues: new { personalNumber = item.PersonalNumber }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
+                @Html.ActionLink(linkText: "Ny konto", actionName: "AddAccount", controllerName: "Admin", routeValues: new { personalNumber = item.PersonalNumber }, htmlAttributes: new { @class = "btn btn-xs btn-success" })
             </td>
         </tr>
     }
