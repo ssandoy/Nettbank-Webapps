@@ -30,14 +30,19 @@ namespace BLL {
             return accountAccess.DeleteAccount(accountNumber);
         }
 
-        public UpdateableAccount GetUpdateableAccount(string accountNumber) {
+        public EditableAccount GetUpdateableAccount(string accountNumber) {
             var accountAccess = new AccountRepository();
             return accountAccess.GetUpdateableAccount(accountNumber);
         }
 
-        public string UpdateAccount(UpdateableAccount updatedAccount) {
+        public string UpdateAccount(EditableAccount updatedAccount) {
             var accountAccess = new AccountRepository();
             return accountAccess.UpdateAccount(updatedAccount);
+        }
+
+        public string AddAccount(EditableAccount newAccount) {
+            var accountAccess = new AccountRepository();
+            return accountAccess.AddAccount(newAccount);
         }
     }
 }

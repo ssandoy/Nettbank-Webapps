@@ -1,0 +1,39 @@
+﻿@model Model.EditableAccount
+
+@{
+    ViewBag.Title = "Ny Konto";
+}
+
+<h1>Registrer ny konto</h1>
+<div class="col-sm-9 my-form">
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.AccountNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AccountNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AccountNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OwnerPersonalNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.OwnerPersonalNumber, ViewBag.CustomerList as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.OwnerPersonalNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Registrer" class="btn btn-default" />
+                    <p class="text-danger">@ViewBag.ValidationMessage</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

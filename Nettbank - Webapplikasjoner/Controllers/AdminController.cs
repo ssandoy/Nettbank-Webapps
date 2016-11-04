@@ -141,7 +141,7 @@ namespace Nettbank.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateAccount(UpdateableAccount updatedAccount) {
+        public ActionResult UpdateAccount(EditableAccount updatedAccount) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
             //    return RedirectToAction("Login", "Admin");
@@ -169,7 +169,55 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult AddAccount() {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+            //    return RedirectToAction("Login", "Admin");
+            //} TODO: Legg til logginn-sjekk når det fungerer
+
+            var cL = new CustomerLogic();
+            List<CustomerInfo> customers = cL.ListCustomers();
+            var list = customers.Select(
+                        c => new SelectListItem {
+                                Text = long.Parse(c.PersonalNumber).ToString("000000 00000") + " (" + c.FirstName + " " + c.LastName + ")",
+                                Value = c.PersonalNumber
+                            }).ToList();
+
+            ViewBag.CustomerList = list;
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddAccount(EditableAccount newAccount) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+            //    return RedirectToAction("Login", "Admin");
+            //} TODO: Legg til logginn-sjekk når det fungerer
+
+            // Meldingen som vises hvis ModelState ikke er gyldig.
+            var validationMessage = "Du har skrevet inn ugyldige verdier.";
+
+            if (ModelState.IsValid) {
+                var aL = new AccountLogic();
+                validationMessage = aL.AddAccount(newAccount);
+                if (validationMessage == "") {
+                    return RedirectToAction("ListAccounts", new { personalNumber = newAccount.OwnerPersonalNumber });
+                }
+            }
+
+            // Implisitt else. Hvis registreringen feilet, lastes siden inn på nytt.
+            var cL = new CustomerLogic();
+            List<CustomerInfo> customers = cL.ListCustomers();
+            var list = customers.Select(
+                        c => new SelectListItem {
+                            Text = long.Parse(c.PersonalNumber).ToString("000000 00000") + " (" + c.FirstName + " " + c.LastName + ")",
+                            Value = c.PersonalNumber
+                        }).ToList();
+
+            ViewBag.CustomerList = list;
+            ViewBag.ValidationMessage = validationMessage;
+
+            return View(newAccount);
         }
     }
 }

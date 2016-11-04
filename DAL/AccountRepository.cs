@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using Model;
 
@@ -35,7 +37,7 @@ namespace DAL {
             }
         }
 
-        public UpdateableAccount GetUpdateableAccount(string accountNumber) {
+        public EditableAccount GetUpdateableAccount(string accountNumber) {
             using (var db = new DbModel()) {
                 try {
                     var accounts = db.Accounts.Find(accountNumber);
@@ -44,7 +46,7 @@ namespace DAL {
                         return null;
                     }
 
-                    var account = new UpdateableAccount() {
+                    var account = new EditableAccount() {
                         AccountNumber = accounts.AccountNumber,
                         OwnerPersonalNumber = accounts.Owner.PersonalNumber
                     };
@@ -56,7 +58,7 @@ namespace DAL {
             }
         }
 
-        public string UpdateAccount(UpdateableAccount a) {
+        public string UpdateAccount(EditableAccount a) {
             using (var db = new DbModel()) {
                 try {
                     var accounts = db.Accounts.Find(a.AccountNumber);
@@ -67,6 +69,37 @@ namespace DAL {
                     }
 
                     accounts.Owner = newOwner;
+                    db.Entry(accounts).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return "";
+                } catch (Exception exc) {
+                    return "Feil: " + exc.Message;
+                }
+            }
+        }
+
+        public string AddAccount(EditableAccount newAccount) {
+            using (var db = new DbModel()) {
+                try {
+                    var accounts = new Accounts() {
+                        AccountNumber = newAccount.AccountNumber,
+                        Balance = 0,
+                        PersonalNumber = newAccount.OwnerPersonalNumber,
+                        Transactions = new List<Transactions>()
+                    };
+
+                    // Validerer kontonummer
+                    if (accounts.AccountNumber.Length != 11) {
+                        return "Kontonummeret må være på 11 siffer.";
+                    } 
+
+                    // Validerer om eieren eksisterer
+                    var owner = db.Customers.Find(accounts.PersonalNumber);
+                    if (owner == null) {
+                        return "Det finnes ingen kunde med det gitte personnummeret.";
+                    }
+
+                    db.Accounts.Add(accounts);
                     db.SaveChanges();
                     return "";
                 } catch (Exception exc) {
