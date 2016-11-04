@@ -10,7 +10,7 @@ using Model;
 namespace Nettbank.Controllers {
     public class AdminController : Controller {
         public ActionResult ListCustomers() {
-            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) //TODO: ENDRE TIL session["adminLoggedIn"]
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
             {
                 return RedirectToAction("Login", "Admin");
             }
@@ -126,7 +126,7 @@ namespace Nettbank.Controllers {
 
             if (ModelState.IsValid)
             {
-                var cL = new CustomerLogic(); //TODO: ADD PASSORD I MODELL??
+                var cL = new CustomerLogic(); 
                 validationMessage = cL.AddCustomer(newCustomer);
                 if (validationMessage == "")
                 {

@@ -19,7 +19,7 @@ namespace Model {
     }
 
     // For use in AccountInfo
-    public class CustomerInfo { //TODO: ADD FIELDS FOR POSTAL
+    public class CustomerInfo { 
         [DisplayName("Personnummer")]
         public string PersonalNumber { get; set; }
         [DisplayName("Fornavn")]

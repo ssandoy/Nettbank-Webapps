@@ -215,7 +215,6 @@ namespace DAL {
                         Password = HashPassword(customerInfo.Password, CreateSalt(32)),
                         PostalNumbers = p,
                         PostalNumber =  p.PostalNumber
-                        //TODO: FIX CUSTOMERINFO.ADRESS
                     };
 
                     if (customerInfo.FirstName == null || customerInfo.LastName == null)
