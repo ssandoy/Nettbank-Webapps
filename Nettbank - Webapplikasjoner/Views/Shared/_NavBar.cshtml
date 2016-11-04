@@ -12,12 +12,18 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                @if ((bool)Session["loggedin"] == true) {
+                @if (Session["loggedin"] != null && (bool) Session["loggedin"] == true) {
                     <li>@Html.ActionLink("KONTOER", "ListAccounts", "Customer")</li>
                     <li>@Html.ActionLink("BETALINGER", "ListTransactions", "Transaction")</li>
                     <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>
                     <li>@Html.ActionLink("UTSKRIFT", "ShowStatement", "Transaction")</li>
                     <li>@Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
+                } else if (Session["adminloggedin"] != null && (bool)Session["adminloggedin"] == true) {
+                    <li>@Html.ActionLink("KUNDER", "ListCustomers", "Admin")</li>
+                    <li>@Html.ActionLink("NY KUNDE", "", "")</li>
+                    <li>@Html.ActionLink("KONTOER", "ListAccounts", "Admin")</li>
+                    <li>@Html.ActionLink("NY KONTO", "", "")</li>
+                    <li>@Html.ActionLink("BETALINGER", "", "")</li>
                 }
             </ul>
         </div>
