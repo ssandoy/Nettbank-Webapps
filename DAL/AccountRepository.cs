@@ -34,5 +34,45 @@ namespace DAL {
                 }
             }
         }
+
+        public UpdateableAccount GetUpdateableAccount(string accountNumber) {
+            using (var db = new DbModel()) {
+                try {
+                    var accounts = db.Accounts.Find(accountNumber);
+
+                    if (accounts == null) {
+                        return null;
+                    }
+
+                    var account = new UpdateableAccount() {
+                        AccountNumber = accounts.AccountNumber,
+                        OwnerPersonalNumber = accounts.Owner.PersonalNumber
+                    };
+
+                    return account;
+                } catch (Exception exc) {
+                    return null;
+                }
+            }
+        }
+
+        public string UpdateAccount(UpdateableAccount a) {
+            using (var db = new DbModel()) {
+                try {
+                    var accounts = db.Accounts.Find(a.AccountNumber);
+                    var newOwner = db.Customers.Find(a.OwnerPersonalNumber);
+
+                    if (newOwner == null) {
+                        return "Det finnes ingen kunde med det gitte personnummeret.";
+                    }
+
+                    accounts.Owner = newOwner;
+                    db.SaveChanges();
+                    return "";
+                } catch (Exception exc) {
+                    return "Feil: " + exc.Message;
+                }
+            }
+        }
     }
 }

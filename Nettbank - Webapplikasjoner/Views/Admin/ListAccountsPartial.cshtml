@@ -53,7 +53,7 @@
                 <a href="#deleteModal" class="btn btn-xs btn-danger" id="deleteButton"
                    data-navn="Konto: @long.Parse(item.AccountNumber).ToString("0000 00 00000"), Saldo: @item.Balance.ToString("### ### ##0 kr"), Eier: @item.OwnerName"
                    data-id="@item.AccountNumber" data-toggle="modal" data-deleteModal="true">Slett</a>
-                <!--INSERT HERE-->
+                @Html.ActionLink(linkText: "Endre", actionName: "UpdateAccount", controllerName: "Admin", routeValues: new { accountNumber = item.AccountNumber }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
             </td>
         </tr>
     }

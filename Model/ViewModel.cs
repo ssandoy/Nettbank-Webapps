@@ -42,6 +42,17 @@ namespace Model {
         public int Balance { get; set; }
     }
 
+    // For use in UpdateAccount
+    public class UpdateableAccount {
+        [DisplayName("Kontonummer")]
+        public string AccountNumber { get; set; }
+
+        [DisplayName("Eiers personnummer")]
+        [Required(ErrorMessage = "Eier må oppgis.")]
+        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Eierens personummer må være på 11 siffer.")]
+        public string OwnerPersonalNumber { get; set; }
+    }
+
     // For use in RegisterTransaction and ListTransactions
     public class Transaction {
         [DisplayName("Betalings-Id")]

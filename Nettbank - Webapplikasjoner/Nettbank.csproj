@@ -216,6 +216,7 @@
     <Content Include="Views\Admin\DeleteAccountModal.cshtml" />
     <Content Include="Views\Admin\deleteCustomerModal.cshtml" />
     <Content Include="Views\Admin\ListPartial.cshtml" />
+    <Content Include="Views\Admin\UpdateAccount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -128,17 +128,48 @@ namespace Nettbank.Controllers {
             return View(accounts);
         }
 
-        public ActionResult AddAccount() {
-            return View();
+        public ActionResult UpdateAccount(string accountNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+            //    return RedirectToAction("Login", "Admin");
+            //} TODO: Legg til logginn-sjekk når det fungerer
+
+            var aL = new AccountLogic();
+            var account = aL.GetUpdateableAccount(accountNumber);
+            return View(account);
         }
 
-        public ActionResult UpdateAccount() {
-            return View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateAccount(UpdateableAccount updatedAccount) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+            //    return RedirectToAction("Login", "Admin");
+            //} TODO: Legg til logginn-sjekk når det fungerer
+
+            // Meldingen som vises hvis ModelState ikke er gyldig.
+            var validationMessage = "Du har skrevet inn ugyldige verdier.";
+
+            if (ModelState.IsValid) {
+                var aL = new AccountLogic();
+                validationMessage = aL.UpdateAccount(updatedAccount);
+                if (validationMessage == "") {
+                    return RedirectToAction("ListAccounts");
+                }
+            }
+
+            ViewBag.ValidationMessage = validationMessage;
+
+            return View(updatedAccount);
         }
 
         public void DeleteAccount(string accountNumber) {
             var aL = new AccountLogic();
             var deleteOK = aL.DeleteAccount(accountNumber);
+        }
+
+        public ActionResult AddAccount() {
+            return View();
         }
     }
 }
