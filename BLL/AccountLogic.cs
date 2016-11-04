@@ -24,5 +24,10 @@ namespace BLL {
             }
             return false;
         }
+
+        public bool DeleteAccount(string accountNumber) {
+            var accountAccess = new AccountRepository();
+            return accountAccess.DeleteAccount(accountNumber);
+        }
     }
 }

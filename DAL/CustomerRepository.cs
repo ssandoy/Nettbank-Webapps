@@ -115,12 +115,10 @@ namespace DAL {
                         return "Fornavn og etternavn må skrives inn.";
                     }   
 
-
                     // Validerer personnummer
                     if (customers.PersonalNumber == null) { //TODO: TRENGS DISSE SIDEN VI HAR VIEWMODEL?
                         return "Kontoen du vil betale til eksisterer ikke";
                     }
-
 
                     db.Entry(customers).State = EntityState.Modified;
                     db.SaveChanges();
@@ -131,22 +129,19 @@ namespace DAL {
             }
         }
 
-        public List<CustomerInfo> ListCustomers()
-        {
-            using (var db = new DbModel())
-            {
+        public List<CustomerInfo> ListCustomers() {
+            using (var db = new DbModel()) {
                 List<CustomerInfo> customers = (from p in db.Customers
-                                                 select
-                                                 new CustomerInfo() {
-                                                     PersonalNumber = p.PersonalNumber,
-                                                     FirstName = p.FirstName,
-                                                     LastName = p.LastName,
-                                                     Address = p.Address +  " " + p.PostalNumber + " " + p.PostalNumbers.PostalCity
-                                                 }).ToList();
+                    select
+                    new CustomerInfo() {
+                        PersonalNumber = p.PersonalNumber,
+                        FirstName = p.FirstName,
+                        LastName = p.LastName,
+                        Address = p.Address + " " + p.PostalNumber + " " + p.PostalNumbers.PostalCity
+                    }).ToList();
 
                 return customers;
-
             }
-}
+        }
     }
 }

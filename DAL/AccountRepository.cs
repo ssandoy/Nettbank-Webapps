@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Model;
@@ -21,5 +22,17 @@ namespace DAL {
             }
         }
 
+        public bool DeleteAccount(string accountNumber) {
+            using (var db = new DbModel()) {
+                try {
+                    var deleteAccount = db.Accounts.Find(accountNumber);
+                    db.Accounts.Remove(deleteAccount);
+                    db.SaveChanges();
+                    return true;
+                } catch (Exception exc) {
+                    return false;
+                }
+            }
+        }
     }
 }

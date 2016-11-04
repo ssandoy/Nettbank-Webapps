@@ -1,0 +1,60 @@
+﻿@model List<Model.Account>
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // lag en hendelse som utføres når en a-href med "data-SletteModal = true" trykkes.
+        $('a[data-deleteModal=true]').click(function() {
+
+            // hent inn data-taggene fra denne a-href lenken
+            var data_navn = $(this).data('navn');
+            var data_id = $(this).data('id');
+
+            // legg ut dataene i div'en i modal-view'et
+            $('#deleteAccount').html(data_navn);
+
+            $("#deleteModalButton").click(function () {
+                // id som skal slettes ligger i data_id
+                $.ajax({
+                    url: '@Url.Action("DeleteAccount", "Admin")',
+                    data: { accountNumber: data_id },  // en parameter inn i slett(id)-metoden i kunde-kontrolleren (JSON-objekt)
+                    success: function () {
+                        // må kalle liste-metoden for å vise den nye listen av kunder
+                        $.ajax({
+                            url: '@Url.Action("ListAccounts", "Admin")',
+                            success: function () {
+                                // så må siden reloades!
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            })
+        })
+    });
+</script>
+
+<table class="table">
+    <tr>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].AccountNumber)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].OwnerName)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].Balance)</th>
+        <th class="col-md-2"></th>
+    </tr>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@long.Parse(item.AccountNumber).ToString("0000 00 00000")</td>
+            <td>@item.OwnerName</td>
+            <td style="text-align: right">@item.Balance.ToString("### ### ##0 kr")</td>
+            <td>
+                <a href="#deleteModal" class="btn btn-xs btn-danger" id="deleteButton"
+                   data-navn="Konto: @long.Parse(item.AccountNumber).ToString("0000 00 00000"), Saldo: @item.Balance.ToString("### ### ##0 kr"), Eier: @item.OwnerName"
+                   data-id="@item.AccountNumber" data-toggle="modal" data-deleteModal="true">Slett</a>
+                <!--INSERT HERE-->
+            </td>
+        </tr>
+    }
+</table>

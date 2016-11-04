@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,8 +19,6 @@ namespace Nettbank.Controllers {
             List<CustomerInfo> allCustomers = cL.ListCustomers();
             return View(allCustomers);
         }
-
-
 
         public ActionResult Login() {
 
@@ -94,6 +93,50 @@ namespace Nettbank.Controllers {
 
         public ActionResult Delete() {
             throw new NotImplementedException();
+        }
+
+        public ActionResult ListAccounts(string personalNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+            //    return RedirectToAction("Login", "Admin");
+            //} TODO: Legg til logginn-sjekk når det fungerer
+
+            // Fyller dropdown listen med kunder via en ViewBag.
+            var cL = new CustomerLogic();
+            List<CustomerInfo> customers = cL.ListCustomers();
+            var list = customers.Select(c => new SelectListItem {
+                Text = c.FirstName + " " + c.LastName +
+                       " (" + long.Parse(c.PersonalNumber).ToString("000000 00000") + ")",
+                Value = c.PersonalNumber,
+                Selected = (c.PersonalNumber == personalNumber)
+            });
+
+            ViewBag.CustomerList = list;
+
+            if (personalNumber == null) {
+                personalNumber = list.First(c => c.Value != null).Value;
+            }
+
+            return View();
+        }
+
+        public ActionResult ListAccountsPartial(string personalNumber) {
+            var aL = new AccountLogic();
+            List<Account> accounts = aL.ListAccounts(personalNumber);
+            return View(accounts);
+        }
+
+        public ActionResult AddAccount() {
+            return View();
+        }
+
+        public ActionResult UpdateAccount() {
+            return View();
+        }
+
+        public void DeleteAccount(string accountNumber) {
+            var aL = new AccountLogic();
+            var deleteOK = aL.DeleteAccount(accountNumber);
         }
     }
 }
