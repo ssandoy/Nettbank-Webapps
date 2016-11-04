@@ -136,6 +136,17 @@ namespace Nettbank.Controllers {
 
             var aL = new AccountLogic();
             var account = aL.GetUpdateableAccount(accountNumber);
+
+            var cL = new CustomerLogic();
+            List<CustomerInfo> customers = cL.ListCustomers();
+            var list = customers.Select(
+                        c => new SelectListItem {
+                            Text = long.Parse(c.PersonalNumber).ToString("000000 00000") + " (" + c.FirstName + " " + c.LastName + ")",
+                            Value = c.PersonalNumber,
+                            Selected = account.OwnerPersonalNumber == c.PersonalNumber
+                        }).ToList();
+
+            ViewBag.CustomerList = list;
             return View(account);
         }
 
@@ -158,6 +169,16 @@ namespace Nettbank.Controllers {
                 }
             }
 
+            var cL = new CustomerLogic();
+            List<CustomerInfo> customers = cL.ListCustomers();
+            var list = customers.Select(
+                        c => new SelectListItem {
+                            Text = long.Parse(c.PersonalNumber).ToString("000000 00000") + " (" + c.FirstName + " " + c.LastName + ")",
+                            Value = c.PersonalNumber,
+                            Selected = updatedAccount.OwnerPersonalNumber == c.PersonalNumber
+                        }).ToList();
+
+            ViewBag.CustomerList = list;
             ViewBag.ValidationMessage = validationMessage;
 
             return View(updatedAccount);
