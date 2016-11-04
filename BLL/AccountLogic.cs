@@ -40,9 +40,9 @@ namespace BLL {
             return accountAccess.UpdateAccount(updatedAccount);
         }
 
-        public string AddAccount(EditableAccount newAccount) {
+        public bool AddAccount(string personalNumber) {
             var accountAccess = new AccountRepository();
-            return accountAccess.AddAccount(newAccount);
+            return accountAccess.AddAccount(personalNumber);
         }
     }
 }

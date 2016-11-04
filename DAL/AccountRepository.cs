@@ -78,32 +78,32 @@ namespace DAL {
             }
         }
 
-        public string AddAccount(EditableAccount newAccount) {
+        public bool AddAccount(string personalNumber) {
             using (var db = new DbModel()) {
                 try {
                     var accounts = new Accounts() {
-                        AccountNumber = newAccount.AccountNumber,
+                        AccountNumber = "0411" + new Random().Next(9999999).ToString("0000000"),
                         Balance = 0,
-                        PersonalNumber = newAccount.OwnerPersonalNumber,
+                        PersonalNumber = personalNumber,
                         Transactions = new List<Transactions>()
                     };
 
                     // Validerer kontonummer
                     if (accounts.AccountNumber.Length != 11) {
-                        return "Kontonummeret må være på 11 siffer.";
+                        return false;
                     } 
 
                     // Validerer om eieren eksisterer
                     var owner = db.Customers.Find(accounts.PersonalNumber);
                     if (owner == null) {
-                        return "Det finnes ingen kunde med det gitte personnummeret.";
+                        return false;
                     }
 
                     db.Accounts.Add(accounts);
                     db.SaveChanges();
-                    return "";
+                    return true;
                 } catch (Exception exc) {
-                    return "Feil: " + exc.Message;
+                    return false;
                 }
             }
         }
