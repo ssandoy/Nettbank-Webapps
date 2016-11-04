@@ -48,6 +48,16 @@ namespace DAL {
             return Convert.ToBase64String(hash);
         }
 
+        public byte[] HashPassword(string password, string salt)
+        {
+            var bytes = System.Text.Encoding.UTF8.GetBytes(password + salt);
+            var sha256String = new SHA256Managed();
+            byte[] hash = sha256String.ComputeHash(bytes);
+            return hash;
+        }
+
+
+
         public string CreateSalt(int size) {
             var randomNumberGenerator = new System.Security.Cryptography.RNGCryptoServiceProvider();
             var salt = new byte[size];
@@ -181,9 +191,12 @@ namespace DAL {
 
                     var newCustomer = new Customers()
                     {
+                        PersonalNumber = customerInfo.PersonalNumber,
                         FirstName = customerInfo.FirstName,
                         LastName = customerInfo.LastName,
                         Address = customerInfo.Address,
+                        Salt = CreateSalt(32),
+                        Password = HashPassword(customerInfo.Password, CreateSalt(32)),
                         PostalNumbers = p,
                         PostalNumber =  p.PostalNumber
                         //TODO: FIX CUSTOMERINFO.ADRESS

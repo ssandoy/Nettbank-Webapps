@@ -16,14 +16,7 @@
 
 </head>
 <body>
-@if ((bool) Context.Session["loggedIn"])
-{
-    @Html.Partial("_AdminNavBar")
-}
-else
-{
     @Html.Partial("_NavBar")
-}
 
 <div class="container body-content my-container">
     @RenderBody()

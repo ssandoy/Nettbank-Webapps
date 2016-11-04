@@ -12,16 +12,16 @@ namespace BLL {
         private readonly HttpContext _context = HttpContext.Current;
 
         public bool Login() {
-            if (_context.Session["loggedin"] == null) {
-                _context.Session["loggedin"] = false;
+            if (_context.Session["adminloggedin"] == null) {
+                _context.Session["adminloggedin"] = false;
             } else {
-                return (bool)_context.Session["loggedin"];
+                return (bool)_context.Session["adminloggedin"];
             }
             return false;
         }
 
         public void Logout() {
-            _context.Session["loggedin"] = false;
+            _context.Session["adminloggedin"] = false;
             _context.Session["CurrentAdmin"] = null;
         }
 

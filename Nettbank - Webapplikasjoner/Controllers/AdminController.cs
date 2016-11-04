@@ -10,7 +10,7 @@ using Model;
 namespace Nettbank.Controllers {
     public class AdminController : Controller {
         public ActionResult ListCustomers() {
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) //TODO: ENDRE TIL session["adminLoggedIn"]
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) //TODO: ENDRE TIL session["adminLoggedIn"]
             {
                 return RedirectToAction("Login", "Admin");
             }
@@ -32,13 +32,21 @@ namespace Nettbank.Controllers {
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            var aL = new AdminLogic();
+            aL.Logout();
+            return RedirectToAction("Login");
+        }
+
+
         [HttpPost]
         public ActionResult ValidateAdmin(FormCollection inList) {
             var aL = new AdminLogic();
             bool loggedIn = aL.ValidateAdmin(inList);
             if (loggedIn) {
                 HttpContext context = System.Web.HttpContext.Current;
-                context.Session["loggedin"] = true;
+                context.Session["adminloggedin"] = true;
                 TempData["login"] = true;
                 return RedirectToAction("ListCustomers");
             } else {

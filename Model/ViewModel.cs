@@ -26,6 +26,12 @@ namespace Model {
         public string FirstName { get; set; }
         [DisplayName("Etternavn")]
         public string LastName { get; set; }
+
+        [DisplayName("Passord")]
+        [RegularExpression(@"[a-zA-Z]{8}", ErrorMessage = "Passordet må være på minst 8 tegn.")]
+        public string Password { get; set; }
+
+
         [DisplayName("Adresse")]
         public string Address { get; set; }
         [DisplayName("Postnummer")]

@@ -20,10 +20,12 @@
                     <li>@Html.ActionLink("LOGG UT", "Logout", "Customer")</li>
                 } else if (Session["adminloggedin"] != null && (bool) Session["adminloggedin"] == true) {
                     <li>@Html.ActionLink("KUNDER", "ListCustomers", "Admin")</li>
-                    <li>@Html.ActionLink("NY KUNDE", "", "")</li>
+                    <li>@Html.ActionLink("NY KUNDE", "RegisterCustomer", "Admin")</li>
                     <li>@Html.ActionLink("KONTOER", "ListAccounts", "Admin")</li>
                     <li>@Html.ActionLink("BETALINGER", "", "")</li>
-                } else {
+                    <li>@Html.ActionLink("LOGG UT", "Logout", "Admin")</li>
+                }
+                else {
                     <li>@Html.ActionLink("ADMIN", "Login", "Admin")</li>
                 }
             </ul>
