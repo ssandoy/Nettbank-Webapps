@@ -20,9 +20,13 @@ namespace Model {
 
     // For use in AccountInfo
     public class CustomerInfo {
+        [DisplayName("Personnummer")]
         public string PersonalNumber { get; set; }
+        [DisplayName("Fornavn")]
         public string FirstName { get; set; }
+        [DisplayName("Etternavn")]
         public string LastName { get; set; }
+        [DisplayName("Adresse")]
         public string Address { get; set; }
     }
 

@@ -73,5 +73,11 @@ namespace BLL {
             var customerAccess = new CustomerRepository();
             customerAccess.insertCustomer();
         }
+
+        public bool DeleteCustomer(string personalNumber)
+        {
+            var customerAccess = new CustomerRepository();
+            return customerAccess.DeleteCustomer(personalNumber);
+        }
     }
 }

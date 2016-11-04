@@ -23,6 +23,7 @@ namespace Nettbank.Controllers {
         public ActionResult Login() {
 
             var aL = new AdminLogic();
+           // aL.InsertAdmin();
             bool loggedIn = aL.Login();
             if (loggedIn) {
                 TempData["login"] = true;
@@ -46,14 +47,14 @@ namespace Nettbank.Controllers {
             }
         }
 
-        public ActionResult UpdateCustomer(string personnumber) {
+        public ActionResult UpdateCustomer(string personalNumber) {
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return RedirectToAction("Login");
             }
 
             var cL = new CustomerLogic();
-            var oldCustomer = cL.GetCustomerInfo(personnumber);
+            var oldCustomer = cL.GetCustomerInfo(personalNumber);
             var newCustomer = new CustomerInfo() {
                 PersonalNumber = oldCustomer.PersonalNumber,
                 FirstName = oldCustomer.FirstName,
@@ -91,8 +92,9 @@ namespace Nettbank.Controllers {
         }
 
 
-        public ActionResult Delete() {
-            throw new NotImplementedException();
+        public void Delete(string personalNumber) {
+            var cL = new CustomerLogic();
+            var deleteOK = cL.DeleteCustomer(personalNumber);
         }
 
         public ActionResult ListAccounts(string personalNumber) {
