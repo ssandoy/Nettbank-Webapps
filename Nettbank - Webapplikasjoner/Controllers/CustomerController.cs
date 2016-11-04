@@ -23,7 +23,7 @@ namespace Nettbank.Controllers {
         public ActionResult Login() {
             var cL = new CustomerLogic();
             //temp TODO: Fjern
-            cL.insertCustomer();
+           // cL.insertCustomer();
             //temp
             var loggedIn = cL.Login();
             if (loggedIn) {

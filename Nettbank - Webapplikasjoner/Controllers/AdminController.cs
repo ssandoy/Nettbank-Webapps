@@ -57,7 +57,7 @@ namespace Nettbank.Controllers {
 
         public ActionResult UpdateCustomer(string personalNumber) {
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login");
             }
 
@@ -67,8 +67,9 @@ namespace Nettbank.Controllers {
                 PersonalNumber = oldCustomer.PersonalNumber,
                 FirstName = oldCustomer.FirstName,
                 LastName = oldCustomer.LastName,
-                Address = oldCustomer.Address
-                //TODO: ADD POSTALNUMBER ETC.
+                Address = oldCustomer.Address,
+                PostalNumber = oldCustomer.PostalNumber,
+                PostalCity = oldCustomer.PostalCity
             };
 
             return View(newCustomer);
@@ -79,7 +80,7 @@ namespace Nettbank.Controllers {
         public ActionResult UpdateCustomer(CustomerInfo customer) //TODO: FIXME
         {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login", "Admin");
             }
 
@@ -102,7 +103,7 @@ namespace Nettbank.Controllers {
         public ActionResult RegisterCustomer()
         {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
             {
                 return RedirectToAction("Login", "Admin");
             }
@@ -115,7 +116,7 @@ namespace Nettbank.Controllers {
         public ActionResult RegisterCustomer(CustomerInfo newCustomer)
         {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
             {
                 return RedirectToAction("Login", "Customer");
             }

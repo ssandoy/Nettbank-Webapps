@@ -28,9 +28,8 @@ namespace Model {
         public string LastName { get; set; }
 
         [DisplayName("Passord")]
-        [RegularExpression(@"[a-zA-Z]{8}", ErrorMessage = "Passordet må være på minst 8 tegn.")]
+        //[RegularExpression(@"[a-zA-Z]{8}", ErrorMessage = "Passordet må være på minst 8 tegn.")] TODO: FIX REGEX FOR PASSWORD.
         public string Password { get; set; }
-
 
         [DisplayName("Adresse")]
         public string Address { get; set; }

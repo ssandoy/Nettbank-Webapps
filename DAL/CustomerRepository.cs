@@ -77,7 +77,9 @@ namespace DAL {
                     PersonalNumber = customer.PersonalNumber,
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,
-                    Address = customer.Address + " " + customer.PostalNumber + " " + customer.PostalNumbers.PostalCity
+                    Address = customer.Address,
+                    PostalNumber = customer.PostalNumber,
+                    PostalCity = customer.PostalNumbers.PostalCity
                 };
                 return customerInfo;
             }
@@ -109,6 +111,7 @@ namespace DAL {
         }
 
         public string UpdateCustomer(CustomerInfo customer) {
+            PostalNumbers p;
             using (var db = new DbModel()) {
                 try {
                     var customers = db.Customers.Find(customer.PersonalNumber);
@@ -116,6 +119,19 @@ namespace DAL {
                     customers.FirstName = customer.FirstName;
                     customers.LastName = customer.LastName;
                     customers.Address = customer.Address; //TODO: IMPLEMENT POSTAL AND POSTALNUMBER
+                    if (db.PostalNumbers.Find(customer.PostalNumber) == null)
+                    {
+                        p = new PostalNumbers();
+                        p.PostalNumber = customer.PostalNumber;
+                        p.PostalCity = customer.PostalCity;
+                        db.PostalNumbers.Add(p);
+                    }
+                    else
+                    {
+                        p = db.PostalNumbers.Find(customer.PostalNumber);
+                    }
+                    customers.PostalNumbers = p;
+                    customers.PostalNumber = p.PostalNumber;
 
                     // Validerer navn.
                     if (customers.FirstName == null || customers.LastName == null) {
@@ -177,7 +193,7 @@ namespace DAL {
             {
                 try
                 {
-                    if (db.PostalNumbers.Find(customerInfo.PostalNumber) == null)
+                    if (db.PostalNumbers.Find(customerInfo.PostalNumber) == null) //TODO: SKYVE DETTE UT I EN EGEN METODE
                     {
                         p = new PostalNumbers();
                         p.PostalNumber = customerInfo.PostalNumber;
