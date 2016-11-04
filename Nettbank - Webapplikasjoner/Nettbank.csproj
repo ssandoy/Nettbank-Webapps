@@ -88,10 +88,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Nettbank - Webapplikasjoner, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Bin\Nettbank - Webapplikasjoner.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -215,10 +211,12 @@
     <Content Include="Views\Admin\UpdateCustomer.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\ListCustomers.cshtml" />
+    <Content Include="Views\Admin\ListAccounts.cshtml" />
+    <Content Include="Views\Admin\ListAccountsPartial.cshtml" />
+    <Content Include="Views\Admin\DeleteAccountModal.cshtml" />
     <Content Include="Views\Admin\deleteCustomerModal.cshtml" />
     <Content Include="Views\Admin\ListPartial.cshtml" />
-    <Content Include="Views\Admin\RegisterCustomer.cshtml" />
-    <Content Include="Views\Shared\_AdminNavBar.cshtml" />
+    <Content Include="Views\Admin\UpdateAccount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

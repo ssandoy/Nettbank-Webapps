@@ -24,5 +24,25 @@ namespace BLL {
             }
             return false;
         }
+
+        public bool DeleteAccount(string accountNumber) {
+            var accountAccess = new AccountRepository();
+            return accountAccess.DeleteAccount(accountNumber);
+        }
+
+        public EditableAccount GetUpdateableAccount(string accountNumber) {
+            var accountAccess = new AccountRepository();
+            return accountAccess.GetUpdateableAccount(accountNumber);
+        }
+
+        public string UpdateAccount(EditableAccount updatedAccount) {
+            var accountAccess = new AccountRepository();
+            return accountAccess.UpdateAccount(updatedAccount);
+        }
+
+        public bool AddAccount(string personalNumber) {
+            var accountAccess = new AccountRepository();
+            return accountAccess.AddAccount(personalNumber);
+        }
     }
 }
