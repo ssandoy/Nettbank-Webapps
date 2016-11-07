@@ -7,7 +7,11 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="nav navbar-brand">
-                @Html.ActionLink("BEBA & SANDØY BANK","Login","Customer")
+                @if (Session["adminloggedin"] != null && (bool)Session["adminloggedin"] == true) {
+                    @Html.ActionLink("BEBA & SANDØY BANK", "Login", "Admin")
+                } else {
+                    @Html.ActionLink("BEBA & SANDØY BANK", "Login", "Customer")
+                }
             </div>
         </div>
         <div class="navbar-collapse collapse">
