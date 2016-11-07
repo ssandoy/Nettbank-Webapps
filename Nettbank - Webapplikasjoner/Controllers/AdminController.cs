@@ -146,9 +146,9 @@ namespace Nettbank.Controllers {
 
         public ActionResult ListAccounts(string personalNumber) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-            //    return RedirectToAction("Login", "Admin");
-            //} TODO: Legg til logginn-sjekk når det fungerer
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
 
             // Fyller dropdown listen med kunder via en ViewBag.
             var cL = new CustomerLogic();
@@ -177,9 +177,9 @@ namespace Nettbank.Controllers {
 
         public ActionResult UpdateAccount(string accountNumber) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-            //    return RedirectToAction("Login", "Admin");
-            //} TODO: Legg til logginn-sjekk når det fungerer
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
 
             var aL = new AccountLogic();
             var account = aL.GetUpdateableAccount(accountNumber);
@@ -201,9 +201,9 @@ namespace Nettbank.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult UpdateAccount(EditableAccount updatedAccount) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-            //    return RedirectToAction("Login", "Admin");
-            //} TODO: Legg til logginn-sjekk når det fungerer
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
@@ -232,16 +232,48 @@ namespace Nettbank.Controllers {
         }
 
         public void DeleteAccount(string accountNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return;
+            }
+
             var aL = new AccountLogic();
             var deleteOK = aL.DeleteAccount(accountNumber);
         }
 
         public ActionResult AddAccount(string personalNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
+
             var aL = new AccountLogic();
             if (aL.AddAccount(personalNumber)) {
                 return RedirectToAction("ListAccounts", new { personalNumber = personalNumber });
             }
             return RedirectToAction("ListCustomers");
+        }
+
+        public ActionResult ListTransactions() {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
+
+            var tL = new TransactionLogic();
+            List<Transaction> executeableTransactions = tL.ListExecuteableTransactions();
+            return View(executeableTransactions);
+        }
+
+        public ActionResult ExecuteTransaction(int transactionId) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
+
+            var tL = new TransactionLogic();
+            tL.ExecuteTransaction(transactionId);
+            return RedirectToAction("ListTransactions");
         }
     }
 }

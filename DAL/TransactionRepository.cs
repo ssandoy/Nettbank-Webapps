@@ -179,5 +179,60 @@ namespace DAL {
                 }
             }
         }
+
+        public List<Transaction> ListExecuteableTransactions() {
+            using (var db = new DbModel()) {
+                var allTransactions = db.Transactions.Where(t => t.TimeTransfered == null);
+                var transactions = new List<Transaction>();
+                foreach (var t in allTransactions) {  
+                    transactions.Add(new Transaction {
+                        TransactionId = t.TransactionId,
+                        Amount = t.Amount,
+                        TimeToBeTransfered = t.TimeToBeTransfered,
+                        TimeTransfered = t.TimeTransfered,
+                        FromAccountNumber = t.AccountNumber,
+                        ToAccountNumber = t.ToAccountNumber,
+                        Comment = t.Comment
+                    });
+                }
+                return transactions.OrderBy(t => t.TimeToBeTransfered).ToList();
+            }
+        }
+
+        public void ExecuteTransaction(int id) {
+            using (var db = new DbModel()) {
+                try {
+                    // Find the transaction and check that it exists
+                    var transaction = db.Transactions.Find(id);
+                    if (transaction == null) {
+                        return;
+                    }
+                    // Find the accounts and check that the fromAccount exists and that it's good for the amount
+                    var fromAccount = db.Accounts.Find(transaction.AccountNumber);
+                    var toAccount = db.Accounts.Find(transaction.ToAccountNumber);
+                    if (fromAccount == null || fromAccount.Balance < transaction.Amount) {
+                        db.Transactions.Remove(transaction);
+                        db.Entry(transaction).State = EntityState.Deleted;
+                        db.SaveChanges();
+                        return;
+                    }
+                    // Transfers the amount and adds the transferedTime
+                    fromAccount.Balance -= transaction.Amount;
+                    db.Entry(fromAccount).State = EntityState.Modified;
+                    if (toAccount != null) {
+                        // Transfers the money to toAccount if it exists. 
+                        toAccount.Balance += transaction.Amount;
+                        db.Entry(toAccount).State = EntityState.Modified;
+                        // If it doesn't, no account will receive the money. This simulates that toAccount is an account from another bank.
+                    }
+                    transaction.TimeTransfered = DateTime.Now;
+                    db.Entry(transaction).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return;
+                } catch (Exception exc) {
+                    return;
+                }
+            }
+        }
     }
 }
