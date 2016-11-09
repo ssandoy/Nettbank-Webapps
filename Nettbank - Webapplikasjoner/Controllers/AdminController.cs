@@ -73,8 +73,11 @@ namespace Nettbank.Controllers {
                Session["adminloggedin"] = true;
                 TempData["login"] = true;
                 return RedirectToAction("ListCustomers");
-            } else {
+            }
+            else 
+            {
                 TempData["login"] = false;
+                TempData["failure"] = "Feil passord eller ansattnummer";
                 return RedirectToAction("Login");
             }
         }

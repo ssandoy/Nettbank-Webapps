@@ -51,8 +51,16 @@ namespace Nettbank.Controllers {
                 context.Session["loggedin"] = true;
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
-            } else {
+            } else if (!loggedIn)
+            {
                 TempData["login"] = false;
+                TempData["failure"] = "Feil passord eller personnummer";
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                TempData["login"] = false;
+                TempData["failure"] = "Feil BankID";
                 return RedirectToAction("Login");
             }
         }

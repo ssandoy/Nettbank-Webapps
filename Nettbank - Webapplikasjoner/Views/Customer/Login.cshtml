@@ -51,6 +51,12 @@
                 <input class="btn btn-lg btn-primary btn-block my-login-input" type="submit" value="Logg inn!" />
             </div>
         </form>
+    @if (TempData["failure"] != null)
+    { 
+        <div class="bg-danger">
+            <p>Error: @TempData["failure"].ToString()</p>
+        </div>
+    }
     </div>
 </div>
 
