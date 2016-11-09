@@ -8,46 +8,40 @@ using System.Web.Mvc;
 using DAL;
 
 namespace BLL {
-    public class AdminLogic {
+    public class AdminLogic : IAdminLogic
+    {
+
+        private IAdminRepository _repository;
         private readonly HttpContext _context = HttpContext.Current;
 
-        public bool Login() {
-            if (_context.Session["adminloggedin"] == null) {
-                _context.Session["adminloggedin"] = false;
-            } else {
-                return (bool)_context.Session["adminloggedin"];
-            }
-            return false;
+        public AdminLogic()
+        {
+            _repository = new AdminRepository();   
         }
 
-        public void Logout() {
-            _context.Session["adminloggedin"] = false;
-            _context.Session["CurrentAdmin"] = null;
+        public AdminLogic(IAdminRepository stub)
+        {
+            _repository = stub;
         }
 
         public bool ValidateAdmin(FormCollection inList) {
-            var adminRepository = new AdminRepository();
-            return adminRepository.ValidateAdmin(inList);
+            return _repository.ValidateAdmin(inList);
         }
 
-        public Admins FindAdminByEmployeeNumber(string employeeNumber) {
-            var adminRepository = new AdminRepository();
-            return adminRepository.FindAdminByEmployeeNumber(employeeNumber);
+        public Admins FindAdminByEmployeeNumber(string employeeNumber) { //TODO: BRUKES DENNE?
+            return _repository.FindAdminByEmployeeNumber(employeeNumber);
         }
 
         public string CreateHash(string password, string salt) {
-            var adminRepository = new AdminRepository();
-            return adminRepository.CreateHash(password, salt);
+            return _repository.CreateHash(password, salt);
         }
 
         public string CreateSalt(int size) {
-            var adminRepository = new AdminRepository();
-            return adminRepository.CreateSalt(size);
+            return _repository.CreateSalt(size);
         }
 
-        public bool InsertAdmin() {
-            var adminRepository = new AdminRepository();
-            return adminRepository.InsertAdmin();
-        }
+        //public bool InsertAdmin() {
+        //    return _repository.InsertAdmin();
+        //}
     }
 }

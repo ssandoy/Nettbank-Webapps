@@ -8,45 +8,69 @@ using BLL;
 using Model;
 
 namespace Nettbank.Controllers {
-    public class AdminController : Controller {
+    public class AdminController : Controller
+    {
+
+        private IAdminLogic _adminBLL;
+        private ICustomerLogic _customerBLL;
+        private IAccountLogic _accountBLL;
+
+        public AdminController()
+        {
+            _adminBLL = new AdminLogic();
+            _customerBLL = new CustomerLogic();
+            _accountBLL = new AccountLogic();
+        }
+
+        public AdminController(IAdminLogic adminstub, ICustomerLogic customerstub, IAccountLogic accountstub) 
+        {
+            _adminBLL = adminstub;
+            _customerBLL = customerstub;
+            _accountBLL = accountstub;
+        }
+
         public ActionResult ListCustomers() {
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
             {
                 return RedirectToAction("Login", "Admin");
             }
             TempData["login"] = true;
-            var cL = new CustomerLogic();
-            List<CustomerInfo> allCustomers = cL.ListCustomers();
+            List<CustomerInfo> allCustomers = _customerBLL.ListCustomers();
             return View(allCustomers);
         }
 
         public ActionResult Login() {
 
-            var aL = new AdminLogic();
            // aL.InsertAdmin();
-            bool loggedIn = aL.Login();
+            bool loggedIn;
+            if (Session["adminloggedin"] == null)
+            {
+                Session["adminloggedin"] = false;
+            }
+                loggedIn = (bool) Session["adminloggedin"];
+            
+           
             if (loggedIn) {
                 TempData["login"] = true;
                 return RedirectToAction("ListCustomers");
             }
             return View();
+
         }
 
         public ActionResult Logout()
         {
-            var aL = new AdminLogic();
-            aL.Logout();
+            Session["adminloggedin"] = false;
+            Session["CurrentAdmin"] = null;
             return RedirectToAction("Login");
         }
 
 
         [HttpPost]
         public ActionResult ValidateAdmin(FormCollection inList) {
-            var aL = new AdminLogic();
-            bool loggedIn = aL.ValidateAdmin(inList);
+            bool loggedIn = _adminBLL.ValidateAdmin(inList);
             if (loggedIn) {
-                HttpContext context = System.Web.HttpContext.Current;
-                context.Session["adminloggedin"] = true;
+               Session["adminloggedin"] = true;
                 TempData["login"] = true;
                 return RedirectToAction("ListCustomers");
             } else {
@@ -55,14 +79,13 @@ namespace Nettbank.Controllers {
             }
         }
 
-        public ActionResult UpdateCustomer(string personalNumber) {
+        public ActionResult UpdateCustomer(string personalNumber) { 
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login");
             }
 
-            var cL = new CustomerLogic();
-            var oldCustomer = cL.GetCustomerInfo(personalNumber);
+            var oldCustomer = _customerBLL.GetCustomerInfo(personalNumber);
             var newCustomer = new CustomerInfo() {
                 PersonalNumber = oldCustomer.PersonalNumber,
                 FirstName = oldCustomer.FirstName,
@@ -88,8 +111,7 @@ namespace Nettbank.Controllers {
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
 
             if (ModelState.IsValid) {
-                var cL = new CustomerLogic();
-                validationMessage = cL.UpdateCustomer(customer);
+                validationMessage = _customerBLL.UpdateCustomer(customer);
                 if (validationMessage == "") {
                     return RedirectToAction("ListCustomers");
                 }
@@ -126,8 +148,7 @@ namespace Nettbank.Controllers {
 
             if (ModelState.IsValid)
             {
-                var cL = new CustomerLogic(); 
-                validationMessage = cL.AddCustomer(newCustomer);
+                validationMessage = _customerBLL.AddCustomer(newCustomer);
                 if (validationMessage == "")
                 {
                     return RedirectToAction("ListCustomers");
@@ -140,19 +161,17 @@ namespace Nettbank.Controllers {
 
 
         public void Delete(string personalNumber) {
-            var cL = new CustomerLogic();
-            var deleteOK = cL.DeleteCustomer(personalNumber);
+            var deleteOK = _customerBLL.DeleteCustomer(personalNumber);
         }
 
-        public ActionResult ListAccounts(string personalNumber) {
+        public ActionResult ListAccounts(string personalNumber) { //TODO: HOW TO TEST?
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-            //    return RedirectToAction("Login", "Admin");
-            //} TODO: Legg til logginn-sjekk når det fungerer
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
 
             // Fyller dropdown listen med kunder via en ViewBag.
-            var cL = new CustomerLogic();
-            List<CustomerInfo> customers = cL.ListCustomers();
+            List<CustomerInfo> customers = _customerBLL.ListCustomers();
             var list = customers.Select(c => new SelectListItem {
                 Text = c.FirstName + " " + c.LastName +
                        " (" + long.Parse(c.PersonalNumber).ToString("000000 00000") + ")",
@@ -170,22 +189,19 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult ListAccountsPartial(string personalNumber) {
-            var aL = new AccountLogic();
-            List<Account> accounts = aL.ListAccounts(personalNumber);
+            List<Account> accounts = _accountBLL.ListAccounts(personalNumber);
             return View(accounts);
         }
 
         public ActionResult UpdateAccount(string accountNumber) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-            //    return RedirectToAction("Login", "Admin");
-            //} TODO: Legg til logginn-sjekk når det fungerer
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+               return RedirectToAction("Login", "Admin");
+            } 
+            
+            var account = _accountBLL.GetUpdateableAccount(accountNumber);
 
-            var aL = new AccountLogic();
-            var account = aL.GetUpdateableAccount(accountNumber);
-
-            var cL = new CustomerLogic();
-            List<CustomerInfo> customers = cL.ListCustomers();
+            List<CustomerInfo> customers = _customerBLL.ListCustomers();
             var list = customers.Select(
                         c => new SelectListItem {
                             Text = long.Parse(c.PersonalNumber).ToString("000000 00000") + " (" + c.FirstName + " " + c.LastName + ")",
@@ -201,23 +217,21 @@ namespace Nettbank.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult UpdateAccount(EditableAccount updatedAccount) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            //if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-            //    return RedirectToAction("Login", "Admin");
-            //} TODO: Legg til logginn-sjekk når det fungerer
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            } 
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
 
             if (ModelState.IsValid) {
-                var aL = new AccountLogic();
-                validationMessage = aL.UpdateAccount(updatedAccount);
+                validationMessage = _accountBLL.UpdateAccount(updatedAccount);
                 if (validationMessage == "") {
                     return RedirectToAction("ListAccounts");
                 }
             }
 
-            var cL = new CustomerLogic();
-            List<CustomerInfo> customers = cL.ListCustomers();
+            List<CustomerInfo> customers = _customerBLL.ListCustomers();
             var list = customers.Select(
                         c => new SelectListItem {
                             Text = long.Parse(c.PersonalNumber).ToString("000000 00000") + " (" + c.FirstName + " " + c.LastName + ")",
@@ -231,14 +245,12 @@ namespace Nettbank.Controllers {
             return View(updatedAccount);
         }
 
-        public void DeleteAccount(string accountNumber) {
-            var aL = new AccountLogic();
-            var deleteOK = aL.DeleteAccount(accountNumber);
+        public void DeleteAccount(string accountNumber) { //TODO: MAKE BOOL?
+            var deleteOK = _accountBLL.DeleteAccount(accountNumber);
         }
 
         public ActionResult AddAccount(string personalNumber) {
-            var aL = new AccountLogic();
-            if (aL.AddAccount(personalNumber)) {
+            if (_accountBLL.AddAccount(personalNumber)) {
                 return RedirectToAction("ListAccounts", new { personalNumber = personalNumber });
             }
             return RedirectToAction("ListCustomers");

@@ -9,7 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace DAL {
-    public class CustomerRepository {
+    public class CustomerRepository : ICustomerRepository
+    {
       
         public bool ValidateCustomer(FormCollection inList) {
             var customer = FindByPersonNr(inList["Personnumber"]);
@@ -118,7 +119,7 @@ namespace DAL {
                     customers.PersonalNumber = customer.PersonalNumber;
                     customers.FirstName = customer.FirstName;
                     customers.LastName = customer.LastName;
-                    customers.Address = customer.Address; //TODO: IMPLEMENT POSTAL AND POSTALNUMBER
+                    customers.Address = customer.Address;
                     if (db.PostalNumbers.Find(customer.PostalNumber) == null)
                     {
                         p = new PostalNumbers();

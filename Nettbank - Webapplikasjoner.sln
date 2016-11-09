@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nettbank", "Nettbank - Webapplikasjoner\Nettbank.csproj", "{36AD6E35-C611-460D-908F-B45D229F9B3F}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{B77C39E6-33FC-4AFA-B3A5-77DC611AF5D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{8E167DDA-BA35-4D31-B305-ABFE78531E9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enhetstest", "Enhetstest\Enhetstest.csproj", "{BBA6A62B-1AA9-4191-9DCD-6BA6E556A086}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8E167DDA-BA35-4D31-B305-ABFE78531E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E167DDA-BA35-4D31-B305-ABFE78531E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E167DDA-BA35-4D31-B305-ABFE78531E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBA6A62B-1AA9-4191-9DCD-6BA6E556A086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBA6A62B-1AA9-4191-9DCD-6BA6E556A086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBA6A62B-1AA9-4191-9DCD-6BA6E556A086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBA6A62B-1AA9-4191-9DCD-6BA6E556A086}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

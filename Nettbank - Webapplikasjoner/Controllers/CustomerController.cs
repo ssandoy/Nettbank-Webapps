@@ -23,10 +23,16 @@ namespace Nettbank.Controllers {
         public ActionResult Login() {
             var cL = new CustomerLogic();
             //temp TODO: Fjern
-           // cL.insertCustomer();
-            //temp
-            var loggedIn = cL.Login();
-            if (loggedIn) {
+            // cL.insertCustomer();
+            bool loggedIn;
+            if (Session["loggedin"] == null)
+            {
+                Session["loggedin"] = false;
+            }
+            loggedIn = (bool)Session["loggedin"];
+
+            if (loggedIn)
+            {
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
             }
@@ -52,8 +58,8 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult Logout() {
-            var cL = new CustomerLogic();
-            cL.Logout();
+            Session["loggedin"] = false;
+            Session["CurrentUser"] = null;
             return RedirectToAction("Login");
         }
     }

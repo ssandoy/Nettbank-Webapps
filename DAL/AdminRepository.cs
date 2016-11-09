@@ -8,7 +8,9 @@ using System.Web.Mvc;
 using Model;
 
 namespace DAL {
-    public class AdminRepository {
+    public class AdminRepository : IAdminRepository
+    {
+
         public bool ValidateAdmin(FormCollection inList) {
             var admin = FindAdminByEmployeeNumber(inList["EmployeeNumber"]);
             if (admin != null) {

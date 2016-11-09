@@ -4,45 +4,43 @@ using DAL;
 using Model;
 
 namespace BLL {
-    public class AccountLogic {
+    public class AccountLogic : IAccountLogic
+    {
+
+        private IAccountRepository _repository;
+
+        public AccountLogic()
+        {
+            _repository = new AccountRepository(); 
+        }
+
+        public AccountLogic(IAccountRepository stub)
+        {
+            _repository = stub;
+        }
+
 
         private readonly HttpContext _context = HttpContext.Current;
 
         public List<Account> ListAccounts(string personalNumber) {
-            var accountAccess = new AccountRepository();
-            return accountAccess.ListAccounts(personalNumber);
+            return _repository.ListAccounts(personalNumber);
         }
 
-        public bool Login()
-        {
-            if (_context.Session["loggedin"] == null)
-            {
-                _context.Session["loggedin"] = false;
-            }
-            else {
-                return (bool)_context.Session["loggedin"];
-            }
-            return false;
-        }
 
         public bool DeleteAccount(string accountNumber) {
-            var accountAccess = new AccountRepository();
-            return accountAccess.DeleteAccount(accountNumber);
+            return _repository.DeleteAccount(accountNumber);
         }
 
         public EditableAccount GetUpdateableAccount(string accountNumber) {
-            var accountAccess = new AccountRepository();
-            return accountAccess.GetUpdateableAccount(accountNumber);
+            return _repository.GetUpdateableAccount(accountNumber);
         }
 
         public string UpdateAccount(EditableAccount updatedAccount) {
-            var accountAccess = new AccountRepository();
-            return accountAccess.UpdateAccount(updatedAccount);
+            return _repository.UpdateAccount(updatedAccount);
         }
 
         public bool AddAccount(string personalNumber) {
-            var accountAccess = new AccountRepository();
-            return accountAccess.AddAccount(personalNumber);
+            return _repository.AddAccount(personalNumber);
         }
     }
 }

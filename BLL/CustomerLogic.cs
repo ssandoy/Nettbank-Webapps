@@ -9,81 +9,59 @@ using DAL;
 using Model;
 
 namespace BLL {
-    public class CustomerLogic {
+    public class CustomerLogic : ICustomerLogic
+    {
 
-        private readonly HttpContext _context = HttpContext.Current;
+        private ICustomerRepository _repository;
 
-        public bool Login()
+        public CustomerLogic()
         {
-            if (_context.Session["loggedin"] == null)
-            {
-                _context.Session["loggedin"] = false;
-            }
-            else {
-                return (bool)_context.Session["loggedin"];
-            }
-            return false;
+            _repository = new CustomerRepository();
         }
 
-        public void Logout()
+        public CustomerLogic(ICustomerRepository stub)
         {
-            _context.Session["loggedin"] = false;
-            _context.Session["CurrentUser"] = null;
+            _repository = stub;
         }
-
 
         public bool ValidateCustomer(FormCollection inList) {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.ValidateCustomer(inList);
+            return _repository.ValidateCustomer(inList);
         }
 
         public Customers FindByPersonNr(string personalNumber) { //TODO: FJERN?
-            var customerAccess = new CustomerRepository();
-            return customerAccess.FindByPersonNr(personalNumber);
+            return _repository.FindByPersonNr(personalNumber);
         }
 
         public List<CustomerInfo> ListCustomers()
         {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.ListCustomers();
+            return _repository.ListCustomers();
         }
 
         public string CreateHash(string password, string salt) {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.CreateHash(password, salt);
+            return _repository.CreateHash(password, salt);
         }
 
         public string CreateSalt(int size) {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.CreateSalt(size);
+            return _repository.CreateSalt(size);
         }
 
         public CustomerInfo GetCustomerInfo(string personalNumber) {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.GetCustomerInfo(personalNumber);
+            return _repository.GetCustomerInfo(personalNumber);
         }
 
         public string UpdateCustomer(CustomerInfo c)
         {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.UpdateCustomer(c);
+            return _repository.UpdateCustomer(c);
         }
 
         public string AddCustomer(CustomerInfo c)
         {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.AddCustomer(c);
-        }
-
-        public void insertCustomer() {
-            var customerAccess = new CustomerRepository();
-            customerAccess.insertCustomer();
+            return _repository.AddCustomer(c);
         }
 
         public bool DeleteCustomer(string personalNumber)
         {
-            var customerAccess = new CustomerRepository();
-            return customerAccess.DeleteCustomer(personalNumber);
+            return _repository.DeleteCustomer(personalNumber);
         }
     }
 }

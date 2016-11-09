@@ -7,7 +7,8 @@ using System.Web;
 using Model;
 
 namespace DAL {
-    public class AccountRepository {
+    public class AccountRepository : IAccountRepository
+    {
 
         public List<Account> ListAccounts(string personalNumber) {
             using (var db = new DbModel()) {
