@@ -128,24 +128,16 @@ namespace Nettbank.Controllers {
             return View(newTransaction);
         }
 
-        /*public ActionResult UpdateTransaction(int id) { TODO: Metoden bruker Transactions. Det er ikke lov. Må bruke Transaction.
+        public ActionResult UpdateTransaction(int id) { //TODO: Metoden bruker Transactions. Det er ikke lov. Må bruke Transaction.
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool) Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
             }
 
             var tL = new TransactionLogic();
-            var oldTransaction = tL.FindTransanction(id);
-            var newTransaction = new Transaction() {
-                TransactionId = oldTransaction.TransactionID,
-                Amount = oldTransaction.Amount,
-                FromAccountNumber = oldTransaction.AccountNumber,
-                ToAccountNumber = oldTransaction.ToAccountNumber,
-                TimeToBeTransfered = oldTransaction.TimeToBeTransfered,
-                Comment = oldTransaction.Comment
-            };
+            var transaction = tL.FindTransanction(id);
 
-            return View(newTransaction);
+            return View(transaction);
         }
 
         [HttpPost]
@@ -160,8 +152,8 @@ namespace Nettbank.Controllers {
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
 
             if (ModelState.IsValid) {
-                var tDb = new TransactionDB();
-                validationMessage = tDb.updateTransaction(transaction);
+                var tL = new TransactionLogic();
+                validationMessage = tL.UpdateTransaction(transaction);
                 if (validationMessage == "") {
                     return RedirectToAction("ListTransactions", new {accountNumber = transaction.FromAccountNumber});
                 }
@@ -170,7 +162,7 @@ namespace Nettbank.Controllers {
             ViewBag.ValidationMessage = validationMessage;
 
             return View(transaction);
-        }*/
+        }
 
         public void Delete(int id) {
             var tL = new TransactionLogic();

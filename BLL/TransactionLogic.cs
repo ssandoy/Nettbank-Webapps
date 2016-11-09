@@ -24,7 +24,7 @@ namespace BLL {
             return transactionAccess.DeleteTransaction(id);
         }
 
-        public Transactions FindTransanction(int id) {
+        public Transaction FindTransanction(int id) {
             var transactionAccess = new TransactionRepository();
             return transactionAccess.FindTransanction(id);
         }
