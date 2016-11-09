@@ -49,7 +49,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@long.Parse(item.PersonalNumber).ToString("0000 00 00000")</td>
+            <td>@long.Parse(item.PersonalNumber).ToString("000000 00000")</td>
             <td>@item.FirstName</td>
             <td>@item.LastName</td>
             <td>@item.Address</td>
