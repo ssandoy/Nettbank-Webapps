@@ -139,13 +139,12 @@ namespace DAL {
             using (var db = new DbModel()) {
                 try {
                     var deleteTransaction = db.Transactions.Find(id);
-                    db.Transactions.Remove(deleteTransaction);
-
                     // Oppdaterer disponibel saldo
                     var account = db.Accounts.FirstOrDefault(a => a.AccountNumber == deleteTransaction.AccountNumber);
                     if (account != null) {
                         account.AvailableBalance += deleteTransaction.Amount;
                     }
+                    db.Transactions.Remove(deleteTransaction);
 
                     db.SaveChanges();
                     return true;
@@ -158,11 +157,24 @@ namespace DAL {
             }
         }
 
-        public Transactions FindTransanction(int id) {
+        public Transaction FindTransanction(int id) {
             using (var db = new DbModel()) {
                 try {
-                    var transaction = db.Transactions.Find(id);
-                    return transaction ?? null;
+                    var t = db.Transactions.Find(id);
+                    if (t == null) {
+                        return null;
+                    }
+
+                    var transaction = new Transaction() {
+                        TransactionId = t.TransactionId,
+                        Amount = t.Amount,
+                        FromAccountNumber = t.AccountNumber,
+                        ToAccountNumber = t.ToAccountNumber,
+                        TimeToBeTransfered = t.TimeToBeTransfered,
+                        Comment = t.Comment
+                    };
+
+                    return transaction;
                 }
                 catch (Exception exc) {
                     string error = "Exception: " + exc.ToString() + " catched at FindTransaction()";
