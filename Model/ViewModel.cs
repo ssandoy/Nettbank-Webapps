@@ -47,6 +47,9 @@ namespace Model {
         [DisplayName("Eier")]
         public string OwnerName { get; set; }
 
+        [DisplayName("Disponibel Saldo")]
+        public int AvailableBalance { get; set; }
+
         [DisplayName("Saldo")]
         public int Balance { get; set; }
     }

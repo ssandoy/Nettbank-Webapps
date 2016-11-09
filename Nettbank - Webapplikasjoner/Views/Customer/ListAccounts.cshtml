@@ -9,9 +9,10 @@
     <div class="panel-body">
         <table class="table">
             <tr>
-                <th class="col-md-3">@Html.DisplayNameFor(model => model[0].AccountNumber)</th>
-                <th class="col-md-4">@Html.DisplayNameFor(model => model[0].OwnerName)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].AccountNumber)</th>
+                <th class="col-md-3">@Html.DisplayNameFor(model => model[0].OwnerName)</th>
                 <th class="col-md-2">@Html.DisplayNameFor(model => model[0].Balance)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model[0].AvailableBalance)</th>
                 <th class="col-md-3"></th>
             </tr>
 
@@ -20,6 +21,7 @@
                     <td>@long.Parse(item.AccountNumber).ToString("0000 00 00000")</td>
                     <td>@item.OwnerName</td>
                     <td style="text-align: right">@item.Balance.ToString("### ### ##0 kr")</td>
+                    <td style="text-align: right">@item.AvailableBalance.ToString("### ### ##0 kr")</td>
                     <td>
                         @Html.ActionLink("Utskrift", "ShowStatement", "Transaction", new { accountNumber = item.AccountNumber }, new { @class = "btn btn-xs btn-info" })
                         @Html.ActionLink("Betalinger", "ListTransactions", "Transaction", new {accountNumber = item.AccountNumber}, new {@class = "btn btn-xs btn-primary"})

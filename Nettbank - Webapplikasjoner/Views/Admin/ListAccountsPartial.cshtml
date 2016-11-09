@@ -42,6 +42,7 @@
         <th class="col-md-2">@Html.DisplayNameFor(model => model[0].AccountNumber)</th>
         <th class="col-md-2">@Html.DisplayNameFor(model => model[0].OwnerName)</th>
         <th class="col-md-2">@Html.DisplayNameFor(model => model[0].Balance)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].AvailableBalance)</th>
         <th class="col-md-2"></th>
     </tr>
     @foreach (var item in Model) {
@@ -49,6 +50,7 @@
             <td>@long.Parse(item.AccountNumber).ToString("0000 00 00000")</td>
             <td>@item.OwnerName</td>
             <td style="text-align: right">@item.Balance.ToString("### ### ##0 kr")</td>
+            <td style="text-align: right">@item.AvailableBalance.ToString("### ### ##0 kr")</td>
             <td>
                 <a href="#deleteModal" class="btn btn-xs btn-danger" id="deleteButton"
                    data-navn="Konto: @long.Parse(item.AccountNumber).ToString("0000 00 00000"), Saldo: @item.Balance.ToString("### ### ##0 kr"), Eier: @item.OwnerName"

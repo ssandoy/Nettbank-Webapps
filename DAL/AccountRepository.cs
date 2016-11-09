@@ -17,6 +17,7 @@ namespace DAL {
                 foreach (var a in allAccounts) {
                     accounts.Add(new Account {
                         AccountNumber = a.AccountNumber,
+                        AvailableBalance = a.AvailableBalance,
                         OwnerName = a.Owner.FirstName + " " + a.Owner.LastName,
                         Balance = a.Balance
                     });
@@ -84,6 +85,7 @@ namespace DAL {
                 try {
                     var accounts = new Accounts() {
                         AccountNumber = "0411" + new Random().Next(9999999).ToString("0000000"),
+                        AvailableBalance = 0,
                         Balance = 0,
                         PersonalNumber = personalNumber,
                         Transactions = new List<Transactions>()

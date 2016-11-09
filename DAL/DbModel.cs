@@ -43,6 +43,7 @@ namespace DAL {
     public class Accounts {
         [Key]
         public string AccountNumber { get; set; }
+        public int AvailableBalance { get; set; }
         public int Balance { get; set; }
         public string PersonalNumber { get; set; }
         public virtual Customers Owner { get; set; }

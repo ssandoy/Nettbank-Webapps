@@ -79,6 +79,15 @@ namespace DAL {
                         return "Kontoen du vil betale fra eksisterer ikke";
                     }
 
+                    // Validerer disponibel saldo på fra-konto
+                    if (account.AvailableBalance < newTransaction.Amount) {
+                        return "Kontoen du vil betale fra har ikke nok disponibel saldo";
+                    }
+
+                    // Oppdaterer disponibel saldo
+                    account.AvailableBalance -= newTransaction.Amount;
+                    db.Entry(account).State = EntityState.Modified;
+
                     // Validerer til-kontonummer.
                     /* Kommentert bort ettersom vi vil tillate at det betales til andre banker selv om de
                      * ikke eksisterer innad i prosjektet. Man kan fjerne kommentaren dersom man kun vil
@@ -102,6 +111,13 @@ namespace DAL {
                 try {
                     var deleteTransaction = db.Transactions.Find(id);
                     db.Transactions.Remove(deleteTransaction);
+
+                    // Oppdaterer disponibel saldo
+                    var account = db.Accounts.FirstOrDefault(a => a.AccountNumber == deleteTransaction.AccountNumber);
+                    if (account != null) {
+                        account.AvailableBalance += deleteTransaction.Amount;
+                    }
+
                     db.SaveChanges();
                     return true;
                 }
@@ -128,13 +144,7 @@ namespace DAL {
                 try {
                     var transactions = db.Transactions.Find(t.TransactionId);
                     transactions.ToAccountNumber = t.ToAccountNumber;
-                    transactions.Amount = t.Amount;
                     transactions.Comment = t.Comment;
-
-                    // Validerer beløp.
-                    if (transactions.Amount <= 0) {
-                        return "Beløpet må være positivt.";
-                    }
 
                     // Setter og validerer utførelsesdato.
                     if (t.TimeToBeTransfered != null) {
@@ -156,9 +166,10 @@ namespace DAL {
                     }*/
 
                     // Validerer og setter fra-kontonummer hvis det er endret.
+                    Accounts oldAccount = transactions.Account;
+                    Accounts newAccount = null;
                     if (transactions.AccountNumber != t.FromAccountNumber) {
-                        var oldAccount = transactions.Account;
-                        var newAccount = db.Accounts.FirstOrDefault(a => a.AccountNumber == t.FromAccountNumber);
+                        newAccount = db.Accounts.FirstOrDefault(a => a.AccountNumber == t.FromAccountNumber);
 
                         if (newAccount == null) {
                             return "Kontoen du vil betale fra eksisterer ikke";
@@ -169,6 +180,20 @@ namespace DAL {
                     }
                     else {
                         db.Entry(transactions).State = EntityState.Modified;
+                    }
+
+                    // Oppdaterer disponibel saldo
+                    oldAccount.AvailableBalance += transactions.Amount;
+                    if (newAccount == null) {
+                        oldAccount.AvailableBalance -= t.Amount;
+                    } else {
+                        newAccount.AvailableBalance -= t.Amount;
+                    }
+
+                    // Oppdaterer og validerer beløp.
+                    transactions.Amount = t.Amount;
+                    if (transactions.Amount <= 0) {
+                        return "Beløpet må være positivt.";
                     }
 
                     db.SaveChanges();
@@ -222,6 +247,7 @@ namespace DAL {
                     if (toAccount != null) {
                         // Transfers the money to toAccount if it exists. 
                         toAccount.Balance += transaction.Amount;
+                        toAccount.AvailableBalance += transaction.Amount;
                         db.Entry(toAccount).State = EntityState.Modified;
                         // If it doesn't, no account will receive the money. This simulates that toAccount is an account from another bank.
                     }
