@@ -97,7 +97,7 @@ namespace Nettbank.Controllers {
             }
 
             var _customerBLL = new CustomerLogic();
-
+            
             var change = _customerBLL.ChangePassword(inList);
 
             if (change)

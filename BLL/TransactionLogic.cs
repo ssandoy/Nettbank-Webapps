@@ -3,45 +3,50 @@ using DAL;
 using Model;
 
 namespace BLL {
-    public class TransactionLogic {
+    public class TransactionLogic : ITransactionLogic
+    {
+        private ITransactionRepository _repository;
+
+        public TransactionLogic()
+        {
+            _repository = new TransactionRepository();
+        }
+
+        public TransactionLogic(ITransactionRepository stub)
+        {
+            _repository = stub;
+        }
+
         public List<Transaction> ListTransactions(string accountNumber) {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.ListTransactions(accountNumber);
+            return _repository.ListTransactions(accountNumber);
         }
 
         public List<Transaction> ListExecutedTransactions(string accountNumber) {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.ListExecutedTransactions(accountNumber);
+            return _repository.ListExecutedTransactions(accountNumber);
         }
 
         public string AddTransaction(Transaction t) {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.AddTransaction(t);
+            return _repository.AddTransaction(t);
         }
 
         public bool DeleteTransaction(int id) {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.DeleteTransaction(id);
+            return _repository.DeleteTransaction(id);
         }
 
         public Transactions FindTransanction(int id) {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.FindTransanction(id);
+            return _repository.FindTransanction(id);
         }
 
         public string UpdateTransaction(Transaction t) {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.UpdateTransaction(t);
+            return _repository.UpdateTransaction(t);
         }
 
         public List<Transaction> ListExecuteableTransactions() {
-            var transactionAccess = new TransactionRepository();
-            return transactionAccess.ListExecuteableTransactions();
+            return _repository.ListExecuteableTransactions();
         }
 
         public void ExecuteTransaction(int id) {
-            var transactionAccess = new TransactionRepository();
-            transactionAccess.ExecuteTransaction(id);
+            _repository.ExecuteTransaction(id);
         }
     }
 }

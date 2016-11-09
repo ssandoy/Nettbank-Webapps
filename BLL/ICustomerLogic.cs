@@ -8,7 +8,6 @@ namespace BLL
     public interface ICustomerLogic
     {
         bool ValidateCustomer(FormCollection inList);
-        Customers FindByPersonNr(string personalNumber);
         List<CustomerInfo> ListCustomers();
         string CreateHash(string password, string salt);
         string CreateSalt(int size);

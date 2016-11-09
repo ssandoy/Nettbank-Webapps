@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
@@ -37,8 +38,17 @@ namespace DAL {
 
         public Customers FindByPersonNr(string personalNumber) {
             using (var db = new DbModel()) {
-                var customers = db.Customers.ToList();
-                return customers.FirstOrDefault(t => t.PersonalNumber == personalNumber);
+                try
+                {
+                    var customers = db.Customers.ToList();
+                    return customers.FirstOrDefault(t => t.PersonalNumber == personalNumber);
+                }
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at FindByPersonNr()";
+                    writeToErrorLog(error);
+                    return null;
+                }
             }
         }
 
@@ -68,21 +78,32 @@ namespace DAL {
 
         public CustomerInfo GetCustomerInfo(string personalNumber) {
             using (var db = new DbModel()) {
-                var customer = db.Customers.ToList().FirstOrDefault(t => t.PersonalNumber == personalNumber);
+                try
+                {
+                    var customer = db.Customers.ToList().FirstOrDefault(t => t.PersonalNumber == personalNumber);
 
-                if (customer == null) {
+                    if (customer == null)
+                    {
+                        return null;
+                    }
+
+                    var customerInfo = new CustomerInfo()
+                    {
+                        PersonalNumber = customer.PersonalNumber,
+                        FirstName = customer.FirstName,
+                        LastName = customer.LastName,
+                        Address = customer.Address,
+                        PostalNumber = customer.PostalNumber,
+                        PostalCity = customer.PostalNumbers.PostalCity
+                    };
+                    return customerInfo;
+                }
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at GetCustomerInfo()";
+                    writeToErrorLog(error);
                     return null;
                 }
-
-                var customerInfo = new CustomerInfo() {
-                    PersonalNumber = customer.PersonalNumber,
-                    FirstName = customer.FirstName,
-                    LastName = customer.LastName,
-                    Address = customer.Address,
-                    PostalNumber = customer.PostalNumber,
-                    PostalCity = customer.PostalNumbers.PostalCity
-                };
-                return customerInfo;
             }
         }
 
@@ -106,6 +127,8 @@ namespace DAL {
                     db.SaveChanges();
                     return true;
                 } catch (Exception e) {
+                    string error = "Exception: " + e.ToString() + " catched at insertCustomer()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
@@ -148,6 +171,8 @@ namespace DAL {
                     db.SaveChanges();
                     return "";
                 } catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at UpdateCustomer()";
+                    writeToErrorLog(error);
                     return "Feil: " + exc.Message;
                 }
             }
@@ -155,16 +180,26 @@ namespace DAL {
 
         public List<CustomerInfo> ListCustomers() {
             using (var db = new DbModel()) {
-                List<CustomerInfo> customers = (from p in db.Customers
-                                                 select
-                                                 new CustomerInfo() {
-                                                     PersonalNumber = p.PersonalNumber,
-                                                     FirstName = p.FirstName,
-                                                     LastName = p.LastName,
-                        Address = p.Address + " " + p.PostalNumber + " " + p.PostalNumbers.PostalCity
-                                                 }).ToList();
+                try
+                {
+                    List<CustomerInfo> customers = (from p in db.Customers
+                        select
+                        new CustomerInfo()
+                        {
+                            PersonalNumber = p.PersonalNumber,
+                            FirstName = p.FirstName,
+                            LastName = p.LastName,
+                            Address = p.Address + " " + p.PostalNumber + " " + p.PostalNumbers.PostalCity
+                        }).ToList();
 
-                return customers;
+                    return customers;
+                }
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at ListCustomers()";
+                    writeToErrorLog(error);
+                    return null;
+                }
             }
 
         }
@@ -182,6 +217,8 @@ namespace DAL {
                 }
                 catch (Exception exc)
                 {
+                    string error = "Exception: " + exc.ToString() + " catched at DeleteCustomer()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
@@ -229,6 +266,8 @@ namespace DAL {
                 }
                 catch (Exception exc)
                 {
+                    string error = "Exception: " + exc.ToString() + " catched at AddCustomer()";
+                    writeToErrorLog(error);
                     return "Feil: " + exc.Message;
                 }
             }
@@ -268,9 +307,29 @@ namespace DAL {
                 }
                 catch (Exception exception)
                 {
+                    string error = "Exception: " + exception.ToString() + " catched at ChangePassword()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
         }
+
+        public void writeToErrorLog(string error)
+        {
+            string path = "ErrorLog.txt";
+            var _Path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/"), path);
+            if (!File.Exists(_Path))
+            {
+                string createText = error + Environment.NewLine;
+                File.WriteAllText(_Path, createText);
+            }
+            else
+            {
+                string appendText = error + Environment.NewLine;
+                File.AppendAllText(_Path, appendText);
+            }
+
+        }
+
     }
 }

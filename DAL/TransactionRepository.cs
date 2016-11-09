@@ -1,50 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using Model;
 
 namespace DAL {
-    public class TransactionRepository {
+    public class TransactionRepository : ITransactionRepository
+    {
         public List<Transaction> ListTransactions(string accountNumber) {
             using (var db = new DbModel()) {
-                var allTransactions = db.Transactions.Where(t => t.AccountNumber == accountNumber);
-                var transactions = new List<Transaction>();
-                foreach (var t in allTransactions) {
-                    if (t.TimeTransfered == null) {
-                        transactions.Add(new Transaction {
-                            TransactionId = t.TransactionId,
-                            Amount = t.Amount,
-                            TimeToBeTransfered = t.TimeToBeTransfered,
-                            TimeTransfered = t.TimeTransfered,
-                            FromAccountNumber = t.AccountNumber,
-                            ToAccountNumber = t.ToAccountNumber,
-                            Comment = t.Comment
-                        });
+                try
+                {
+                    var allTransactions = db.Transactions.Where(t => t.AccountNumber == accountNumber);
+                    var transactions = new List<Transaction>();
+                    foreach (var t in allTransactions)
+                    {
+                        if (t.TimeTransfered == null)
+                        {
+                            transactions.Add(new Transaction
+                            {
+                                TransactionId = t.TransactionId,
+                                Amount = t.Amount,
+                                TimeToBeTransfered = t.TimeToBeTransfered,
+                                TimeTransfered = t.TimeTransfered,
+                                FromAccountNumber = t.AccountNumber,
+                                ToAccountNumber = t.ToAccountNumber,
+                                Comment = t.Comment
+                            });
+                        }
                     }
+                    return transactions;
                 }
-                return transactions;
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at ListTransaction()";
+                    writeToErrorLog(error);
+                    return null;
+                }
             }
         }
 
         public List<Transaction> ListExecutedTransactions(string accountNumber) {
             using (var db = new DbModel()) {
-                var allTransactions =
-                    db.Transactions.Where(t => t.AccountNumber == accountNumber || t.ToAccountNumber == accountNumber);
-                var transactions = new List<Transaction>();
-                foreach (var t in allTransactions) {
-                    if (t.TimeTransfered != null) {
-                        transactions.Add(new Transaction {
-                            TransactionId = t.TransactionId,
-                            Amount = t.Amount,
-                            TimeTransfered = t.TimeTransfered,
-                            FromAccountNumber = t.AccountNumber,
-                            ToAccountNumber = t.ToAccountNumber,
-                            Comment = t.Comment
-                        });
+                try
+                {
+                    var allTransactions =
+                        db.Transactions.Where(
+                            t => t.AccountNumber == accountNumber || t.ToAccountNumber == accountNumber);
+                    var transactions = new List<Transaction>();
+                    foreach (var t in allTransactions)
+                    {
+                        if (t.TimeTransfered != null)
+                        {
+                            transactions.Add(new Transaction
+                            {
+                                TransactionId = t.TransactionId,
+                                Amount = t.Amount,
+                                TimeTransfered = t.TimeTransfered,
+                                FromAccountNumber = t.AccountNumber,
+                                ToAccountNumber = t.ToAccountNumber,
+                                Comment = t.Comment
+                            });
+                        }
                     }
+                    return transactions;
                 }
-                return transactions;
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at ListExecutedTransaction()";
+                    writeToErrorLog(error);
+                    return null;
+                }
             }
         }
 
@@ -101,6 +128,8 @@ namespace DAL {
                     return "";
                 }
                 catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at AddTransaction()";
+                    writeToErrorLog(error);
                     return "Feil: " + exc.Message;
                 }
             }
@@ -122,6 +151,8 @@ namespace DAL {
                     return true;
                 }
                 catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at DeleteTransaction()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
@@ -134,6 +165,8 @@ namespace DAL {
                     return transaction ?? null;
                 }
                 catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at FindTransaction()";
+                    writeToErrorLog(error);
                     return null;
                 }
             }
@@ -200,6 +233,8 @@ namespace DAL {
                     return "";
                 }
                 catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at UpdateTransaction()";
+                    writeToErrorLog(error);
                     return "Feil: " + exc.Message;
                 }
             }
@@ -256,9 +291,28 @@ namespace DAL {
                     db.SaveChanges();
                     return;
                 } catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at ExecuteTransaction()";
+                    writeToErrorLog(error);
                     return;
                 }
             }
+        }
+
+        public void writeToErrorLog(string error)
+        {
+            string path = "ErrorLog.txt";
+            var _Path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/"), path);
+            if (!File.Exists(_Path))
+            {
+                string createText = error + Environment.NewLine;
+                File.WriteAllText(_Path, createText);
+            }
+            else
+            {
+                string appendText = error + Environment.NewLine;
+                File.AppendAllText(_Path, appendText);
+            }
+
         }
     }
 }

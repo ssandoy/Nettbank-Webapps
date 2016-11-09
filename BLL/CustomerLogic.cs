@@ -28,10 +28,6 @@ namespace BLL {
             return _repository.ValidateCustomer(inList);
         }
 
-        public Customers FindByPersonNr(string personalNumber) { //TODO: FJERN?
-            return _repository.FindByPersonNr(personalNumber);
-        }
-
         public List<CustomerInfo> ListCustomers()
         {
             return _repository.ListCustomers();

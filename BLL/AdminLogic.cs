@@ -28,10 +28,6 @@ namespace BLL {
             return _repository.ValidateAdmin(inList);
         }
 
-        public Admins FindAdminByEmployeeNumber(string employeeNumber) { //TODO: BRUKES DENNE?
-            return _repository.FindAdminByEmployeeNumber(employeeNumber);
-        }
-
         public string CreateHash(string password, string salt) {
             return _repository.CreateHash(password, salt);
         }
