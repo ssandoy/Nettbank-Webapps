@@ -161,6 +161,9 @@ namespace DAL
             
         }
 
-
+        public bool ChangePassword(FormCollection inList)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

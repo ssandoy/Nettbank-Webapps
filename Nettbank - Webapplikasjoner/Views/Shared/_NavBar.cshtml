@@ -16,7 +16,8 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                @if (Session["loggedin"] != null && (bool) Session["loggedin"] == true) {
+                @if (Session["loggedin"] != null && (bool)Session["loggedin"] == true)
+                {
                     <li>@Html.ActionLink("KONTOER", "ListAccounts", "Customer")</li>
                     <li>@Html.ActionLink("BETALINGER", "ListTransactions", "Transaction")</li>
                     <li>@Html.ActionLink("NY BETALING", "RegisterTransaction", "Transaction")</li>

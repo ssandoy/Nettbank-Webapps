@@ -16,6 +16,7 @@ namespace DAL
         List<CustomerInfo> ListCustomers();
         bool DeleteCustomer(string personalNumber);
         string AddCustomer(CustomerInfo customerInfo);
-        
+        bool ChangePassword(FormCollection inList);
+
     }
 }
