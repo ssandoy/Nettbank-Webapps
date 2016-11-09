@@ -226,6 +226,7 @@
     <Content Include="Views\Admin\ListPartial.cshtml" />
     <Content Include="Views\Admin\UpdateAccount.cshtml" />
     <Content Include="Views\Admin\RegisterCustomer.cshtml" />
+    <Content Include="Views\Admin\ListTransactions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -79,7 +79,7 @@ namespace Nettbank.Controllers {
             }
         }
 
-        public ActionResult UpdateCustomer(string personalNumber) { 
+        public ActionResult UpdateCustomer(string personalNumber) {
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login");
@@ -196,9 +196,9 @@ namespace Nettbank.Controllers {
         public ActionResult UpdateAccount(string accountNumber) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-               return RedirectToAction("Login", "Admin");
-            } 
-            
+                return RedirectToAction("Login", "Admin");
+            }
+
             var account = _accountBLL.GetUpdateableAccount(accountNumber);
 
             List<CustomerInfo> customers = _customerBLL.ListCustomers();
@@ -219,7 +219,7 @@ namespace Nettbank.Controllers {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login", "Admin");
-            } 
+            }
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
             var validationMessage = "Du har skrevet inn ugyldige verdier.";
@@ -245,15 +245,46 @@ namespace Nettbank.Controllers {
             return View(updatedAccount);
         }
 
-        public void DeleteAccount(string accountNumber) { //TODO: MAKE BOOL?
+        public void DeleteAccount(string accountNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return;
+            }
+
             var deleteOK = _accountBLL.DeleteAccount(accountNumber);
         }
 
         public ActionResult AddAccount(string personalNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
             if (_accountBLL.AddAccount(personalNumber)) {
                 return RedirectToAction("ListAccounts", new { personalNumber = personalNumber });
             }
             return RedirectToAction("ListCustomers");
+        }
+
+        public ActionResult ListTransactions() {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
+
+            var tL = new TransactionLogic();
+            List<Transaction> executeableTransactions = tL.ListExecuteableTransactions();
+            return View(executeableTransactions);
+        }
+
+        public ActionResult ExecuteTransaction(int transactionId) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login", "Admin");
+            }
+
+            var tL = new TransactionLogic();
+            tL.ExecuteTransaction(transactionId);
+            return RedirectToAction("ListTransactions");
         }
     }
 }

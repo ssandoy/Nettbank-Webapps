@@ -33,5 +33,15 @@ namespace BLL {
             var transactionAccess = new TransactionRepository();
             return transactionAccess.UpdateTransaction(t);
         }
+
+        public List<Transaction> ListExecuteableTransactions() {
+            var transactionAccess = new TransactionRepository();
+            return transactionAccess.ListExecuteableTransactions();
+        }
+
+        public void ExecuteTransaction(int id) {
+            var transactionAccess = new TransactionRepository();
+            transactionAccess.ExecuteTransaction(id);
+        }
     }
 }
