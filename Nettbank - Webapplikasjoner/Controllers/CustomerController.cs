@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using BLL;
+using Model;
 
 namespace Nettbank.Controllers {
     public class CustomerController : Controller {
@@ -69,6 +70,46 @@ namespace Nettbank.Controllers {
             Session["loggedin"] = false;
             Session["CurrentUser"] = null;
             return RedirectToAction("Login");
+        }
+
+        public ActionResult ChangePassword()
+        {
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            {
+                return RedirectToAction("Login", "Customer");
+            }
+
+            var _customerBLL = new CustomerLogic();
+            var customerInfo = _customerBLL.GetCustomerInfo((string) Session["CurrentUser"]);
+
+            var Customer = _customerBLL.GetCustomerInfo(customerInfo.PersonalNumber);
+
+            return View(Customer);
+
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(FormCollection inList)
+        {
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            {
+                return RedirectToAction("Login", "Customer");
+            }
+
+            var _customerBLL = new CustomerLogic();
+
+            var change = _customerBLL.ChangePassword(inList);
+
+            if (change)
+            {
+                return RedirectToAction("ListAccounts", "Customer");
+            }
+            else
+            {
+                var customer = _customerBLL.GetCustomerInfo(inList["personalnumber"]);
+                return View(customer);
+            }
+
         }
     }
 }

@@ -205,15 +205,15 @@ namespace DAL {
                     {
                         p = db.PostalNumbers.Find(customerInfo.PostalNumber);
                     }
-
+                    string salt = CreateSalt(32);
                     var newCustomer = new Customers()
                     {
                         PersonalNumber = customerInfo.PersonalNumber,
                         FirstName = customerInfo.FirstName,
                         LastName = customerInfo.LastName,
                         Address = customerInfo.Address,
-                        Salt = CreateSalt(32),
-                        Password = HashPassword(customerInfo.Password, CreateSalt(32)),
+                        Salt = salt,  
+                        Password = HashPassword(customerInfo.Password, salt),
                         PostalNumbers = p,
                         PostalNumber =  p.PostalNumber
                     };
@@ -230,6 +230,45 @@ namespace DAL {
                 catch (Exception exc)
                 {
                     return "Feil: " + exc.Message;
+                }
+            }
+        }
+
+        public bool ChangePassword(FormCollection inList)
+        {
+            string salt = CreateSalt(32);
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(inList["newPassword"] + salt);
+            SHA256Managed SHA256String = new SHA256Managed();
+            byte[] newPassword = SHA256String.ComputeHash(bytes);
+            
+            using (var db = new DbModel())
+            {
+                try
+                {
+                    var customers = db.Customers.Find(inList["personalnumber"]);
+                    if(customers != null)
+                    { 
+                    var password = Convert.ToBase64String(customers.Password);
+                    var rehash = CreateHash(inList["oldPassword"], customers.Salt);
+                    if (password.Equals(rehash))
+                    {
+                        customers.Salt = salt;
+                        customers.Password = newPassword;
+                    }
+
+                    db.Entry(customers).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+                catch (Exception exception)
+                {
+                    return false;
                 }
             }
         }

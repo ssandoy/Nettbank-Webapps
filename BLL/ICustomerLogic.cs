@@ -16,5 +16,7 @@ namespace BLL
         string UpdateCustomer(CustomerInfo c);
         string AddCustomer(CustomerInfo c);
         bool DeleteCustomer(string personalNumber);
+        bool ChangePassword(FormCollection inList);
+
     }
 }

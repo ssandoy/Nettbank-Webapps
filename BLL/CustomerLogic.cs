@@ -63,5 +63,10 @@ namespace BLL {
         {
             return _repository.DeleteCustomer(personalNumber);
         }
+
+        public bool ChangePassword(FormCollection inList)
+        {
+            return _repository.ChangePassword(inList);
+        }
     }
 }

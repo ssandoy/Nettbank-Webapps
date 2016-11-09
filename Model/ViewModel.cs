@@ -21,21 +21,29 @@ namespace Model {
     // For use in AccountInfo
     public class CustomerInfo { 
         [DisplayName("Personnummer")]
+        [Required(ErrorMessage = "Personnummer må oppgis.")]
+        [RegularExpression(@"[0-9]{11}", ErrorMessage = "Personnummeret må være på 11 siffer.")]
         public string PersonalNumber { get; set; }
         [DisplayName("Fornavn")]
+        [Required(ErrorMessage = "Fornavn må oppgis.")]
         public string FirstName { get; set; }
         [DisplayName("Etternavn")]
+        [Required(ErrorMessage = "Etternavn må oppgis.")]
         public string LastName { get; set; }
 
         [DisplayName("Passord")]
-        //[RegularExpression(@"[a-zA-Z]{8}", ErrorMessage = "Passordet må være på minst 8 tegn.")] TODO: FIX REGEX FOR PASSWORD.
+        [Required(ErrorMessage = "Passord må oppgis.")]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Passordet må være på minst 8 tegn og inneholde minst ett tal og én bokstav.")]
         public string Password { get; set; }
 
         [DisplayName("Adresse")]
+        [Required(ErrorMessage = "Adresse må oppgis.")]
         public string Address { get; set; }
         [DisplayName("Postnummer")]
+        [Required(ErrorMessage = "Postnummer må oppgis.")]
         public string PostalNumber { get; set; }
         [DisplayName("Poststed")]
+        [Required(ErrorMessage = "Poststed må oppgis.")]
         public string PostalCity { get; set; }
     }
 
