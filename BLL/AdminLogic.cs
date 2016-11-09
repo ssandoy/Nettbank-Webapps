@@ -40,8 +40,8 @@ namespace BLL {
             return _repository.CreateSalt(size);
         }
 
-        //public bool InsertAdmin() {
-        //    return _repository.InsertAdmin();
-        //}
+        public bool InsertAdmin() {
+            return _repository.InsertAdmin();
+        }
     }
 }

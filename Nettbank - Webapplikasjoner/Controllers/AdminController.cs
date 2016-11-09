@@ -41,7 +41,7 @@ namespace Nettbank.Controllers {
 
         public ActionResult Login() {
 
-           // aL.InsertAdmin();
+            _adminBLL.InsertAdmin();
             bool loggedIn;
             if (Session["adminloggedin"] == null)
             {

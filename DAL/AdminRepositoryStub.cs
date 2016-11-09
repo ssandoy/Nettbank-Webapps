@@ -50,6 +50,10 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public bool InsertAdmin() {
+            throw new NotImplementedException();
+        }
     }
 }
 
