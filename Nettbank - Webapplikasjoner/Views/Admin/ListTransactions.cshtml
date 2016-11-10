@@ -25,7 +25,11 @@
                 @foreach (var item in Model) {
                     <tr>
                         <td>@item.TransactionId</td>
-                        <td>@long.Parse(item.FromAccountNumber).ToString("0000 00 00000")</td>
+                        @if (item.FromAccountNumber != null) {
+                            <td>@long.Parse(item.FromAccountNumber).ToString("0000 00 00000")</td>
+                        } else {
+                            <td>Slettet</td>
+                        }
                         <td>@long.Parse(item.ToAccountNumber).ToString("0000 00 00000")</td>
                         <td style="text-align: right">@item.Amount.ToString("### ### ##0 kr")</td>
                         <td>@item.TimeToBeTransfered.Value.ToShortDateString()</td>
