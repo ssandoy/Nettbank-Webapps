@@ -1,0 +1,13 @@
+Changed: 20161110101502, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110102344, Changed by: Sander Fagerland Sandøy, Original value: : Steinar Steinåsen, New value: Simen Simsen, Event type: Update
+Changed: 20161110110923, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161110110939, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110110954, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110112528, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110115156, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110115210, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: null, Event type: Delete
+Changed: 20161110115214, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110115221, Changed by: Sander Fagerland Sandøy, Original value: : Simen Simsen, New value: Steinar Steinåsen, Event type: Update
+Changed: 20161110115226, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110115506, Changed by: Sander Fagerland Sandøy, Original value: : Steinar Steinåsen, New value: Simen Simsen, Event type: Update
+Changed: 20161110115509, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
