@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
@@ -11,18 +12,32 @@ namespace DAL {
     {
 
         public List<Account> ListAccounts(string personalNumber) {
-            using (var db = new DbModel()) {
-                var allAccounts = db.Accounts.Where(a => a.Owner.PersonalNumber == personalNumber);
-                var accounts = new List<Account>();
-                foreach (var a in allAccounts) {
-                    accounts.Add(new Account {
-                        AccountNumber = a.AccountNumber,
-                        AvailableBalance = a.AvailableBalance,
-                        OwnerName = a.Owner.FirstName + " " + a.Owner.LastName,
-                        Balance = a.Balance
-                    });
+            using (var db = new DbModel())
+            {
+                try
+                {
+
+                    var allAccounts = db.Accounts.Where(a => a.Owner.PersonalNumber == personalNumber);
+                    var accounts = new List<Account>();
+                    foreach (var a in allAccounts)
+                    {
+                        accounts.Add(new Account
+                        {
+                            AccountNumber = a.AccountNumber,
+                            AvailableBalance = a.AvailableBalance,
+                            OwnerName = a.Owner.FirstName + " " + a.Owner.LastName,
+                            Balance = a.Balance
+                        });
+                    }
+                    return accounts;
                 }
-                return accounts;
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at DeleteAccoúnt()";
+                    writeToErrorLog(error);
+                    return null;
+                }
+
             }
         }
 
@@ -33,7 +48,10 @@ namespace DAL {
                     db.Accounts.Remove(deleteAccount);
                     db.SaveChanges();
                     return true;
-                } catch (Exception exc) {
+                } catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at DeleteAccoúnt()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
@@ -55,6 +73,8 @@ namespace DAL {
 
                     return account;
                 } catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at GetUpdateableAccount()";
+                    writeToErrorLog(error);
                     return null;
                 }
             }
@@ -75,6 +95,8 @@ namespace DAL {
                     db.SaveChanges();
                     return "";
                 } catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at UpdateAccount()";
+                    writeToErrorLog(error);
                     return "Feil: " + exc.Message;
                 }
             }
@@ -106,9 +128,28 @@ namespace DAL {
                     db.SaveChanges();
                     return true;
                 } catch (Exception exc) {
+                    string error = "Exception: " + exc.ToString() + " catched at AddAccount()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
+        }
+
+        public void writeToErrorLog(string error)
+        {
+            string path = "ErrorLog.txt";
+            var _Path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/"), path);
+            if (!File.Exists(_Path))
+            {
+                string createText = error + Environment.NewLine;
+                File.WriteAllText(_Path, createText);
+            }
+            else
+            {
+                string appendText = error + Environment.NewLine;
+                File.AppendAllText(_Path, appendText);
+            }
+
         }
     }
 }

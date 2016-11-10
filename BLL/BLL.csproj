@@ -85,6 +85,7 @@
     <Compile Include="IAccountLogic.cs" />
     <Compile Include="IAdminLogic.cs" />
     <Compile Include="ICustomerLogic.cs" />
+    <Compile Include="ITransactionLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionLogic.cs" />
   </ItemGroup>

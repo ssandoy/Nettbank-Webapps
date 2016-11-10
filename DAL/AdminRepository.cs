@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
@@ -31,8 +32,17 @@ namespace DAL {
 
         public Admins FindAdminByEmployeeNumber(string employeeNumber) {
             using (var db = new DbModel()) {
-                var admins = db.Admins.ToList();
-                return admins.FirstOrDefault(t => t.EmployeeNumber == employeeNumber);
+                try
+                {
+                    var admins = db.Admins.ToList();
+                    return admins.FirstOrDefault(t => t.EmployeeNumber == employeeNumber);
+                }
+                catch (Exception exc)
+                {
+                    string error = "Exception: " + exc.ToString() + " catched at FindAdminByEmployeeNumber()";
+                    writeToErrorLog(error);
+                    return null;
+                }
             }
         }
 
@@ -71,9 +81,27 @@ namespace DAL {
                     db.SaveChanges();
                     return true;
                 } catch (Exception e) {
+                    string error = "Exception: " + e.ToString() + " catched at InsertAdmin()";
+                    writeToErrorLog(error);
                     return false;
                 }
             }
+        }
+        public void writeToErrorLog(string error)
+        {
+            string path = "ErrorLog.txt";
+            var _Path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/"), path);
+            if (!File.Exists(_Path))
+            {
+                string createText = error + Environment.NewLine;
+                File.WriteAllText(_Path, createText);
+            }
+            else
+            {
+                string appendText = error + Environment.NewLine;
+                File.AppendAllText(_Path, appendText);
+            }
+
         }
     }
 }

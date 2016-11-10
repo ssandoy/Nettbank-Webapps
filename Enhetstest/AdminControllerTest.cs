@@ -19,7 +19,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -55,7 +55,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -70,7 +70,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
             var actionResult = (RedirectToRouteResult)controller.ListAccounts("");
@@ -83,8 +83,8 @@ namespace Enhetstest
         public void thatListAccountsPartialReturnsExpectedResult()
         {
             var SessionMock = new TestControllerBuilder();
-            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -118,7 +118,7 @@ namespace Enhetstest
         public void thatDeleteAccountDeletesAccount()
         {
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                 new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
 
             //Assert.IsTrue(controller.DeleteAccount("09876543219")); //TODO: FIXME
 
@@ -130,7 +130,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
             EditableAccount account = new EditableAccount()
@@ -153,7 +153,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -169,7 +169,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -191,7 +191,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -208,7 +208,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -228,7 +228,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                 new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -246,7 +246,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -263,7 +263,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -279,7 +279,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             
             FormCollection inList = new FormCollection();
@@ -297,7 +297,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
             FormCollection inList = new FormCollection();
@@ -314,7 +314,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
             controller.Session["adminloggedin"] = true;
@@ -331,7 +331,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -347,7 +347,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
             var result = (RedirectToRouteResult)controller.Logout();
@@ -363,7 +363,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -378,7 +378,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             
 
@@ -393,7 +393,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
             var customer = new CustomerInfo()
@@ -412,7 +412,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -431,7 +431,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -447,7 +447,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -462,7 +462,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -477,7 +477,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -494,7 +494,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -516,7 +516,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -535,7 +535,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
 
 
@@ -551,7 +551,7 @@ namespace Enhetstest
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()));
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
             SessionMock.InitializeController(controller);
             controller.Session["adminloggedin"] = true;
 
@@ -567,6 +567,54 @@ namespace Enhetstest
         public void thatDeleteCustomerDeletesCustomer() //TODO: HVORDAN LØSE VOID-METHODS?
         {
             
+        }
+
+        [TestMethod]
+        public void thatListExecutableTranstactionsReturnsExpectedResults()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+            controller.Session["adminloggedin"] = true;
+
+            var expectedResult = new List<Transaction>();
+            var transaction = new Transaction()
+            {
+                Amount = 100,
+                FromAccountNumber = "12345678901",
+                ToAccountNumber = "12345678902",
+            };
+            expectedResult.Add(transaction);
+            expectedResult.Add(transaction);
+            expectedResult.Add(transaction);
+
+
+            var actionResult = (ViewResult)controller.ListTransactions();
+            var result = (List<Transaction>)actionResult.Model;
+
+            Assert.AreEqual(actionResult.ViewName, "");
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                Assert.AreEqual(expectedResult[i].Amount, result[i].Amount);
+                Assert.AreEqual(expectedResult[i].FromAccountNumber, result[i].FromAccountNumber);
+                Assert.AreEqual(expectedResult[i].ToAccountNumber, result[i].ToAccountNumber);
+            }
+        }
+
+        [TestMethod]
+        public void thatListExecutableTransactionsFailsWhenNotLoggedIn()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var actionResult = (RedirectToRouteResult)controller.ListTransactions();
+
+            //Assert
+            Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
         }
 
     }

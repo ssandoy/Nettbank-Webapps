@@ -99,8 +99,10 @@
     <Compile Include="IAccountRepository.cs" />
     <Compile Include="IAdminRepository.cs" />
     <Compile Include="ICustomerRepository.cs" />
+    <Compile Include="ITransactionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionRepository.cs" />
+    <Compile Include="TransactionRepositoryStub.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

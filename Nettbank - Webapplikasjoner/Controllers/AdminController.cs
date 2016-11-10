@@ -14,19 +14,23 @@ namespace Nettbank.Controllers {
         private IAdminLogic _adminBLL;
         private ICustomerLogic _customerBLL;
         private IAccountLogic _accountBLL;
+        private ITransactionLogic _transactionBLL;
 
         public AdminController()
         {
             _adminBLL = new AdminLogic();
             _customerBLL = new CustomerLogic();
             _accountBLL = new AccountLogic();
+            _transactionBLL = new TransactionLogic();
         }
 
-        public AdminController(IAdminLogic adminstub, ICustomerLogic customerstub, IAccountLogic accountstub) 
+        public AdminController(IAdminLogic adminstub, ICustomerLogic customerstub, 
+            IAccountLogic accountstub, ITransactionLogic transactionstub) 
         {
             _adminBLL = adminstub;
             _customerBLL = customerstub;
             _accountBLL = accountstub;
+            _transactionBLL = transactionstub;
         }
 
         public ActionResult ListCustomers() {
@@ -41,7 +45,7 @@ namespace Nettbank.Controllers {
 
         public ActionResult Login() {
 
-            _adminBLL.InsertAdmin();
+         //   _adminBLL.InsertAdmin();
             bool loggedIn;
             if (Session["adminloggedin"] == null)
             {
@@ -274,8 +278,7 @@ namespace Nettbank.Controllers {
                 return RedirectToAction("Login", "Admin");
             }
 
-            var tL = new TransactionLogic();
-            List<Transaction> executeableTransactions = tL.ListExecuteableTransactions();
+            List<Transaction> executeableTransactions = _transactionBLL.ListExecuteableTransactions();
             return View(executeableTransactions);
         }
 
@@ -285,8 +288,7 @@ namespace Nettbank.Controllers {
                 return RedirectToAction("Login", "Admin");
             }
 
-            var tL = new TransactionLogic();
-            tL.ExecuteTransaction(transactionId);
+            _transactionBLL.ExecuteTransaction(transactionId);
             return RedirectToAction("ListTransactions");
         }
     }
