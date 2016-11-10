@@ -48,5 +48,9 @@ namespace BLL {
         public void ExecuteTransaction(int id) {
             _repository.ExecuteTransaction(id);
         }
+
+        public bool DeleteAllTransactions(string accountNumber) {
+            return _repository.DeleteAllTransactions(accountNumber);
+        }
     }
 }
