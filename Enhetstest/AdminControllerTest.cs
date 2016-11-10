@@ -76,6 +76,7 @@ namespace Enhetstest
             var actionResult = (RedirectToRouteResult)controller.ListAccounts("");
 
             //Assert
+            Assert.AreEqual(actionResult.RouteName, "");
             Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
         }
 
@@ -115,6 +116,20 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
         }
 
         [TestMethod]
+        public void thatListAccountsPartialFailsWhenNotLoggedIn()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var actionResult = (RedirectToRouteResult)controller.ListAccountsPartial("");
+
+            //Assert
+            Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
+        }
+
+        [TestMethod]
         public void thatDeleteAccountDeletesAccount()
         {
             var SessionMock = new TestControllerBuilder();
@@ -142,7 +157,7 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
 
         }
         [TestMethod]
-        public void thatDeleteAccountFailsWithWrongAccountNumber()
+        public void thatDeleteAccountFailsWithIllegalAccountNumber()
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
@@ -303,6 +318,19 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
 
             // Assert
             Assert.AreEqual(actionResult.RouteValues.Values.First(), "ListCustomers");
+        }
+
+        [TestMethod]
+        public void thatAddAccountFailsWhenNotLoggedIn()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var actionResult = (RedirectToRouteResult)controller.AddAccount("123478901");
+
+            Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
         }
 
         [TestMethod]
@@ -594,11 +622,6 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
             Assert.AreEqual(result.ViewName, "");
         }
 
-        [TestMethod]
-        public void thatDeleteCustomerDeletesCustomer() //TODO: HVORDAN LØSE VOID-METHODS?
-        {
-            
-        }
 
         [TestMethod]
         public void thatListExecutableTranstactionsReturnsExpectedResults()
@@ -647,6 +670,90 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
             //Assert
             Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
         }
+
+        [TestMethod]
+        public void thatDeleteCustomerDeletesCustomer()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+            controller.Session["adminloggedin"] = true;
+
+            var delete = controller.Delete("12345670");
+            Assert.AreEqual("{ result = True }", delete.Data.ToString());
+
+        }
+
+        [TestMethod]
+        public void thatDeleteCustomerFailsWhenNotLoggedIn()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var delete = controller.Delete("12345670");
+            Assert.AreEqual("{ result = False }", delete.Data.ToString());
+
+        }
+
+        [TestMethod]
+        public void thatDeleteCustomerFailsWithIllegalPersonalNumber()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var delete = controller.Delete("");
+            Assert.AreEqual("{ result = False }", delete.Data.ToString());
+        }
+
+        [TestMethod]
+        public void thatExecuteTransactionExecutesTransaction()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+            controller.Session["adminloggedin"] = true;
+
+            var result = (RedirectToRouteResult)controller.ExecuteTransaction(1);
+
+            Assert.AreEqual(result.RouteName, "");
+            Assert.AreEqual(result.RouteValues.Values.First(), "ListTransactions");
+
+        }
+
+        [TestMethod]
+        public void thatExecuteTransactionFailsWhenNotLoggedIn()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var actionResult = (RedirectToRouteResult)controller.ExecuteTransaction(1);
+
+            //Assert
+            Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
+        }
+
+        [TestMethod]
+        public void thatExecuteTransactionFailsWithIllegalTransactionId()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+            var actionResult = (RedirectToRouteResult)controller.ExecuteTransaction(1);
+
+            //Assert
+            Assert.AreEqual(actionResult.RouteValues.Values.First(), "Login");
+        }
+
 
     }
 }

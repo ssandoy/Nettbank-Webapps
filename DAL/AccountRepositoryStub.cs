@@ -98,7 +98,7 @@ namespace DAL
             }
             if(account.AccountNumber != a.AccountNumber)
             {
-                return "FEIL!";
+                return "Feil!";
             }
             return "";
         }

@@ -43,12 +43,18 @@ namespace DAL
 
         public string CreateHash(string password, string salt)
         {
-            throw new NotImplementedException();
+            if (password == "" && salt == "")
+            {
+                return "FAIL";
+            }
+            return "SUCCESS";
         }
 
         public string CreateSalt(int size)
         {
-            throw new NotImplementedException();
+            if (size != 32)
+                return "FAIL";
+            return "SUCCESS";
         }
 
         public bool InsertAdmin() {

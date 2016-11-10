@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Model;
+using MvcContrib.TestHelper.Ui;
 
 namespace DAL
 {
@@ -132,20 +133,11 @@ namespace DAL
 
         public bool DeleteCustomer(string personalNumber)
         {
-            using (var db = new DbModel())
+            if (personalNumber.IsNullOrEmpty())
             {
-                try
-                {
-                    var deleteCustomer = db.Customers.Find(personalNumber);
-                    db.Customers.Remove(deleteCustomer);
-                    db.SaveChanges();
-                    return true;
-                }
-                catch (Exception exc)
-                {
-                    return false;
-                }
+                return false;
             }
+            return true;
         }
 
         public string AddCustomer(CustomerInfo customerInfo)

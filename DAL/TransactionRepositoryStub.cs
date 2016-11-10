@@ -57,7 +57,7 @@ namespace DAL
 
         public void ExecuteTransaction(int id)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public bool DeleteAllTransactions(string accountNumber) {
