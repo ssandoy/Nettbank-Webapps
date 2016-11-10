@@ -15,7 +15,6 @@ namespace Model {
         [Required(ErrorMessage = "Koden fra din kodebrikke må oppgis.")]
         [RegularExpression(@"[0-9]{6}", ErrorMessage = "Koden må være på 6 siffer.")]
         public string BankId { get; set; }
-        
     }
 
     // For use in AccountInfo
@@ -24,9 +23,11 @@ namespace Model {
         [Required(ErrorMessage = "Personnummer må oppgis.")]
         [RegularExpression(@"[0-9]{11}", ErrorMessage = "Personnummeret må være på 11 siffer.")]
         public string PersonalNumber { get; set; }
+
         [DisplayName("Fornavn")]
         [Required(ErrorMessage = "Fornavn må oppgis.")]
         public string FirstName { get; set; }
+
         [DisplayName("Etternavn")]
         [Required(ErrorMessage = "Etternavn må oppgis.")]
         public string LastName { get; set; }
@@ -34,14 +35,17 @@ namespace Model {
         [DisplayName("Passord")]
         [Required(ErrorMessage = "Passord må oppgis.")]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Passordet må være på minst 8 tegn og inneholde minst ett tal og én bokstav.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DisplayName("Adresse")]
         [Required(ErrorMessage = "Adresse må oppgis.")]
         public string Address { get; set; }
+
         [DisplayName("Postnummer")]
         [Required(ErrorMessage = "Postnummer må oppgis.")]
         public string PostalNumber { get; set; }
+
         [DisplayName("Poststed")]
         [Required(ErrorMessage = "Poststed må oppgis.")]
         public string PostalCity { get; set; }
