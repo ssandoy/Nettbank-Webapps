@@ -26,10 +26,6 @@ namespace Nettbank.Controllers {
 
             ViewBag.AccountList = list;
 
-            if (accountNumber == null) {
-                accountNumber = list.First(acc => acc.Value != null).Value;
-            }
-
             return View();
         }
 
@@ -56,11 +52,6 @@ namespace Nettbank.Controllers {
             });
 
             ViewBag.AccountList = list;
-
-            if (accountNumber == null) {
-                accountNumber = list.First(acc => acc.Value != null).Value;
-            }
-
             return View();
         }
 
@@ -170,7 +161,7 @@ namespace Nettbank.Controllers {
 
         public JsonResult Delete(int id) {
             // Sjekker om brukeren er logget inn.
-            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
                 return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
             var tL = new TransactionLogic();
