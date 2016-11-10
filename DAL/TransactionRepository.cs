@@ -219,7 +219,6 @@ namespace DAL {
                         if (newAccount == null) {
                             return "Kontoen du vil betale fra eksisterer ikke";
                         }
-
                         oldAccount.Transactions.Remove(transactions);
                         newAccount.Transactions.Add(transactions);
                     }
@@ -230,8 +229,14 @@ namespace DAL {
                     // Oppdaterer disponibel saldo
                     oldAccount.AvailableBalance += transactions.Amount;
                     if (newAccount == null) {
+                        if (oldAccount.Balance < t.Amount) {
+                            return "Kontoen du vil betale fra har ikke nok disponibel saldo";
+                        }
                         oldAccount.AvailableBalance -= t.Amount;
                     } else {
+                        if (newAccount.Balance < t.Amount) {
+                            return "Kontoen du vil betale fra har ikke nok disponibel saldo";
+                        }
                         newAccount.AvailableBalance -= t.Amount;
                     }
 
