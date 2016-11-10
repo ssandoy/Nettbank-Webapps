@@ -184,8 +184,8 @@ namespace DAL {
                     {
                         log.ChangedBy = "null";
                     }
-                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
+                    WriteToChangeLog(log.toString());
                     return "";
                 } catch (Exception exc) {
                     string error = "Exception: " + exc.ToString() + " catched at UpdateCustomer()";
@@ -254,8 +254,8 @@ namespace DAL {
                     } else {
                         log.ChangedBy = "null";
                     }
-                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
+                    WriteToChangeLog(log.toString());
                     return true;
                 } catch (Exception exc) {
                     string error = "Exception: " + exc.ToString() + " catched at DeleteCustomer()";
@@ -311,8 +311,8 @@ namespace DAL {
                     {
                         log.ChangedBy = "null";
                     }
-                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
+                    WriteToChangeLog(log.toString());
                     return "";
                 }
                 catch (Exception exc)
@@ -362,9 +362,9 @@ namespace DAL {
                         {
                             log.ChangedBy = "null";
                         }
-                        WriteToChangeLog(log.toString());
                         db.SaveChanges();
-                    return true;
+                        WriteToChangeLog(log.toString());
+                        return true;
                     }
                     else
                     {
