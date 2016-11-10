@@ -221,13 +221,25 @@ namespace DAL {
 
         }
 
-        public bool DeleteCustomer(string personalNumber)
-        {
-            using (var db = new DbModel())
-            {
-                try
-                {
+        public bool DeleteCustomer(string personalNumber) {
+            using (var db = new DbModel()) {
+                try {
                     var deleteCustomer = db.Customers.Find(personalNumber);
+                    if (deleteCustomer == null) {
+                        return false;
+                    }
+                    // Rydder kontoene for transaksjoner TODO: Skal dette logges?
+                    var deleteAccounts = db.Accounts.Where(a => a.PersonalNumber == personalNumber);
+                    foreach (var a in deleteAccounts) {
+                        // Sletter transaksjoner som ikke er utført TODO: Skal dette logges?
+                        var deleteTransactions = a.Transactions.Where(t => t.TimeTransfered == null);
+                        db.Transactions.RemoveRange(deleteTransactions);
+                        // Kobler alle ikke-utførte transaksjoner fra kontoen slik at den kan slettes TODO: Skal dette logges?
+                        a.Transactions.RemoveAll(t => t.TimeTransfered != null);
+                    }
+                    // Sletter kontoene TODO: Skal dette logges?
+                    db.Accounts.RemoveRange(deleteAccounts);
+                    // Sletter kunden
                     db.Customers.Remove(deleteCustomer);
                     //write to changelog
                     var log = new ChangeLog();
@@ -236,21 +248,16 @@ namespace DAL {
                     log.OriginalValue = deleteCustomer.ToString();
                     log.NewValue = "null";
                     var context = HttpContext.Current;
-                    if (context.Session["CurrentAdmin"] != null)
-                    {
+                    if (context.Session["CurrentAdmin"] != null) {
                         Admins changedby = (Admins)context.Session["CurrentAdmin"];
                         log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
-                    }
-                    else
-                    {
+                    } else {
                         log.ChangedBy = "null";
                     }
                     WriteToChangeLog(log.toString());
                     db.SaveChanges();
                     return true;
-                }
-                catch (Exception exc)
-                {
+                } catch (Exception exc) {
                     string error = "Exception: " + exc.ToString() + " catched at DeleteCustomer()";
                     writeToErrorLog(error);
                     return false;
@@ -258,27 +265,21 @@ namespace DAL {
             }
         }
 
-        public string AddCustomer(CustomerInfo customerInfo)
-        {
+        public string AddCustomer(CustomerInfo customerInfo) {
             PostalNumbers p;
-            using (var db = new DbModel())
-            {
-                try
-                {
+            using (var db = new DbModel()) {
+                try {
                     if (db.PostalNumbers.Find(customerInfo.PostalNumber) == null) //TODO: SKYVE DETTE UT I EN EGEN METODE
                     {
                         p = new PostalNumbers();
                         p.PostalNumber = customerInfo.PostalNumber;
                         p.PostalCity = customerInfo.PostalCity;
                         db.PostalNumbers.Add(p);
-                    }
-                    else
-                    {
+                    } else {
                         p = db.PostalNumbers.Find(customerInfo.PostalNumber);
                     }
                     string salt = CreateSalt(32);
-                    var newCustomer = new Customers()
-                    {
+                    var newCustomer = new Customers() {
                         PersonalNumber = customerInfo.PersonalNumber,
                         FirstName = customerInfo.FirstName,
                         LastName = customerInfo.LastName,
@@ -289,8 +290,7 @@ namespace DAL {
                         PostalNumber =  p.PostalNumber
                     };
 
-                    if (customerInfo.FirstName == null || customerInfo.LastName == null)
-                    {
+                    if (customerInfo.FirstName == null || customerInfo.LastName == null) {
                         return "Fornavn og etternavn må skrives inn.";
                     }
 

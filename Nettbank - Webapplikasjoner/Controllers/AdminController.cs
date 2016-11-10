@@ -192,11 +192,6 @@ namespace Nettbank.Controllers {
             });
 
             ViewBag.CustomerList = list;
-
-            if (personalNumber == null) {
-                personalNumber = list.First(c => c.Value != null).Value;
-            }
-
             return View();
         }
 
