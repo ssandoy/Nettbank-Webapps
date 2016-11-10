@@ -34,9 +34,9 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult ListCustomers() {
-            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
-            {
-                return RedirectToAction("Login", "Admin");
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login");
             }
             TempData["login"] = true;
             List<CustomerInfo> allCustomers = _customerBLL.ListCustomers();
@@ -45,7 +45,7 @@ namespace Nettbank.Controllers {
 
         public ActionResult Login() {
 
-         //   _adminBLL.InsertAdmin();
+         //   _adminBLL.InsertAdmin(); TODO: Fjern?
             bool loggedIn;
             if (Session["adminloggedin"] == null)
             {
@@ -109,9 +109,9 @@ namespace Nettbank.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult UpdateCustomer(CustomerInfo customer) //TODO: FIXME
         {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
@@ -131,10 +131,9 @@ namespace Nettbank.Controllers {
 
         public ActionResult RegisterCustomer()
         {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
-            {
-                return RedirectToAction("Login", "Admin");
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login");
             }
 
             return View();
@@ -144,10 +143,9 @@ namespace Nettbank.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult RegisterCustomer(CustomerInfo newCustomer)
         {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"])
-            {
-                return RedirectToAction("Login", "Customer");
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login");
             }
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
@@ -167,14 +165,19 @@ namespace Nettbank.Controllers {
 
 
 
-        public void Delete(string personalNumber) {
-            var deleteOK = _customerBLL.DeleteCustomer(personalNumber);
+        public JsonResult Delete(string personalNumber) {
+            // Sjekker om admin er logget inn.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+            }
+            var ok = _customerBLL.DeleteCustomer(personalNumber);
+            return Json(ok ? new { result = true } : new { result = false }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ListAccounts(string personalNumber) { //TODO: HOW TO TEST?
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
 
             // Fyller dropdown listen med kunder via en ViewBag.
@@ -187,23 +190,22 @@ namespace Nettbank.Controllers {
             });
 
             ViewBag.CustomerList = list;
-
-            if (personalNumber == null) {
-                personalNumber = list.First(c => c.Value != null).Value;
-            }
-
             return View();
         }
 
         public ActionResult ListAccountsPartial(string personalNumber) {
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return RedirectToAction("Login");
+            }
             List<Account> accounts = _accountBLL.ListAccounts(personalNumber);
             return View(accounts);
         }
 
         public ActionResult UpdateAccount(string accountNumber) {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
 
             var account = _accountBLL.GetUpdateableAccount(accountNumber);
@@ -223,9 +225,9 @@ namespace Nettbank.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateAccount(EditableAccount updatedAccount) {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
 
             // Meldingen som vises hvis ModelState ikke er gyldig.
@@ -253,19 +255,18 @@ namespace Nettbank.Controllers {
         }
 
         public JsonResult DeleteAccount(string id) {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
-
-            var ok = _transactionBLL.DeleteAllTransactions(id) && _accountBLL.DeleteAccount(id);
+            var ok = _accountBLL.DeleteAccount(id);
             return Json(ok ? new {result = true} : new { result = false }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddAccount(string personalNumber) {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
             if (_accountBLL.AddAccount(personalNumber)) {
                 return RedirectToAction("ListAccounts", new { personalNumber = personalNumber });
@@ -274,9 +275,9 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult ListTransactions() {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
 
             List<Transaction> executeableTransactions = _transactionBLL.ListExecuteableTransactions();
@@ -284,9 +285,9 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult ExecuteTransaction(int transactionId) {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return RedirectToAction("Login", "Admin");
+                return RedirectToAction("Login");
             }
 
             _transactionBLL.ExecuteTransaction(transactionId);

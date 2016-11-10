@@ -11,7 +11,7 @@ namespace Nettbank.Controllers {
 
             TempData["login"] = true;
             var aL = new AccountLogic();
-            // var tL = new TransactionLogic();
+            // var tL = new TransactionLogic(); TODO: Fjern??
             // tL.insertDoneTransaction();
             var cL = new CustomerLogic();
             var customerInfo = cL.GetCustomerInfo((string) Session["CurrentUser"]);

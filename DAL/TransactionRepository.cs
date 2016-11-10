@@ -386,29 +386,6 @@ namespace DAL {
             }
         }
 
-        public bool DeleteAllTransactions(string accountNumber) {
-            using (var db = new DbModel()) {
-                try {
-                    var account = db.Accounts.Find(accountNumber);
-                    if (account == null) {
-                        return false;
-                    }
-
-                    foreach (var transaction in account.Transactions) {
-                        if (DeleteTransaction(transaction.TransactionId) == false) {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                } catch (Exception exc) {
-                    string error = "Exception: " + exc.ToString() + " catched at DeleteAllTransactions()";
-                    writeToErrorLog(error);
-                    return false;
-                }
-            }
-        }
-
         public void WriteToChangeLog(string log)
         {
             string path = "ChangeLog.txt";

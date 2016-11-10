@@ -15,9 +15,13 @@
     @foreach (var item in Model) {
         <tr>
             <td>@item.TimeTransfered.Value.ToShortDateString()</td>
-            <td>@(item.FromAccountNumber == ViewBag.AccountNumber ? Int64.Parse(item.ToAccountNumber).ToString("0000 00 00000") : Int64.Parse(item.FromAccountNumber).ToString("0000 00 00000"))</td>
+            @if (item.FromAccountNumber != null) {
+                <td>@(item.FromAccountNumber == ViewBag.AccountNumber ? Int64.Parse(item.ToAccountNumber).ToString("0000 00 00000") : Int64.Parse(item.FromAccountNumber).ToString("0000 00 00000"))</td>
+            } else {
+                <td>Slettet</td>
+            }
             <td style="text-align: left">@item.Comment</td>
-            <td style="text-align: right">@(item.FromAccountNumber == ViewBag.AccountNumber ? item.Amount.ToString("### ### ##0 kr") : "")</td>
+            <td style="text-align: right">@(item.FromAccountNumber != null && item.FromAccountNumber == ViewBag.AccountNumber ? item.Amount.ToString("### ### ##0 kr") : "")</td>
             <td style="text-align: right">@(item.ToAccountNumber == ViewBag.AccountNumber ? item.Amount.ToString("### ### ##0 kr") : "")</td>
         </tr>
     }
