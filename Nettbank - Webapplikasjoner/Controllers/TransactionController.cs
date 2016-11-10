@@ -168,13 +168,14 @@ namespace Nettbank.Controllers {
             return View(transaction);
         }
 
-        public void Delete(int id) {
-            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
-                return RedirectToAction("Login", "Customer");
+        public JsonResult Delete(int id) {
+            // Sjekker om brukeren er logget inn.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
             var tL = new TransactionLogic();
-            var deleteOK = tL.DeleteTransaction(id);
+            var ok = tL.DeleteTransaction(id);
+            return Json(ok ? new { result = true } : new { result = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }
