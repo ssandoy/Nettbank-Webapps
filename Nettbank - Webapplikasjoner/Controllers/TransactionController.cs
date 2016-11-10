@@ -65,6 +65,10 @@ namespace Nettbank.Controllers {
         }
 
         public ActionResult StatementPartial(string accountNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
+            }
             ViewBag.AccountNumber = accountNumber;
             var tL = new TransactionLogic();
             var transactions = tL.ListExecutedTransactions(accountNumber);
@@ -165,6 +169,10 @@ namespace Nettbank.Controllers {
         }
 
         public void Delete(int id) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"]) {
+                return RedirectToAction("Login", "Customer");
+            }
             var tL = new TransactionLogic();
             var deleteOK = tL.DeleteTransaction(id);
         }
