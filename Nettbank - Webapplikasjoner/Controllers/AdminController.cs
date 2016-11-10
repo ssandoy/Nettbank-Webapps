@@ -167,8 +167,13 @@ namespace Nettbank.Controllers {
 
 
 
-        public void Delete(string personalNumber) {
-            var deleteOK = _customerBLL.DeleteCustomer(personalNumber);
+        public JsonResult Delete(string personalNumber) {
+            // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
+            if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+            }
+            var ok = _customerBLL.DeleteCustomer(personalNumber);
+            return Json(ok ? new { result = true } : new { result = false }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ListAccounts(string personalNumber) { //TODO: HOW TO TEST?
@@ -257,8 +262,7 @@ namespace Nettbank.Controllers {
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
-
-            var ok = _transactionBLL.DeleteAllTransactions(id) && _accountBLL.DeleteAccount(id);
+            var ok = _accountBLL.DeleteAccount(id);
             return Json(ok ? new {result = true} : new { result = false }, JsonRequestBehavior.AllowGet);
         }
 

@@ -6,32 +6,29 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        // lag en hendelse som utføres når en a-href med "data-SletteModal = true" trykkes.
+        // Lager en hendelse som utføres når en a-href med "data-deleteModal = true" trykkes.
         $('a[data-deleteCustomerModal=true]').click(function() {
 
-            // hent inn data-taggene fra denne a-href lenken
-            var data_navn = $(this).data('navn');
-            var data_id = $(this).data('id');
+            // Henter inn data-taggene fra denne a-href lenken
+            var navn = $(this).data('navn');
+            var id = $(this).data('id');
 
-            // legg ut dataene i div'en i modal-view'et
-            $('#deleteCustomer').html(data_navn);
+            // Legg ut dataene i div'en i modal-view'et
+            $('#deleteCustomer').html(navn);
 
+            // Legger til en funksjon når delete-knappen trykkes
             $("#deleteModalButton").click(function () {
-                // id som skal slettes ligger i data_id
-                $.ajax({
-                    url: '@Url.Action("Delete", "Admin")',
-                    data: { personalNumber: data_id },  // en parameter inn i slett(id)-metoden i kunde-kontrolleren (JSON-objekt)
-                    success: function () {
-                        // må kalle liste-metoden for å vise den nye listen av kunder
-                        $.ajax({
-                            url: '@Url.Action("ListCustomers", "Admin")',
-                            success: function () {
-                                // så må siden reloades!
-                                window.location.reload();
-                            }
-                        });
+                // Gjør kallet til controller som returnerer en JsonResult
+                $.get('/Admin/Delete', { 'personalNumber': id }, function (response) {
+                    if (response.result) {
+                        // Hvis kallet lykkes
+                        window.location.reload();
+                        $('#message').html("Kunden " + id + " ble slettet.");
+                    } else {
+                        // Hvis kallet feiler
+                        $('#message').html("Klarte ikke å slette kunde " + id + ".");
                     }
-                });
+                })
             })
         })
     });

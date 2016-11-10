@@ -5,22 +5,26 @@
 }
 <script type="text/javascript">
     $(document).ready(function() {
-        // lag en hendelse som utføres når en a-href med "data-SletteModal = true" trykkes.
+        // Lager en hendelse som utføres når en a-href med "data-deleteModal = true" trykkes.
         $('a[data-deleteModal=true]').click(function() {
 
-            // hent inn data-taggene fra denne a-href lenken
-            var data_navn = $(this).data('navn');
+            // Henter inn data-taggene fra denne a-href lenken
+            var navn = $(this).data('navn');
             var id = $(this).data('id');
 
-            // legg ut dataene i div'en i modal-view'et
-            $('#deleteAccount').html(data_navn);
+            // Legg ut dataene i div'en i modal-view'et
+            $('#deleteAccount').html(navn);
 
+            // Legger til en funksjon når delete-knappen trykkes
             $("#deleteModalButton").click(function () {
-                $.get('/Admin/DeleteAccount',{'id':id},function(response){
-                    if(response.result) {
+                // Gjør kallet til controller som returnerer en JsonResult
+                $.get('/Admin/DeleteAccount', { 'id': id }, function (response) {
+                    if (response.result) {
+                        // Hvis kallet lykkes
                         $('#message').html("Konto " + id + " ble slettet.");
                         reloadAccounts();
                     } else {
+                        // Hvis kallet feiler
                         $('#message').html("Klarte ikke å slette konto " + id + ".");
                     }
                 })
