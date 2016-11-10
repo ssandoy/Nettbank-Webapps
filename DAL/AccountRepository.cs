@@ -38,26 +38,10 @@ namespace DAL {
                     if (deleteAccount == null) {
                         return false;
                     }
-                    // Sletter transaksjoner som ikke er utført
+                    // Sletter transaksjoner som ikke er utført TODO: Skal dette logges?
                     var deleteTransactions = deleteAccount.Transactions.Where(t => t.TimeTransfered == null);
-                    foreach (var t in deleteTransactions) {
-                        db.Transactions.Remove(t);
-                        //write to changelog
-                        var tLog = new ChangeLog();
-                        tLog.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
-                        tLog.EventType = "Delete";
-                        tLog.OriginalValue = t.ToString();
-                        tLog.NewValue = "null";
-                        var tContext = HttpContext.Current;
-                        if (tContext.Session["CurrentAdmin"] != null) {
-                            Admins changedby = (Admins)tContext.Session["CurrentAdmin"];
-                            tLog.ChangedBy = changedby.FirstName + " " + changedby.LastName;
-                        } else {
-                            tLog.ChangedBy = "null";
-                        }
-                        WriteToChangeLog(tLog.toString());
-                    }
-                    // Kobler alle ikke-utførte transaksjoner fra kontoen slik at den kan slettes
+                    db.Transactions.RemoveRange(deleteTransactions);
+                    // Kobler alle ikke-utførte transaksjoner fra kontoen slik at den kan slettes TODO: Skal dette logges?
                     deleteAccount.Transactions.RemoveAll(t => t.TimeTransfered != null);
                     // Sletter kontoen
                     db.Accounts.Remove(deleteAccount);

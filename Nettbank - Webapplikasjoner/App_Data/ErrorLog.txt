@@ -383,3 +383,9 @@ The statement has been terminated.
    at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
    at System.Data.Entity.DbContext.SaveChanges()
    at DAL.CustomerRepository.DeleteCustomer(String personalNumber) in C:\Users\Sindre\Source\Repos\Nettbank-Webapps\DAL\CustomerRepository.cs:line 249 catched at DeleteCustomer()
+Exception: System.InvalidOperationException: Collection was modified; enumeration operation may not execute.
+   at System.ThrowHelper.ThrowInvalidOperationException(ExceptionResource resource)
+   at System.Collections.Generic.List`1.Enumerator.MoveNextRare()
+   at System.Collections.Generic.List`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.WhereListIterator`1.MoveNext()
+   at DAL.AccountRepository.DeleteAccount(String accountNumber) in C:\Users\Sindre\Source\Repos\Nettbank-Webapps\DAL\AccountRepository.cs:line 43 catched at DeleteAccoúnt()
