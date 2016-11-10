@@ -29,7 +29,7 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public Transactions FindTransanction(int id)
+        public Transaction FindTransanction(int id)
         {
             throw new NotImplementedException();
         }

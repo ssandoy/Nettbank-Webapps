@@ -46,6 +46,23 @@ namespace DAL {
                 try {
                     var deleteAccount = db.Accounts.Find(accountNumber);
                     db.Accounts.Remove(deleteAccount);
+                    //save to log
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Delete";
+                    log.OriginalValue = deleteAccount.ToString();
+                    log.NewValue = "null";
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
                     return true;
                 } catch (Exception exc)
@@ -84,6 +101,7 @@ namespace DAL {
             using (var db = new DbModel()) {
                 try {
                     var accounts = db.Accounts.Find(a.AccountNumber);
+                    string originalvalue = accounts.Owner.FirstName + " " + accounts.Owner.LastName;
                     var newOwner = db.Customers.Find(a.OwnerPersonalNumber);
 
                     if (newOwner == null) {
@@ -92,6 +110,22 @@ namespace DAL {
 
                     accounts.Owner = newOwner;
                     db.Entry(accounts).State = EntityState.Modified;
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Update";
+                    log.OriginalValue = originalvalue;
+                    log.NewValue = accounts.Owner.FirstName + " " + accounts.Owner.LastName;
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
                     return "";
                 } catch (Exception exc) {
@@ -132,6 +166,22 @@ namespace DAL {
                     writeToErrorLog(error);
                     return false;
                 }
+            }
+        }
+
+        public void WriteToChangeLog(string log)
+        {
+            string path = "ChangeLog.txt";
+            var _Path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/"), path);
+            if (!File.Exists(_Path))
+            {
+                string createText = log + Environment.NewLine;
+                File.WriteAllText(_Path, createText);
+            }
+            else
+            {
+                string appendText = log + Environment.NewLine;
+                File.AppendAllText(_Path, appendText);
             }
         }
 

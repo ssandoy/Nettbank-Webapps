@@ -10,7 +10,7 @@ namespace BLL
         List<Transaction> ListExecutedTransactions(string accountNumber);
         string AddTransaction(Transaction t);
         bool DeleteTransaction(int id);
-        Transactions FindTransanction(int id);
+        Transaction FindTransanction(int id);
         string UpdateTransaction(Transaction t);
         List<Transaction> ListExecuteableTransactions();
         void ExecuteTransaction(int id);

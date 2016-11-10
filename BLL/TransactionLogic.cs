@@ -33,7 +33,7 @@ namespace BLL {
             return _repository.DeleteTransaction(id);
         }
 
-        public Transactions FindTransanction(int id) {
+        public Transaction FindTransanction(int id) {
             return _repository.FindTransanction(id);
         }
 
