@@ -62,8 +62,9 @@ namespace DAL {
                     {
                         log.ChangedBy = "null";
                     }
-                    WriteToChangeLog(log.toString());
+                    
                     db.SaveChanges();
+                    WriteToChangeLog(log.toString());
                     return true;
                 } catch (Exception exc)
                 {
@@ -125,8 +126,9 @@ namespace DAL {
                     {
                         log.ChangedBy = "null";
                     }
-                    WriteToChangeLog(log.toString());
+                  
                     db.SaveChanges();
+                    WriteToChangeLog(log.toString());
                     return "";
                 } catch (Exception exc) {
                     string error = "Exception: " + exc.ToString() + " catched at UpdateAccount()";
@@ -175,8 +177,9 @@ namespace DAL {
                     {
                         log.ChangedBy = "null";
                     }
-                    WriteToChangeLog(log.toString());
+                   
                     db.SaveChanges();
+                    WriteToChangeLog(log.toString());
                     return true;
                 } catch (Exception exc) {
                     string error = "Exception: " + exc.ToString() + " catched at AddAccount()";
