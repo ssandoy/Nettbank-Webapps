@@ -159,6 +159,23 @@ namespace DAL {
                     }
 
                     db.Accounts.Add(accounts);
+                    //write to changelog
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Create";
+                    log.OriginalValue = accounts.ToString();
+                    log.NewValue = "null";
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
                     return true;
                 } catch (Exception exc) {

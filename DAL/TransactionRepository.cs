@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Web;
 using Model;
 
 namespace DAL {
@@ -124,6 +125,25 @@ namespace DAL {
                     }*/
 
                     account.Transactions.Add(newTransaction);
+
+                    //write to changelog
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Create";
+                    log.OriginalValue = newTransaction.ToString();
+                    log.NewValue = "null";
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
+
                     db.SaveChanges();
                     return "";
                 }
@@ -145,6 +165,24 @@ namespace DAL {
                         account.AvailableBalance += deleteTransaction.Amount;
                     }
                     db.Transactions.Remove(deleteTransaction);
+
+                    //write to changelog
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Delete";
+                    log.OriginalValue = deleteTransaction.ToString();
+                    log.NewValue = "null";
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
 
                     db.SaveChanges();
                     return true;
@@ -246,6 +284,24 @@ namespace DAL {
                         return "Beløpet må være positivt.";
                     }
 
+                    //write to changelog
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Update";
+                    log.OriginalValue = t.ToString();
+                    log.NewValue = transactions.ToString();
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
+
                     db.SaveChanges();
                     return "";
                 }
@@ -305,6 +361,23 @@ namespace DAL {
                     }
                     transaction.TimeTransfered = DateTime.Now;
                     db.Entry(transaction).State = EntityState.Modified;
+                    //write to changelog
+                    var log = new ChangeLog();
+                    log.ChangedTime = (DateTime.Now).ToString("yyyyMMddHHmmss");
+                    log.EventType = "Execute";
+                    log.OriginalValue = transaction.ToString();
+                    log.NewValue = "null";
+                    var context = HttpContext.Current;
+                    if (context.Session["CurrentAdmin"] != null)
+                    {
+                        Admins changedby = (Admins)context.Session["CurrentAdmin"];
+                        log.ChangedBy = changedby.FirstName + " " + changedby.LastName;
+                    }
+                    else
+                    {
+                        log.ChangedBy = "null";
+                    }
+                    WriteToChangeLog(log.toString());
                     db.SaveChanges();
                     return;
                 } catch (Exception exc) {
@@ -312,6 +385,22 @@ namespace DAL {
                     writeToErrorLog(error);
                     return;
                 }
+            }
+        }
+
+        public void WriteToChangeLog(string log)
+        {
+            string path = "ChangeLog.txt";
+            var _Path = Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/"), path);
+            if (!File.Exists(_Path))
+            {
+                string createText = log + Environment.NewLine;
+                File.WriteAllText(_Path, createText);
+            }
+            else
+            {
+                string appendText = log + Environment.NewLine;
+                File.AppendAllText(_Path, appendText);
             }
         }
 
