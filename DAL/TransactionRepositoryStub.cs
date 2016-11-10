@@ -61,7 +61,14 @@ namespace DAL
         }
 
         public bool DeleteAllTransactions(string accountNumber) {
-            throw new NotImplementedException();
+            if (accountNumber == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

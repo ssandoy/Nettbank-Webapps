@@ -117,10 +117,41 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
         [TestMethod]
         public void thatDeleteAccountDeletesAccount()
         {
+            var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
-                 new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+            controller.Session["adminloggedin"] = true;
 
-            //Assert.IsTrue(controller.DeleteAccount("09876543219")); //TODO: FIXME
+            var delete = controller.DeleteAccount("12345567");
+            Assert.AreEqual("{ result = True }", delete.Data.ToString());
+
+        }
+
+        [TestMethod]
+        public void thatDeleteAccountFailsWhenNotLoggedIn()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+
+            var delete = controller.DeleteAccount("12345567");
+            Assert.AreEqual("{ result = False }", delete.Data.ToString());
+
+        }
+        [TestMethod]
+        public void thatDeleteAccountFailsWithWrongAccountNumber()
+        {
+            var SessionMock = new TestControllerBuilder();
+            var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
+                            new CustomerLogic(new CustomerRepositoryStub()), new AccountLogic(new AccountRepositoryStub()), new TransactionLogic(new TransactionRepositoryStub()));
+            SessionMock.InitializeController(controller);
+
+
+            var delete = controller.DeleteAccount("");
+            Assert.AreEqual("{ result = False }", delete.Data.ToString());
 
         }
 
