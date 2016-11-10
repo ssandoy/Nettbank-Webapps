@@ -59,5 +59,9 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public bool DeleteAllTransactions(string accountNumber) {
+            throw new NotImplementedException();
+        }
     }
 }

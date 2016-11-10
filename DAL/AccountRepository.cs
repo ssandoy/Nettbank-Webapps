@@ -45,6 +45,11 @@ namespace DAL {
             using (var db = new DbModel()) {
                 try {
                     var deleteAccount = db.Accounts.Find(accountNumber);
+
+                    if (deleteAccount.Transactions.Count != 0) {
+                        return false;
+                    }
+
                     db.Accounts.Remove(deleteAccount);
                     //save to log
                     var log = new ChangeLog();

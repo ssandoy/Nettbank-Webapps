@@ -252,13 +252,14 @@ namespace Nettbank.Controllers {
             return View(updatedAccount);
         }
 
-        public void DeleteAccount(string accountNumber) {
+        public JsonResult DeleteAccount(string id) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
-                return;
+                return Json(new { result = false }, JsonRequestBehavior.AllowGet);
             }
 
-            var deleteOK = _accountBLL.DeleteAccount(accountNumber);
+            var ok = _transactionBLL.DeleteAllTransactions(id) && _accountBLL.DeleteAccount(id);
+            return Json(ok ? new {result = true} : new { result = false }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddAccount(string personalNumber) {

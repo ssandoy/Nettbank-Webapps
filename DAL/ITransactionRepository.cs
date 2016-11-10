@@ -13,5 +13,6 @@ namespace DAL
         string UpdateTransaction(Transaction t);
         List<Transaction> ListExecuteableTransactions();
         void ExecuteTransaction(int id);
+        bool DeleteAllTransactions(string accountNumber);
     }
 }
