@@ -104,7 +104,8 @@ namespace Nettbank.Controllers {
                 LastName = oldCustomer.LastName,
                 Address = oldCustomer.Address,
                 PostalNumber = oldCustomer.PostalNumber,
-                PostalCity = oldCustomer.PostalCity
+                PostalCity = oldCustomer.PostalCity,
+                Password =  oldCustomer.Password
             };
 
             return View(newCustomer);
@@ -179,7 +180,7 @@ namespace Nettbank.Controllers {
             return Json(ok ? new { result = true } : new { result = false }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult ListAccounts(string personalNumber) { //TODO: HOW TO TEST?
+        public ActionResult ListAccounts(string personalNumber) { 
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login");

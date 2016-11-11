@@ -98,7 +98,7 @@ namespace DAL
 
 
 
-        public string UpdateCustomer(CustomerInfo customer) //TODO: HOWTO
+        public string UpdateCustomer(CustomerInfo customer) 
         {
            
               // Validerer navn.

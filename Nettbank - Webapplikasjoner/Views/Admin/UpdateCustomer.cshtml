@@ -7,6 +7,7 @@
 <h1>Admin: Endre Kunde</h1>
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+   
 
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -33,6 +34,7 @@
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
+        
         
         <div class="form-group">
             @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })

@@ -14,7 +14,7 @@ namespace DAL
     {
 
 
-       public bool ValidateAdmin(FormCollection inList) //TODO: HVORDAN LØSE DETTE?
+       public bool ValidateAdmin(FormCollection inList) 
         {
             var admin = FindAdminByEmployeeNumber(inList["EmployeeNumber"]);
             if (admin != null)

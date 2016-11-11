@@ -92,6 +92,7 @@ namespace DAL {
                         PersonalNumber = customer.PersonalNumber,
                         FirstName = customer.FirstName,
                         LastName = customer.LastName,
+                        Password = Convert.ToBase64String(customer.Password),
                         Address = customer.Address,
                         PostalNumber = customer.PostalNumber,
                         PostalCity = customer.PostalNumbers.PostalCity
@@ -163,7 +164,7 @@ namespace DAL {
                     }   
 
                     // Validerer personnummer
-                    if (customers.PersonalNumber == null) { //TODO: TRENGS DISSE SIDEN VI HAR VIEWMODEL?
+                    if (customers.PersonalNumber == null) { 
                         return "Kontoen du vil betale til eksisterer ikke";
                     }
 
@@ -269,7 +270,7 @@ namespace DAL {
             PostalNumbers p;
             using (var db = new DbModel()) {
                 try {
-                    if (db.PostalNumbers.Find(customerInfo.PostalNumber) == null) //TODO: SKYVE DETTE UT I EN EGEN METODE
+                    if (db.PostalNumbers.Find(customerInfo.PostalNumber) == null)
                     {
                         p = new PostalNumbers();
                         p.PostalNumber = customerInfo.PostalNumber;

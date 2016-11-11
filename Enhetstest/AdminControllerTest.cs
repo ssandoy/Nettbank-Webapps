@@ -270,7 +270,7 @@ var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
         }
 
         [TestMethod]
-        public void thatPostUpdateAccountFails() //TODO: BEDRE NAVN
+        public void thatPostUpdateAccountFails()
         {
             var SessionMock = new TestControllerBuilder();
             var controller = new AdminController(new AdminLogic(new AdminRepositoryStub()),
