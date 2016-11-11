@@ -43,3 +43,4 @@ Changed: 20161110170627, Changed by: Sander Fagerland Sandøy, Original value: :
 Changed: 20161110172739, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
 Changed: 20161110172757, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
 Changed: 20161110172908, Changed by: null, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Delete
+Changed: 20161111115312, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create

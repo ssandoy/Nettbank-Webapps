@@ -123,7 +123,7 @@ namespace Nettbank.Controllers {
             return View(newTransaction);
         }
 
-        public ActionResult UpdateTransaction(int id) { //TODO: Metoden bruker Transactions. Det er ikke lov. Må bruke Transaction.
+        public ActionResult UpdateTransaction(int id) {
             // Sjekker om brukeren er logget inn, og hvis ikke sender brukeren til forsiden.
             if (Session["loggedin"] == null || !(bool) Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
