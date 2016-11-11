@@ -113,7 +113,7 @@ namespace Nettbank.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateCustomer(CustomerInfo customer) //TODO: FIXME
+        public ActionResult UpdateCustomer(CustomerInfo customer)
         {
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
