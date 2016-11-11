@@ -33,8 +33,7 @@ namespace Model {
         public string LastName { get; set; }
 
         [DisplayName("Passord")]
-        [Required(ErrorMessage = "Passord må oppgis.")]
-        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Passordet må være på minst 8 tegn og inneholde minst ett tal og én bokstav.")]
+        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", ErrorMessage = "Passordet må være på minst 8 tegn og inneholde minst ett tall og én bokstav.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

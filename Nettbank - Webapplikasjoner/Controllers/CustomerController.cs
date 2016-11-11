@@ -30,12 +30,20 @@ namespace Nettbank.Controllers {
             {
                 Session["loggedin"] = false;
             }
+            if (Session["adminloggedin"] == null)
+            {
+                Session["adminloggedin"] = false;
+            }
             loggedIn = (bool)Session["loggedin"];
+            var adminloggedin = (bool) Session["adminloggedin"];
 
             if (loggedIn)
             {
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
+            } else if (adminloggedin)
+            {
+                return RedirectToAction("ListCustomers", "Admin");
             }
             TempData["ID"] = BankIdLogic.GetBankId();
             ViewBag.bankID = TempData["ID"];
