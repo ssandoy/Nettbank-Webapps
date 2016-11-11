@@ -92,6 +92,11 @@ namespace Nettbank.Controllers {
                 return RedirectToAction("Login");
             }
 
+            // Hindrer at man skrive URL rett inn i nettleseren uten å gi et personnummber
+            if (personalNumber == null) {
+                return RedirectToAction("ListCustomers");
+            }
+
             var oldCustomer = _customerBLL.GetCustomerInfo(personalNumber);
             var newCustomer = new CustomerInfo() {
                 PersonalNumber = oldCustomer.PersonalNumber,
@@ -206,6 +211,11 @@ namespace Nettbank.Controllers {
             // Sjekker om admin er logget inn, og hvis ikke sender admin til forsiden.
             if (Session["adminloggedin"] == null || !(bool)Session["adminloggedin"]) {
                 return RedirectToAction("Login");
+            }
+
+            // Hindrer at man skrive URL rett inn i nettleseren uten å gi et kontonummer
+            if (accountNumber == null) {
+                return RedirectToAction("ListAccounts");
             }
 
             var account = _accountBLL.GetUpdateableAccount(accountNumber);

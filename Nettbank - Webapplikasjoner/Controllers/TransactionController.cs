@@ -129,6 +129,11 @@ namespace Nettbank.Controllers {
                 return RedirectToAction("Login", "Customer");
             }
 
+            // Hindrer at man skrive URL rett inn i nettleseren uten å gi en betalings-id
+            if (id == 0) {
+                return RedirectToAction("ListTransactions");
+            }
+
             var tL = new TransactionLogic();
             var transaction = tL.FindTransanction(id);
 
