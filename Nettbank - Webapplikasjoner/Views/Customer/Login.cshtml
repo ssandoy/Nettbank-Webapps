@@ -31,7 +31,7 @@
     <div class="col-sm-6">
         <div class="my-bankid">
             <div class="my-bankid-inner">
-                <p id="bankIDText" style="visibility: hidden">@ViewBag.bankID</p>
+                <p id="bankIDText"  style="visibility: hidden">@ViewBag.bankID</p>
             </div>
             <button id="bankIDButton" class="btn btn-xs btn-default" onclick="showHide()"></button>
         </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="form-group">
                 <input type="text" class="form-control my-login-input" id="inputBankID" placeholder="BankID" name="BankID">
-                <input type="hidden" name="hiddenBankID" id="hiddenBankID" />
+                <input type="hidden" name="hiddenBankID" id="hiddenBankID" value="ViewBag.bankID" />
             </div>
             <div class="form-group">
                 <input class="btn btn-lg btn-primary btn-block my-login-input" type="submit" value="Logg inn!" />
