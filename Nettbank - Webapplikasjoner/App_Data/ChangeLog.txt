@@ -50,3 +50,18 @@ Changed: 20161111125143, Changed by: Sander Fagerland Sandøy, Original value: :
 Changed: 20161111125549, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Customers, New value: null, Event type: Create
 Changed: 20161111125606, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: Model.CustomerInfo, Event type: Update
 Changed: 20161111125639, Changed by: null, Original value: : j0SCjWN7eLJ44Cplm8TYhr0gpsNNIXxOLDaOpgJw80c=, New value: Steinåsen4, Event type: Update
+Changed: 20161112122735, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161112123655, Changed by: Sindre Beba, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161112123802, Changed by: Sindre Beba, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161112124011, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124021, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124025, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124031, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124552, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112124634, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112124700, Changed by: Sindre Beba, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161112124703, Changed by: Sindre Beba, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161112124857, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112130000, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112130158, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112130404, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
