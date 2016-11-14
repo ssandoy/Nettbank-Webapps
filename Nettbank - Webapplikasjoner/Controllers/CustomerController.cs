@@ -1,75 +1,123 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Nettbank___Webapplikasjoner.Models;
+﻿using System.Web.Mvc;
+using BLL;
+using Model;
 
-namespace Nettbank___Webapplikasjoner.Controllers
-{
-    public class CustomerController : Controller
-    {
-        public ActionResult ListAccounts() 
-        {
-            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
-            {
+namespace Nettbank.Controllers {
+    public class CustomerController : Controller {
+        public ActionResult ListAccounts() {
+            if (Session["loggedin"] == null || !(bool) Session["loggedin"]) {
                 return RedirectToAction("Login", "Customer");
             }
-           
-                    TempData["login"] = true;
-                    var db = new AccountDB();
-            var tdb = new TransactionDB();
-           // tdb.insertDoneTransaction();
-                    Customers c = (Customers)Session["CurrentUser"];
-                    ViewBag.Customer = c;
-                    List<Account> allAccounts = db.listAccounts(c.personalNumber);
-                    return View(allAccounts);
-                
-        }
-        
 
-        public ActionResult Login() 
-        {
-           var db = new CustomerDB();
-            bool loggedIn = db.Login();
+            TempData["login"] = true;
+            var aL = new AccountLogic();
+            // var tL = new TransactionLogic(); TODO: Fjern??
+            // tL.insertDoneTransaction();
+            var cL = new CustomerLogic();
+            var customerInfo = cL.GetCustomerInfo((string) Session["CurrentUser"]);
+            ViewBag.CustomerInfo = customerInfo;
+            var allAccounts = aL.ListAccounts(customerInfo.PersonalNumber);
+            return View(allAccounts);
+        }
+
+
+        public ActionResult Login() {
+            var cL = new CustomerLogic();
+            //temp TODO: Fjern
+            // cL.insertCustomer();
+            bool loggedIn;
+            if (Session["loggedin"] == null)
+            {
+                Session["loggedin"] = false;
+            }
+            if (Session["adminloggedin"] == null)
+            {
+                Session["adminloggedin"] = false;
+            }
+            loggedIn = (bool)Session["loggedin"];
+            var adminloggedin = (bool) Session["adminloggedin"];
+
             if (loggedIn)
             {
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
+            } else if (adminloggedin)
+            {
+                return RedirectToAction("ListCustomers", "Admin");
             }
-             TempData["ID"] = BankIDGenerator.getBankID();
+            TempData["ID"] = BankIdLogic.GetBankId();
             ViewBag.bankID = TempData["ID"];
             return View();
         }
 
 
         [HttpPost]
-        public ActionResult ValidateUser(FormCollection inList)
-        {
-            var db = new CustomerDB();
-            bool loggedIn = db.ValidateCustomer(inList);
-            if (loggedIn && inList["BankID"] == (inList["hiddenBankID"]))
-            {
-                HttpContext context = System.Web.HttpContext.Current;
+        public ActionResult ValidateUser(FormCollection inList) {
+            var cL = new CustomerLogic();
+            var loggedIn = cL.ValidateCustomer(inList);
+            if (loggedIn && inList["BankID"] == (inList["hiddenBankID"])) {
+                var context = System.Web.HttpContext.Current;
                 context.Session["loggedin"] = true;
                 TempData["login"] = true;
                 return RedirectToAction("ListAccounts");
+            } else if (!loggedIn)
+            {
+                TempData["login"] = false;
+                TempData["failure"] = "Feil passord eller personnummer";
+                return RedirectToAction("Login");
             }
             else
             {
                 TempData["login"] = false;
+                TempData["failure"] = "Feil BankID";
                 return RedirectToAction("Login");
-            }    
+            }
         }
 
-        public ActionResult Logout()
-        {
-           var db = new CustomerDB();
-           db.Logout(); 
-           return RedirectToAction("Login");
+        public ActionResult Logout() {
+            Session["loggedin"] = false;
+            Session["CurrentUser"] = null;
+            return RedirectToAction("Login");
         }
-    }   
+
+        public ActionResult ChangePassword()
+        {
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            {
+                return RedirectToAction("Login", "Customer");
+            }
+
+            var _customerBLL = new CustomerLogic();
+            var customerInfo = _customerBLL.GetCustomerInfo((string) Session["CurrentUser"]);
+
+            var Customer = _customerBLL.GetCustomerInfo(customerInfo.PersonalNumber);
+
+            return View(Customer);
+
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(FormCollection inList)
+        {
+            if (Session["loggedin"] == null || !(bool)Session["loggedin"])
+            {
+                return RedirectToAction("Login", "Customer");
+            }
+
+            var _customerBLL = new CustomerLogic();
+            
+            var change = _customerBLL.ChangePassword(inList);
+
+            if (change)
+            {
+                return RedirectToAction("ListAccounts", "Customer");
+            }
+            else
+            {
+                var customer = _customerBLL.GetCustomerInfo(inList["personalnumber"]);
+                return View(customer);
+            }
+
+        }
+    }
 }

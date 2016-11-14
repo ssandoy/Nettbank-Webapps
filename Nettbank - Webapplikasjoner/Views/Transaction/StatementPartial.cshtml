@@ -1,4 +1,4 @@
-﻿@model List<Nettbank___Webapplikasjoner.Models.Transaction>
+﻿@model List<Model.Transaction>
 
 @{
     Layout = null;
@@ -6,19 +6,23 @@
 
 <table class="table">
     <tr>
-        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].timeTransfered)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].TimeTransfered)</th>
         <th class="col-md-2">Konto</th>
-        <th class="col-md-4">@Html.DisplayNameFor(model => model[0].comment)</th>
+        <th class="col-md-4">@Html.DisplayNameFor(model => model[0].Comment)</th>
         <th class="col-md-2">Ut fra konto</th>
         <th class="col-md-2">Inn på konto</th>
     </tr>
     @foreach (var item in Model) {
         <tr>
-            <td>@item.timeTransfered.Value.ToShortDateString()</td>
-            <td>@(item.fromAccountNumber == ViewBag.AccountNumber ? Int64.Parse(item.toAccountNumber).ToString("0000 00 00000") : Int64.Parse(item.fromAccountNumber).ToString("0000 00 00000"))</td>
-            <td style="text-align: left">@item.comment</td>
-            <td style="text-align: right">@(item.fromAccountNumber == ViewBag.AccountNumber ? item.amount.ToString("### ### ##0 kr") : "")</td>
-            <td style="text-align: right">@(item.toAccountNumber == ViewBag.AccountNumber ? item.amount.ToString("### ### ##0 kr") : "")</td>
+            <td>@item.TimeTransfered.Value.ToShortDateString()</td>
+            @if (item.FromAccountNumber != null) {
+                <td>@(item.FromAccountNumber == ViewBag.AccountNumber ? Int64.Parse(item.ToAccountNumber).ToString("0000 00 00000") : Int64.Parse(item.FromAccountNumber).ToString("0000 00 00000"))</td>
+            } else {
+                <td>Slettet</td>
+            }
+            <td style="text-align: left">@item.Comment</td>
+            <td style="text-align: right">@(item.FromAccountNumber != null && item.FromAccountNumber == ViewBag.AccountNumber ? item.Amount.ToString("### ### ##0 kr") : "")</td>
+            <td style="text-align: right">@(item.ToAccountNumber == ViewBag.AccountNumber ? item.Amount.ToString("### ### ##0 kr") : "")</td>
         </tr>
     }
 </table>

@@ -1,0 +1,49 @@
+﻿@model List<Model.Transaction>
+
+@{
+    ViewBag.Title = "Admin";
+}
+
+<div class="row">
+    <div class="col-sm-7">
+        <h1>Admin: Betalinger</h1>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        @if (Model.Count != 0) {
+            <table class="table">
+                <tr>
+                    <th class="col-md-1">ID</th>
+                    <th class="col-md-2">@Html.DisplayNameFor(model => model[0].FromAccountNumber)</th>
+                    <th class="col-md-2">@Html.DisplayNameFor(model => model[0].ToAccountNumber)</th>
+                    <th class="col-md-2">@Html.DisplayNameFor(model => model[0].Amount)</th>
+                    <th class="col-md-2">@Html.DisplayNameFor(model => model[0].TimeToBeTransfered)</th>
+                    <th class="col-md-3"></th>
+                </tr>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td>@item.TransactionId</td>
+                        @if (item.FromAccountNumber != null) {
+                            <td>@long.Parse(item.FromAccountNumber).ToString("0000 00 00000")</td>
+                        } else {
+                            <td>Slettet</td>
+                        }
+                        <td>@long.Parse(item.ToAccountNumber).ToString("0000 00 00000")</td>
+                        <td style="text-align: right">@item.Amount.ToString("### ### ##0 kr")</td>
+                        <td>@item.TimeToBeTransfered.Value.ToShortDateString()</td>
+                        @if (item.TimeToBeTransfered.Value.CompareTo(DateTime.Now) < 0) {
+                            <td>@Html.ActionLink(linkText: "Utfør betaling", actionName: "ExecuteTransaction", controllerName: "Admin", routeValues: new {transactionId = item.TransactionId}, htmlAttributes: new {@class = "btn btn-xs btn-success", @id = "showMessage"})</td>
+                        }
+                        else {
+                            <td style="text-align: right"><i style="color: red">Kan ikke utføres enda</i></td>
+                        }
+                    </tr>
+                }
+            </table>
+        } else {
+            <h2><small><i>Det finnes ingen betalinger som er klare til å utføres.</i></small></h2>  
+        }
+    </div>
+</div>

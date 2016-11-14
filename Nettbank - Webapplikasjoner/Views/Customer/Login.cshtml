@@ -26,12 +26,12 @@
 </div>
 <div class="row">
     <div class="col-sm-6">
-        <img src="~/Content/Images/happy_people.jpg"/>
+        <img src="~/Content/Images/happy_people.jpg" />
     </div>
     <div class="col-sm-6">
         <div class="my-bankid">
             <div class="my-bankid-inner">
-                <p id="bankIDText" style="visibility: hidden">@ViewBag.bankID</p>
+                <p id="bankIDText"  style="visibility: hidden">@ViewBag.bankID</p>
             </div>
             <button id="bankIDButton" class="btn btn-xs btn-default" onclick="showHide()"></button>
         </div>
@@ -45,14 +45,20 @@
             </div>
             <div class="form-group">
                 <input type="text" class="form-control my-login-input" id="inputBankID" placeholder="BankID" name="BankID">
-                <input type="hidden" name="hiddenBankID" id="hiddenBankID" />
+                <input type="hidden" name="hiddenBankID" id="hiddenBankID" value="ViewBag.bankID" />
             </div>
             <div class="form-group">
-                <input class="btn btn-lg btn-primary btn-block my-login-input" type="submit" value="Logg inn!"/>
+                <input class="btn btn-lg btn-primary btn-block my-login-input" type="submit" value="Logg inn!" />
             </div>
         </form>
+    @if (TempData["failure"] != null)
+    { 
+        <div class="bg-danger">
+            <p>Error: @TempData["failure"].ToString()</p>
+        </div>
+    }
     </div>
-</div> 
+</div>
 
 <script type="text/javascript">
     function showHide() {

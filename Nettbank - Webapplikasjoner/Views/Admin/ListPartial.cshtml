@@ -1,0 +1,62 @@
+﻿@model List<Model.CustomerInfo>
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Lager en hendelse som utføres når en a-href med "data-deleteModal = true" trykkes.
+        $('a[data-deleteCustomerModal=true]').click(function() {
+
+            // Henter inn data-taggene fra denne a-href lenken
+            var navn = $(this).data('navn');
+            var id = $(this).data('id');
+
+            // Legg ut dataene i div'en i modal-view'et
+            $('#deleteCustomer').html(navn);
+
+            // Legger til en funksjon når delete-knappen trykkes
+            $("#deleteModalButton").click(function () {
+                // Gjør kallet til controller som returnerer en JsonResult
+                $.get('/Admin/Delete', { 'personalNumber': id }, function (response) {
+                    if (response.result) {
+                        // Hvis kallet lykkes
+                        window.location.reload();
+                        $('#message').html("Kunden " + id + " ble slettet.");
+                    } else {
+                        // Hvis kallet feiler
+                        $('#message').html("Klarte ikke å slette kunde " + id + ".");
+                    }
+                })
+            })
+        })
+    });
+</script>
+
+<table class="table">
+    <tr>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].PersonalNumber)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].FirstName)</th>
+        <th class="col-md-2">@Html.DisplayNameFor(model => model[0].LastName)</th>
+        <th class="col-md-3">@Html.DisplayNameFor(model => model[0].Address)</th>
+
+        <th class="col-md-3"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@long.Parse(item.PersonalNumber).ToString("000000 00000")</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.Address</td>
+            <td>
+                <a href="#deleteCustomerModal" class="btn btn-xs btn-danger" id="deleteButton"
+                   data-navn="Personnummer: @item.PersonalNumber, Fornavn: @item.FirstName, Etternavn: @item.LastName, Adresse: @item.Address"
+                   data-id="@item.PersonalNumber" data-toggle="modal" data-deleteCustomerModal="true">Slett</a>
+                @Html.ActionLink(linkText: "Endre", actionName: "UpdateCustomer", controllerName: "Admin", routeValues: new { personalNumber = item.PersonalNumber }, htmlAttributes: new { @class = "btn btn-xs btn-info" })
+                @Html.ActionLink(linkText: "Ny konto", actionName: "AddAccount", controllerName: "Admin", routeValues: new { personalNumber = item.PersonalNumber }, htmlAttributes: new { @class = "btn btn-xs btn-success" })
+            </td>
+        </tr>
+    }
+</table>

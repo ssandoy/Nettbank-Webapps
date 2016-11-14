@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Model.CustomerInfo>
+
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h1>Admin: Kunder</h1>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        @Html.Partial("ListPartial")
+    </div>
+</div>
+
+@Html.Partial("deleteCustomerModal")

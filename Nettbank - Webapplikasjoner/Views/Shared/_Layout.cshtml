@@ -17,11 +17,12 @@
 </head>
 <body>
     @Html.Partial("_NavBar")
-    <div class="container body-content my-container">
-        @RenderBody()
-    </div>
-    <div class="container body-content my-footer">
-            <p>&copy; @DateTime.Now.Year - Beba & Sandøy Bank</p>
-    </div>
+
+<div class="container body-content my-container">
+    @RenderBody()
+</div>
+<div class="container body-content my-footer">
+    <p>&copy; @DateTime.Now.Year - Beba & Sandøy Bank</p>
+</div>
 </body>
 </html>

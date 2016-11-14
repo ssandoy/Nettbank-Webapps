@@ -1,0 +1,67 @@
+Changed: 20161110114026, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114047, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114328, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114719, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114742, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114742, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114752, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114753, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110114757, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110115034, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110120132, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110120143, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110122057, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Delete
+Changed: 20161110122058, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Delete
+Changed: 20161110122058, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110122238, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Delete
+Changed: 20161110122238, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110122405, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110122411, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110124114, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110124118, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110124125, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110125009, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: null, Event type: Delete
+Changed: 20161110130039, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110130145, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161110130224, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110163134, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161110163203, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161110163716, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161110163822, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Delete
+Changed: 20161110164614, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110165240, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110165245, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110165335, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161110165339, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161110165407, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110165446, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110165526, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161110165543, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161110165603, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Accounts_883FADC060E33EC57228EBC70BB17B094485FC02A2ACCB858EE5251262048CEF, New value: null, Event type: Delete
+Changed: 20161110170611, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110170627, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: null, Event type: Delete
+Changed: 20161110172739, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161110172757, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161110172908, Changed by: null, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Delete
+Changed: 20161111115312, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161111123112, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: Model.CustomerInfo, Event type: Update
+Changed: 20161111125109, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: Model.CustomerInfo, Event type: Update
+Changed: 20161111125143, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: Model.CustomerInfo, Event type: Update
+Changed: 20161111125549, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161111125606, Changed by: Sander Fagerland Sandøy, Original value: : System.Data.Entity.DynamicProxies.Customers_076C6AFA36CB565926D89CCD837B9176C744EB6330D1981ABC81BC56E17D891F, New value: Model.CustomerInfo, Event type: Update
+Changed: 20161111125639, Changed by: null, Original value: : j0SCjWN7eLJ44Cplm8TYhr0gpsNNIXxOLDaOpgJw80c=, New value: Steinåsen4, Event type: Update
+Changed: 20161112122735, Changed by: Sander Fagerland Sandøy, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161112123655, Changed by: Sindre Beba, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161112123802, Changed by: Sindre Beba, Original value: : DAL.Customers, New value: null, Event type: Create
+Changed: 20161112124011, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124021, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124025, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124031, Changed by: Sindre Beba, Original value: : DAL.Accounts, New value: null, Event type: Create
+Changed: 20161112124552, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112124634, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112124700, Changed by: Sindre Beba, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161112124703, Changed by: Sindre Beba, Original value: : System.Data.Entity.DynamicProxies.Transactions_A4CD73BA524E87DACA215A07D3A8AF912CDAC75F244C9F25A97A7FA77F631EFA, New value: null, Event type: Execute
+Changed: 20161112124857, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112130000, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112130158, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create
+Changed: 20161112130404, Changed by: null, Original value: : DAL.Transactions, New value: null, Event type: Create

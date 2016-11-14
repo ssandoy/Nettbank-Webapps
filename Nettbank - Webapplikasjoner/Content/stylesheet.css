@@ -95,7 +95,7 @@ img {
     background-color: #eee !important;
 }
 
-#account-dropdown {
+#account-dropdown, #customer-dropdown {
     float: right;
     margin-top: 30px;
     margin-bottom: 5px;
